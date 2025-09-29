@@ -9,5 +9,6 @@ public class ApiNoseApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ApiNoseApplication.class, args);
 	}
+	
 
 }

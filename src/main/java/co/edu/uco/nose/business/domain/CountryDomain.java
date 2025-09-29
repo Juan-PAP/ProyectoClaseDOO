@@ -18,6 +18,8 @@ public final class CountryDomain extends Domain {
 		super(id);
 		setName(TextHelper.getDefault());
 	}
+	
+	
 
 	public CountryDomain(final UUID id, final String name) {
 		super(id);
