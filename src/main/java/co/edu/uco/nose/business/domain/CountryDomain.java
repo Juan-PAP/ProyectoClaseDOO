@@ -19,8 +19,6 @@ public final class CountryDomain extends Domain {
 		setName(TextHelper.getDefault());
 	}
 	
-	
-
 	public CountryDomain(final UUID id, final String name) {
 		super(id);
 		setName(name);
