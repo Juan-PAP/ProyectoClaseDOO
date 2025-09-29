@@ -14,13 +14,13 @@ public class DepartmentDomain extends Domain {
 	public DepartmentDomain() {
 		super(UUIDHelper.getUUIDHelper().getDefault());
 		setName(TextHelper.getDefault());
-		setCountry(createDefaultCountry());
+		setCountry(CountryDomain.createDefault());
 	}
 	
-	public DepartmentDomain( UUID id) {
+	public DepartmentDomain(final UUID id) {
 		super (id);
 		setName(TextHelper.getDefault());
-		setCountry(createDefaultCountry());
+		setCountry(CountryDomain.createDefault());
 	}
 	
 	public DepartmentDomain(final UUID id, final String name, final CountryDomain country) {
@@ -33,7 +33,7 @@ public class DepartmentDomain extends Domain {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = TextHelper.getDefaultWithTrim(name);
 	}
 
@@ -41,12 +41,8 @@ public class DepartmentDomain extends Domain {
 		return country;
 	}
 
-	public void setCountry(CountryDomain country) {
-		this.country = ObjectHelper.getDefault(country, createDefaultCountry());
+	public void setCountry(final CountryDomain country) {
+		this.country = ObjectHelper.getDefault(country, CountryDomain.createDefault());
 	}
 	
-	public static CountryDomain createDefaultCountry() {
-		return new CountryDomain();
-	}
-
 }
