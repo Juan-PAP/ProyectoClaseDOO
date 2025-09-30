@@ -13,20 +13,23 @@ public class DepartmentDomain extends Domain {
 	
 	public DepartmentDomain() {
 		super(UUIDHelper.getUUIDHelper().getDefault());
-		setName(TextHelper.getDefault());
 		setCountry(CountryDomain.createDefault());
+		setName(TextHelper.getDefault());
+		
 	}
 	
 	public DepartmentDomain(final UUID id) {
 		super (id);
-		setName(TextHelper.getDefault());
 		setCountry(CountryDomain.createDefault());
+		setName(TextHelper.getDefault());
+		
 	}
 	
-	public DepartmentDomain(final UUID id, final String name, final CountryDomain country) {
+	public DepartmentDomain(final UUID id , final CountryDomain country,  final String name) {
 		super(id);
-		setName(name);
 		setCountry(country);
+		setName(name);
+		
 	}
 	
 	public String getName() {
@@ -45,4 +48,7 @@ public class DepartmentDomain extends Domain {
 		this.country = ObjectHelper.getDefault(country, CountryDomain.createDefault());
 	}
 	
+	public static DepartmentDomain createDefault() {
+		return new DepartmentDomain();
+	}
 }
