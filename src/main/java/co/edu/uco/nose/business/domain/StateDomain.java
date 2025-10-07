@@ -6,26 +6,26 @@ import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.crosscuting.helper.TextHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 
-public final class DepartmentDomain extends Domain {
+public final class StateDomain extends Domain {
 	
 	private String name;
 	private CountryDomain country;
 	
-	public DepartmentDomain() {
+	public StateDomain() {
 		super(UUIDHelper.getUUIDHelper().getDefault());
 		setCountry(CountryDomain.createDefault());
 		setName(TextHelper.getDefault());
 		
 	}
 	
-	public DepartmentDomain(final UUID id) {
+	public StateDomain(final UUID id) {
 		super (id);
 		setCountry(CountryDomain.createDefault());
 		setName(TextHelper.getDefault());
 		
 	}
 	
-	public DepartmentDomain(final UUID id , final CountryDomain country,  final String name) {
+	public StateDomain(final UUID id , final CountryDomain country,  final String name) {
 		super(id);
 		setCountry(country);
 		setName(name);
@@ -48,7 +48,7 @@ public final class DepartmentDomain extends Domain {
 		this.country = ObjectHelper.getDefault(country, CountryDomain.createDefault());
 	}
 	
-	public static DepartmentDomain createDefault() {
-		return new DepartmentDomain();
+	public static StateDomain createDefault() {
+		return new StateDomain();
 	}
 }

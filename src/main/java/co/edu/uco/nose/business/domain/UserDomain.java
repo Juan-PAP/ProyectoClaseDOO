@@ -9,7 +9,7 @@ import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 
 public final class UserDomain extends Domain {
 	
-	private IdentificationType identificationType;
+	private IdType identificationType;
 	private String identificationNumber;
 	private String firstName;
 	private String secondName;
@@ -23,7 +23,7 @@ public final class UserDomain extends Domain {
 	
 	public UserDomain() {
 		super(UUIDHelper.getUUIDHelper().getDefault());
-		setIdentificationType(IdentificationType.createDefault());
+		setIdentificationType(IdType.createDefault());
 		setIdentificationNumber(TextHelper.getDefault());
 		setFirstName(TextHelper.getDefault());
 		setSecondName(TextHelper.getDefault());
@@ -38,7 +38,7 @@ public final class UserDomain extends Domain {
 	
 	public UserDomain(final UUID id) {
 		super(id);
-		setIdentificationType(IdentificationType.createDefault());
+		setIdentificationType(IdType.createDefault());
 		setIdentificationNumber(TextHelper.getDefault());
 		setFirstName(TextHelper.getDefault());
 		setSecondName(TextHelper.getDefault());
@@ -50,7 +50,7 @@ public final class UserDomain extends Domain {
 		setConfirmedEmail(BooleanHelper.getDefault());
 	}
 	
-	public UserDomain(final UUID id, final IdentificationType identificationType, final String identificationNumber, final String firstName, 
+	public UserDomain(final UUID id, final IdType identificationType, final String identificationNumber, final String firstName, 
 			final String secondName, final String firstSurname, final String secondSurname, final CityDomain cityResidence, final String email, 
 			final String mobilePhoneNumber, final Boolean confirmedEmail, final Boolean confirmedMobilePhoneNumber) {
 		super(id);
@@ -67,12 +67,12 @@ public final class UserDomain extends Domain {
 		setConfirmedMobilePhoneNumber(confirmedMobilePhoneNumber);
 	}
 	
-	public IdentificationType getIdentificationType() {
+	public IdType getIdentificationType() {
 		return identificationType;
 	}
 	
-	public void setIdentificationType(IdentificationType identificationType) {
-		this.identificationType = ObjectHelper.getDefault(identificationType, IdentificationType.createDefault());
+	public void setIdentificationType(IdType identificationType) {
+		this.identificationType = ObjectHelper.getDefault(identificationType, IdType.createDefault());
 	}
 	
 	public String getIdentificationNumber() {
