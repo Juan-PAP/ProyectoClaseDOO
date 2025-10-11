@@ -49,4 +49,5 @@ public final class CityDomain extends Domain{
 		return new CityDomain();
 	}
 
+	
 }
