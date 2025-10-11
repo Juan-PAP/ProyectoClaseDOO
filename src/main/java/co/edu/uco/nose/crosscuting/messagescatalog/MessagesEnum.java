@@ -50,7 +50,17 @@ public enum MessagesEnum {
 	
 	TECHNICAL_ERROR_SQL_CONNECTION_UNEXPECTED_ERROR_VALIDATING_TRANSACTION_IS_STARTED("Error técnico inesperado al validar el inicio de la transacción",
 			"Se presentó un error técnico inesperado al intentar validar el estado de la transacción. "
-			+ "Por favor revise los registros del sistema y si el problema persiste, contacte al administrador de la aplicación.");
+			+ "Por favor revise los registros del sistema y si el problema persiste, contacte al administrador de la aplicación."),
+	
+	USER_ERROR_TRANSACTION_IS_STARTED("",""),
+	
+	TECHNICAL_ERROR_TRANSACTION_IS_STARTED("",""),
+	
+	USER_ERROR_SQL_CONNECTION_UNEXPECTED_ERROR_VALIDATING_TRANSACTION_IS_NOT_STARTED("",""),
+	
+	TECHNICAL_ERROR_SQL_CONNECTION_SQL_EXCEPTION_VALIDATING_TRANSACTION_IS_NOT_STARTED("",""),
+	
+	TECHNICAL_ERROR_SQL_CONNECTION_UNEXPECTED_ERROR_VALIDATING_TRANSACTION_IS_NOT_STARTED("","");
 
 	private String title;
 	private String content;
