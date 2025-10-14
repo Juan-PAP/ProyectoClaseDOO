@@ -4,6 +4,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import co.edu.uco.nose.crosscuting.exception.NoseException;
+import co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum;
 import co.edu.uco.nose.data.dao.entity.CityDAO;
 import co.edu.uco.nose.data.dao.entity.CountryDAO;
 import co.edu.uco.nose.data.dao.entity.IdTypeDAO;
@@ -21,24 +22,26 @@ public final class SqlServerDAOFactory extends DAOFactory {
 	@Override
 	protected void openConnection() {
 		
-			String url = "jdbc:postgresql://localhost:5433/apiNose";
+			String url = "jdbc:postgresql://localhost:5432/apiNose";
 		    String user = "postgres";
 		    String password = "root";
 		 
 		try {
+
+			Class.forName("org.postgresql.Driver");
 			
 			this.connection = DriverManager.getConnection(url, user, password);
 			
 		} catch (SQLException exception) {
-			
-			var userMassage = "";
-			var technicalMessage = "";
+
+			var userMassage = MessagesEnum.USER_ERROR_SQL_CANNOT_OPEN_CONNECTION.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_CANNOT_OPEN_CONNECTION.getContent();
 			throw NoseException.create(exception, userMassage, technicalMessage);
 			
 		} catch (Exception exception) {
-			
-			var userMassage = "";
-			var technicalMessage = "";
+
+			var userMassage = MessagesEnum.USER_ERROR_SQL_UNEXPECTED_ERROR_OPENING_CONNECTION.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_OPENING_CONNECTION.getContent();
 			throw NoseException.create(exception, userMassage, technicalMessage);
 		} 
 		
