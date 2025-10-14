@@ -55,9 +55,4 @@ public final class NoseException extends RuntimeException{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
-	
-	
-
 }

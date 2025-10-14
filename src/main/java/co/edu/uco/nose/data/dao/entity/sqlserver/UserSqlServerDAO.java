@@ -62,7 +62,42 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_INSERT_USER.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		}
-	}	
+	}
+
+	//Se realiza un Data mapper para separar la logica que mapea el ResultSet, que seria la base de datos
+	//hacia los objetos de dominio, estando esto dentro de un metodo privado y que puede ser utilizado en todas las consultas
+	private void mapResultSetToUser(final java.sql.ResultSet resultSet, final UserEntity user) throws java.sql.SQLException {
+		var idType = new IdTypeEntity();
+		idType.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idTipoIdentificacion")));
+		idType.setNombre(resultSet.getString("nombreTipoIdentificacion"));
+
+		var country = new CountryEntity();
+		country.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idPaisDepartamentoCiudadResidencia")));
+		country.setName(resultSet.getString("nombrePaisDepartamentoCiudadResidencia"));
+
+		var state = new StateEntity();
+		state.setCountry(country);
+		state.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idDepartamentoCiudadResidencia")));
+		state.setName(resultSet.getString("nombreDepartamentoCiudadResidencia"));
+
+		var city = new CityEntity();
+		city.setState(state);
+		city.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idCiudadResidencia")));
+		city.setName(resultSet.getString("nombreCiudadResidencia"));
+
+		user.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("id")));
+		user.setIdType(idType);
+		user.setIdNumber(resultSet.getString("numeroIdentificacion"));
+		user.setFirstName(resultSet.getString("primerNombre"));
+		user.setSecondName(resultSet.getString("segundoNombre"));
+		user.setFirstSurname(resultSet.getString("primerApellido"));
+		user.setSecondSurname(resultSet.getString("segundoApellido"));
+		user.setHomeCity(city);
+		user.setEmail(resultSet.getString("correoElectronico"));
+		user.setMobileNumber(resultSet.getString("numeroTelefonoMovil"));
+		user.setConfirmedEmail(resultSet.getBoolean("correoElectronicoConfirmado"));
+		user.setMobileNumberConfirmed(resultSet.getBoolean("numeroTelefonoMovilConfirmado"));
+	}
 
 	@Override
 	public List<UserEntity> findAll() {
@@ -113,7 +148,6 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 		sql.append("ON         d.pais = p.id ");
 	    sql.append("WHERE      u.id = ?;");
 
-
 		try {
 
 			try (var preparedStatement = this.getConnection().prepareStatement(sql.toString())) {
@@ -124,36 +158,8 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 
 					if (resultSet.next()) {
 
-						var idType = new IdTypeEntity();
-						idType.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idTipoIdentificacion")));
-						idType.setNombre(resultSet.getString("nombreTipoIdentificacion"));
+						mapResultSetToUser(resultSet, user);
 
-						var country = new CountryEntity();
-						country.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idPaisDepartamentoCiudadResidencia")));
-						country.setName(resultSet.getString("nombrePaisDepartamentoCiudadResidencia"));
-
-						var state = new StateEntity();
-						state.setCountry(country);
-						state.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idDepartamentoCiudadResidencia")));
-						state.setName(resultSet.getString("nombreDepartamentoCiudadResidencia"));
-
-						var city = new CityEntity();
-						city.setState(state);
-						city.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idCiudadResidencia")));
-						city.setName(resultSet.getString("nombreCiudadResidencia"));
-
-						user.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("id")));
-						user.setIdType(idType);
-						user.setIdNumber(resultSet.getString("numeroIdentificacion"));
-						user.setFirstName(resultSet.getString("primerNombre"));
-						user.setSecondName(resultSet.getString("segundoNombre"));
-						user.setFirstSurname(resultSet.getString("primerApellido"));
-						user.setSecondSurname(resultSet.getString("segundoApellido"));
-						user.setHomeCity(city);
-						user.setEmail(resultSet.getString("correoElectronico"));
-						user.setMobileNumber(resultSet.getString("numeroTelefonoMovil"));
-						user.setConfirmedEmail(resultSet.getBoolean("correoElectronicoConfirmado"));
-						user.setMobileNumberConfirmed(resultSet.getBoolean("numeroTelefonoMovilConfirmado"));
 					}
 
 				} catch (final SQLException exception) {
