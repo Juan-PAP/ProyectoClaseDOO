@@ -18,19 +18,29 @@ public abstract class DAOFactory {
 	protected static FactoryEnum factory = FactoryEnum.POSTGRESQL;
 	
 	public static DAOFactory getFactory() {
-		
-		switch (factory) {
-		
-		case POSTGRESQL: {
-			
+
+		if (FactoryEnum.POSTGRESQL.equals(factory)) {
 			return new SqlServerDAOFactory();
-		}
-		
-		default:
-			var userMessage = "Factoría no iniciada";
-			var technicalMessage = "Factoría no válida";
+		} else {
+
+			var userMessage = "La fuente de información sobre la cual se va a ir a realizar la transación seleccionada" +
+					"no esta diponible dentro del sistema";
+			var technicalMessage = "La factoria no existe o no se a creado el código para su implementación ";
 			throw NoseException.create(userMessage, technicalMessage);
 		}
+
+		/*
+		switch (factory) {
+		case POSTGRESQL: {
+			return new SqlServerDAOFactory();
+		}
+		default:
+			var userMessage = "La fuente de información sobre la cual se va a ir a realizar la transación seleccionada" +
+					"no esta diponible dentro del sistema";
+			var technicalMessage = "La factoria no existe o no se a creado el código para su implementación ";
+			throw NoseException.create(userMessage, technicalMessage);
+		}
+		 */
 	}
 	
 	public abstract CityDAO getCityDAO();

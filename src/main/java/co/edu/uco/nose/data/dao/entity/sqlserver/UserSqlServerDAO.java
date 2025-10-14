@@ -22,43 +22,44 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 	}
 
 	@Override
-	public void create(UserEntity entity) {
+	public void create(final UserEntity entity) {
 		
-		SqlConnectionHelper.ensureConnectionIsNotNull(getConnection());
+		SqlConnectionHelper.ensureTransactionIsStarted (getConnection());
 		
 		final var sql = new StringBuilder();
-		sql.append("INSERT INTO Usario(id, tipoIdentificacion, numeroIdentificacion, primerNombre, segundoNombre, primerApellido, segundoNombre,"
-				+ "correoElectronico, numeroTelefonoMovil, correoElectronicoConfirmado, numeroTelefonoMovilConfirmado)");
+		sql.append(" INSERT INTO Usuario (id, tipoIdentificacion, numeroIdentificacion, primerNombre, segundoNombre, primerApellido, segundoApellido,"
+				+ " ciudadResidencia, correoElectronico, numeroTelefonoMovil, correoElectronicoConfirmado, numeroTelefonoMovilConfirmado) ");
 		
-		sql.append("SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?");
-		
+		sql.append("SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ");
+
 		try(var preparedStatement = this.getConnection().prepareStatement(sql.toString())){
 			
 			preparedStatement.setObject(1, entity.getId());
-			preparedStatement.setObject(2, entity.getIdentificationType().getId());
-			preparedStatement.setString(3, entity.getIdentificationNumber());
+			preparedStatement.setObject(2, entity.getIdType().getId());
+			preparedStatement.setString(3, entity.getIdNumber());
 			preparedStatement.setString(4, entity.getFirstName());
 			preparedStatement.setString(5, entity.getSecondName());
 			preparedStatement.setString(6, entity.getFirstSurname());
 			preparedStatement.setString(7, entity.getSecondSurname());
-			preparedStatement.setObject(8, entity.getCityEntity().getId());
+			preparedStatement.setObject(8, entity.getHomeCity().getId());
 			preparedStatement.setString(9, entity.getEmail());
-			preparedStatement.setString(10, entity.getMobilePhoneNumber());
+			preparedStatement.setString(10, entity.getMobileNumber());
 			preparedStatement.setBoolean(11, entity.getConfirmedEmail());
-			preparedStatement.setBoolean(12, entity.getConfirmedMobilePhoneNumber());
+			preparedStatement.setBoolean(12, entity.getMobileNumberConfirmed());
 			
 			preparedStatement.executeUpdate();
 		
 			
 		} catch (final SQLException exception) {
-			var userMessage = "Se ha presentado un problema tratando de registrar la información";
-			var technicalMessage = "Se ha presentado un problema inesperado al tratar de ejecutar el proceso" + exception.getMessage();
+			var userMessage = "Se ha presentado un problema tratando de registrar la información del nuevo usuario. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
+			var technicalMessage = "Se ha presentado un problema al tratar de ejecutar el proceso de creación de un nuevo usuario. Por favor valide que la base de datos este funcionando. " + exception.getMessage();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 			
 		} catch (final Exception exception) {
-		var userMessage = "Se ha presentado un problema INESPERADO tratando de registrar la información";
-		var technicalMessage = "Se ha presentado un problema INESPERADO inesperado al tratar de ejecutar el proceso" + exception.getMessage();
-		throw NoseException.create(exception, userMessage, technicalMessage);
+
+			var userMessage = "Se ha presentado un problema INESPERADO tratando de registrar la información del nuevo usuario. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
+			var technicalMessage = "Se ha presentado un problema INESPERADO al tratar de ejecutar el proceso de creación de un nuevo usuario. Por favor valide que la base de datos este funcionando. " + exception.getMessage();
+			throw NoseException.create(exception, userMessage, technicalMessage);
 		}
 	}	
 
@@ -82,36 +83,41 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 	    var user = new UserEntity();
 	    final var sql = new StringBuilder();
 
-	    sql.append("SELECT  u.id, ");
-	    sql.append("        ti.id AS idTipoIdentificacion, ");
-	    sql.append("        ti.nombre AS nombreTipoIdentificacion, ");
-	    sql.append("        u.numeroIdentificacion, ");
-	    sql.append("        u.primerNombre, ");
-	    sql.append("        u.segundoNombre, ");
-	    sql.append("        u.primerApellido, ");
-	    sql.append("        u.segundoApellido, ");
-	    sql.append("        c.id AS idCiudadResidencia, ");
-	    sql.append("        c.nombre AS nombreCiudadResidencia, ");
-	    sql.append("        d.id AS idDepartamento, ");
-	    sql.append("        d.nombre AS nombreDepartamento, ");
-	    sql.append("        p.id AS idPais, ");
-	    sql.append("        p.nombre AS nombrePais, ");
-	    sql.append("        u.correoElectronico, ");
-	    sql.append("        u.numeroTelefonoMovil, ");
-	    sql.append("        u.correoElectronicoConfirmado, ");
-	    sql.append("        u.numeroTelefonoMovilConfirmado ");
-	    sql.append("FROM Usuario AS u ");
-	    sql.append("INNER JOIN TipoIdentificacion AS ti ON u.tipoIdentificacion = ti.id ");
-	    sql.append("INNER JOIN Ciudad AS c ON u.ciudadResidencia = c.id ");
-	    sql.append("INNER JOIN Departamento AS d ON c.departamento = d.id ");
-	    sql.append("INNER JOIN Pais AS p ON d.pais = p.id ");
-	    sql.append("WHERE u.id = ?;");
+	    sql.append("SELECT     u.id, ");
+	    sql.append("           ti.id AS idTipoIdentificacion, ");
+	    sql.append("           ti.nombre AS nombreTipoIdentificacion, ");
+	    sql.append("           u.numeroIdentificacion, ");
+	    sql.append("           u.primerNombre, ");
+	    sql.append("           u.segundoNombre, ");
+	    sql.append("           u.primerApellido, ");
+	    sql.append("           u.segundoApellido, ");
+	    sql.append("           c.id AS idCiudadResidencia, ");
+	    sql.append("           c.nombre AS nombreCiudadResidencia, ");
+	    sql.append("           d.id AS idDepartamentoCiudadResidencia, ");
+	    sql.append("           d.nombre AS nombreDepartamentoCiudadResidencia, ");
+	    sql.append("           p.id AS idPaisDepartamentoCiudadResidencia, ");
+	    sql.append("           p.nombre AS nombrePaisDepartamentoCiudadResidencia, ");
+	    sql.append("           u.correoElectronico, ");
+	    sql.append("           u.numeroTelefonoMovil, ");
+	    sql.append("           u.correoElectronicoConfirmado, ");
+	    sql.append("           u.numeroTelefonoMovilConfirmado ");
+	    sql.append("FROM       Usuario AS u ");
+	    sql.append("INNER JOIN TipoIdentificacion AS ti ");
+		sql.append("ON         u.tipoIdentificacion = ti.id ");
+	    sql.append("INNER JOIN Ciudad AS c ");
+		sql.append("ON         u.ciudadResidencia = c.id ");
+	    sql.append("INNER JOIN Departamento AS d ");
+		sql.append("ON         c.departamento = d.id ");
+	    sql.append("INNER JOIN Pais AS p ");
+		sql.append("ON         d.pais = p.id ");
+	    sql.append("WHERE      u.id = ?;");
 
 	    try (var preparedStatement = this.getConnection().prepareStatement(sql.toString())) {
 
 	        preparedStatement.setObject(1, id);
 
 	        try (var resultSet = preparedStatement.executeQuery()) {
+
 	            if (resultSet.next()) {
 
 	                var idType = new IdTypeEntity();
@@ -119,13 +125,13 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 	                idType.setNombre(resultSet.getString("nombreTipoIdentificacion"));
 
 	                var country = new CountryEntity();
-	                country.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idPais")));
-	                country.setName(resultSet.getString("nombrePais"));
+	                country.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idPaisDepartamentoCiudadResidencia")));
+	                country.setName(resultSet.getString("nombrePaisDepartamentoCiudadResidencia"));
 
 	                var state = new StateEntity();
 	                state.setCountry(country);
-	                state.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idDepartamento")));
-	                state.setName(resultSet.getString("nombreDepartamento"));
+	                state.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idDepartamentoCiudadResidencia")));
+	                state.setName(resultSet.getString("nombreDepartamentoCiudadResidencia"));
 
 	                var city = new CityEntity();
 	                city.setState(state);
@@ -133,110 +139,111 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 	                city.setName(resultSet.getString("nombreCiudadResidencia"));
 
 	                user.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("id")));
-	                user.setIdentificationType(idType);
-	                user.setIdentificationNumber(resultSet.getString("numeroIdentificacion"));
+	                user.setIdType(idType);
+	                user.setIdNumber(resultSet.getString("numeroIdentificacion"));
 	                user.setFirstName(resultSet.getString("primerNombre"));
 	                user.setSecondName(resultSet.getString("segundoNombre"));
 	                user.setFirstSurname(resultSet.getString("primerApellido"));
 	                user.setSecondSurname(resultSet.getString("segundoApellido"));
-	                user.setCityEntity(city);
+	                user.setHomeCity(city);
 	                user.setEmail(resultSet.getString("correoElectronico"));
-	                user.setMobilePhoneNumber(resultSet.getString("numeroTelefonoMovil"));
+	                user.setMobileNumber(resultSet.getString("numeroTelefonoMovil"));
 	                user.setConfirmedEmail(resultSet.getBoolean("correoElectronicoConfirmado"));
-	                user.setConfirmedMobilePhoneNumber(resultSet.getBoolean("numeroTelefonoMovilConfirmado"));
+	                user.setMobileNumberConfirmed(resultSet.getBoolean("numeroTelefonoMovilConfirmado"));
 	            }
-	        }
+	        } //Como aseguro que puedo mostrar claramente cuando un problema se presento ejecutando la sentencia sql de consulta o preparando la sentencia de consulta?
 
 	    } catch (final SQLException exception) {
-	        var userMessage = "Error al consultar la información del usuario deseado.";
-	        var technicalMessage = "Problema SQL al ejecutar el proceso: " + exception.getMessage();
-	        throw NoseException.create(exception, userMessage, technicalMessage);
+			var userMessage = "Se ha presentado un problema tratando de consultar la información del usuario deseado. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
+			var technicalMessage = "Se ha presentado un problema al tratar de ejecutar el proceso de consulta del usuario deseado. Por favor valide que la base de datos este funcionando. " + exception.getMessage();
+			throw NoseException.create(exception, userMessage, technicalMessage);
 
-	    } catch (final Exception exception) {
-	        var userMessage = "Error inesperado al consultar la información del usuario.";
-	        var technicalMessage = "Excepción inesperada: " + exception.getMessage();
-	        throw NoseException.create(exception, userMessage, technicalMessage);
-	    }
-
+		} catch (final Exception exception) {
+			var userMessage = "Se ha presentado un problema INESPERADO tratando de consultar la información del usuario deseo. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
+			var technicalMessage = "Se ha presentado un problema INESPERADO al tratar de ejecutar el proceso de consulta del usuario deseo. Por favor valide que la base de datos este funcionando. " + exception.getMessage();
+			throw NoseException.create(exception, userMessage, technicalMessage);
+		}
 	    return user;
 	}
 
 
 	@Override
 	public void update(final UserEntity entity) {
-		
-		SqlConnectionHelper.ensureConnectionIsNotNull(getConnection());
-		
+
+		SqlConnectionHelper.ensureTransactionIsStarted (getConnection());
+
 		final var sql = new StringBuilder();
 		
 	    sql.append("UPDATE Usuario ");
-	    sql.append("SET tipoIdentificacion = ?, ");
-	    sql.append("    numeroIdentificacion = ?, ");
-	    sql.append("    primerNombre = ?, ");
-	    sql.append("    segundoNombre = ?, ");
-	    sql.append("    primerApellido = ?, ");
-	    sql.append("    segundoApellido = ?, ");
-	    sql.append("    correoElectronico = ?, ");
-	    sql.append("    numeroTelefonoMovil = ?, ");
-	    sql.append("    correoElectronicoConfirmado = ?, ");
-	    sql.append("    numeroTelefonoMovilConfirmado = ? ");
+		sql.append("SET tipoIdentificacion = ?, ");
+		sql.append("    numeroIdentificacion = ?, ");
+		sql.append("    primerNombre = ?, ");
+		sql.append("    segundoNombre = ?, ");
+		sql.append("    primerApellido = ?, ");
+		sql.append("    segundoApellido = ?, ");
+		sql.append("    correoElectronico = ?, ");
+		sql.append("    numeroTelefonoMovil = ?, ");
+		sql.append("    correoElectronicoConfirmado = ?, ");
+		sql.append("    numeroTelefonoMovilConfirmado = ? ");
 	    sql.append("WHERE id = ?");
 		
 		
 		try (var preparedStatement = this.getConnection().prepareStatement(sql.toString())) {
 			
-			preparedStatement.setObject(1, entity.getIdentificationType().getId());
-	        preparedStatement.setString(2, entity.getIdentificationNumber());
+			preparedStatement.setObject(1, entity.getIdType().getId());
+	        preparedStatement.setString(2, entity.getIdNumber());
 	        preparedStatement.setString(3, entity.getFirstName());
 	        preparedStatement.setString(4, entity.getSecondName());
 	        preparedStatement.setString(5, entity.getFirstSurname());
 	        preparedStatement.setString(6, entity.getSecondSurname());
-	        preparedStatement.setString(7, entity.getEmail());
-	        preparedStatement.setString(8, entity.getMobilePhoneNumber());
-	        preparedStatement.setBoolean(9, entity.getConfirmedEmail());
-	        preparedStatement.setBoolean(10, entity.getConfirmedMobilePhoneNumber());
-	        preparedStatement.setObject(11, entity.getId());
+			preparedStatement.setObject(7, entity.getHomeCity().getId());
+	        preparedStatement.setString(8, entity.getEmail());
+	        preparedStatement.setString(9, entity.getMobileNumber());
+	        preparedStatement.setBoolean(10, entity.getConfirmedEmail());
+	        preparedStatement.setBoolean(11, entity.getMobileNumberConfirmed());
+	        preparedStatement.setObject(12, entity.getId());
 
 	        preparedStatement.executeUpdate();
 			
 		} catch (final SQLException exception) {
-	        var userMessage = "Se presentó un problema al actualizar la información del usuario.";
-	        var technicalMessage = "Error SQL: " + exception.getMessage();
-	        throw NoseException.create(exception, userMessage, technicalMessage);
+			var userMessage = "Se ha presentado un problema tratando de modificar la información del usuario. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
+			var technicalMessage = "Se ha presentado un problema al tratar de ejecutar el proceso de modificación del usuario. Por favor valide que la base de datos este funcionando. " + exception.getMessage();
+			throw NoseException.create(exception, userMessage, technicalMessage);
 
 	    } catch (final Exception exception) {
-	        var userMessage = "Error inesperado al actualizar la información del usuario.";
-	        var technicalMessage = "Detalles: " + exception.getMessage();
-	        throw NoseException.create(exception, userMessage, technicalMessage);
+			var userMessage = "Se ha presentado un problema INESPERADO tratando de modificar la información del usuario. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
+			var technicalMessage = "Se ha presentado un problema INESPERADO al tratar de ejecutar el proceso de modificación del usuario. Por favor valide que la base de datos este funcionando. " + exception.getMessage();
+			throw NoseException.create(exception, userMessage, technicalMessage);
 	    }
-		}
+	}
 
 
 
 	@Override
-	public void delete(UUID id) {
-		
-		SqlConnectionHelper.ensureConnectionIsNotNull(getConnection());
+	public void delete(final UUID id) {
+
+		SqlConnectionHelper.ensureTransactionIsStarted (getConnection());
 	    
 	    final var sql = new StringBuilder();
-	    sql.append("DELETE FROM Usuario WHERE id = ?");
+	    sql.append("DELETE ");
+		sql.append("FROM   Usuario ");
+		sql.append("WHERE  id = ?");
 
 	    try (var preparedStatement = this.getConnection().prepareStatement(sql.toString())) {
 	        
 	        preparedStatement.setObject(1, id);
 	        preparedStatement.executeUpdate();
-	        
-	    } catch (final SQLException exception) {
-	        var userMessage = "Se presento un problema al eliminar la información del usuario.";
-	        var technicalMessage = "Error SQL: " + exception.getMessage();
-	        throw NoseException.create(exception, userMessage, technicalMessage);
 
-	    } catch (final Exception exception) {
-	        var userMessage = "Error inesperado al eliminar la información del usuario.";
-	        var technicalMessage = "Detalles: " + exception.getMessage();
-	        throw NoseException.create(exception, userMessage, technicalMessage);
-	    }
-		
+		} catch (final SQLException exception) {
+			var userMessage = "Se ha presentado un problema tratando de eliminar la información del usuario. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
+			var technicalMessage = "Se ha presentado un problema al tratar de ejecutar el proceso de eliminación del usuario. Por favor valide que la base de datos este funcionando. " + exception.getMessage();
+			throw NoseException.create(exception, userMessage, technicalMessage);
+
+		} catch (final Exception exception) {
+			var userMessage = "Se ha presentado un problema INESPERADO tratando de eliminar la información del usuario. Por favor intente de nuevo y si el problema persiste contacte al administrador del sistema";
+			var technicalMessage = "Se ha presentado un problema INESPERADO al tratar de ejecutar el proceso de eliminación del usuario. Por favor valide que la base de datos este funcionando. " + exception.getMessage();
+			throw NoseException.create(exception, userMessage, technicalMessage);
+		}
 	}
 
 }
