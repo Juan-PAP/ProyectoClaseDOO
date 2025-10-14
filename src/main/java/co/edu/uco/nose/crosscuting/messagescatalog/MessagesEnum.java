@@ -74,6 +74,9 @@ public enum MessagesEnum {
 			"Se presentó un error técnico inesperado al intentar validar que la transacción no estuviera iniciada. "
 					+ "Por favor revise los registros del sistema y si el problema persiste, contacte al administrador de la aplicación."),
 
+
+
+
 	//SqlServerDAOFactory
 
 	USER_ERROR_SQL_CANNOT_OPEN_CONNECTION("No fue posible establecer conexión con la base de datos",
@@ -114,6 +117,8 @@ public enum MessagesEnum {
 			"Error técnico inesperado al intentar iniciar la transacción",
 			"Se presentó un error técnico no controlado al intentar iniciar una transacción en la base de datos. " +
 					"Por favor revise los registros del sistema y si el problema persiste, contacte al administrador de la aplicación."),
+
+
 
 
 	//DAOFatory
@@ -192,6 +197,9 @@ public enum MessagesEnum {
 			"Se presentó un error técnico no controlado durante el cierre de la conexión con la base de datos. " +
 					"Por favor revise los registros del sistema y si el problema persiste, contacte al administrador de la aplicación."),
 
+
+
+
 	//UserSqlServerDAO
 
 	//Insertar
@@ -213,11 +221,64 @@ public enum MessagesEnum {
 					+ "Por favor valide que la base de datos esté funcionando correctamente y revise los registros del sistema. "
 					+ "Si el problema persiste, contacte al administrador del sistema."),
 
+	//Mapper
+	USER_ERROR_SQL_MAPPING_USER("Error mapeando la información del usuario",
+			"Se ha presentado un problema tratando de interpretar la información del usuario consultada desde la base de datos. "
+					+ "Por favor, contacte al administrador del sistema."),
+
+	TECHNICAL_ERROR_SQL_MAPPING_USER("Error técnico mapeando el ResultSet a UserEntity",
+			"Se ha presentado un problema técnico al mapear un registro del ResultSet a la entidad UserEntity. "
+					+ "Verifique que los nombres de las columnas en la consulta SQL coincidan exactamente con los esperados por el método de mapeo. "
+					+ "Revise la traza de la SQLException para identificar la columna o el tipo de dato incorrecto."),
+
+	USER_ERROR_SQL_UNEXPECTED_MAPPING_USER("Error inesperado mapeando la información del usuario",
+			"Se ha presentado un problema inesperado tratando de interpretar la información del usuario. "
+					+ "Por favor, contacte al administrador del sistema."),
+
+	TECHNICAL_ERROR_SQL_UNEXPECTED_MAPPING_USER("Error técnico inesperado en el mapeo de UserEntity",
+			"Se ha presentado un error inesperado (no-SQL) durante el proceso de mapeo del ResultSet a la entidad UserEntity. "
+					+ "Revise la traza completa de la excepción para determinar la causa raíz."),
+
 	//Consultar todos
+
+	USER_ERROR_SQL_EXECUTING_FIND_ALL_USER("Error al consultar todos los usuarios",
+			"Se ha presentado un problema tratando de consultar la información de todos los usuarios. "
+					+ "Por favor intente de nuevo y si el problema persiste, contacte al administrador del sistema."),
+
+	TECHNICAL_ERROR_SQL_EXECUTING_FIND_ALL_USER("Error técnico al consultar todos los usuarios",
+			"Se ha presentado un problema técnico al tratar de ejecutar la consulta SQL para obtener la información de todos los usuarios en la base de datos. "
+					+ "Por favor valide que la conexión a la base de datos sea correcta. "
+					+ "Si el problema persiste, revise la traza de la excepción y contacte al administrador."),
+
+	USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_ALL_USER("Error inesperado al consultar todos los usuarios",
+			"Se ha presentado un problema inesperado tratando de consultar la información de todos los usuarios. "
+					+ "Por favor intente de nuevo y si el problema persiste, contacte al administrador del sistema."),
+
+	TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_FIND_ALL_USER("Error técnico inesperado al consultar todos los usuarios",
+			"Se ha presentado un problema técnico inesperado y fuera de control al tratar de consultar la información de todos los usuarios. "
+					+ "Por favor revise la traza de la excepción para identificar la causa raíz del inconveniente. "
+					+ "Si el problema persiste, contacte al administrador."),
 
 
 	//Consultar por filtro
 
+	USER_ERROR_SQL_EXECUTING_FIND_BY_FILTER_USER("Error al filtrar los usuarios",
+			"Se ha presentado un problema tratando de consultar los usuarios que cumplen con los criterios de búsqueda especificados. "
+					+ "Por favor intente de nuevo y si el problema persiste, contacte al administrador del sistema."),
+
+	TECHNICAL_ERROR_SQL_EXECUTING_FIND_BY_FILTER_USER("Error técnico al filtrar los usuarios",
+			"Se ha presentado un problema técnico al tratar de ejecutar la consulta SQL para filtrar la información de los usuarios en la base de datos. "
+					+ "Por favor valide que la conexión a la base de datos sea correcta. "
+					+ "Si el problema persiste, revise la traza de la excepción y contacte al administrador."),
+
+	USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_FILTER_USER("Error inesperado al filtrar los usuarios",
+			"Se ha presentado un problema inesperado tratando de filtrar la información de los usuarios. "
+					+ "Por favor intente de nuevo y si el problema persiste, contacte al administrador del sistema."),
+
+	TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_FILTER_USER("Error técnico inesperado al filtrar los usuarios",
+			"Se ha presentado un problema técnico inesperado y fuera de control al tratar de filtrar la información de los usuarios. "
+					+ "Por favor revise la traza de la excepción para identificar la causa raíz del inconveniente. "
+					+ "Si el problema persiste, contacte al administrador."),
 
 	//Consultar por Id
 
@@ -268,7 +329,6 @@ public enum MessagesEnum {
 					+ "Por favor valide que la base de datos esté funcionando correctamente y revise los registros del sistema. "
 					+ "Si el problema persiste, contacte al administrador del sistema."),
 
-
 	//Eliminar
 
 	USER_ERROR_SQL_DELETE_USER("Error al eliminar la información del usuario",
@@ -287,12 +347,240 @@ public enum MessagesEnum {
 	TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_DELETE_USER("Error técnico inesperado al eliminar la información del usuario",
 			"Se ha presentado un problema técnico inesperado al tratar de ejecutar el proceso de eliminación del usuario. "
 					+ "Por favor valide que la base de datos esté funcionando correctamente y revise los registros del sistema. "
-					+ "Si el problema persiste, contacte al administrador del sistema.");
+					+ "Si el problema persiste, contacte al administrador del sistema."),
 
 
 
 
+	//CountrSqlServerDAO
 
+	// PAIS (COUNTRY)
+	USER_ERROR_SQL_MAPPING_COUNTRY("Error interpretando la información del país",
+			"Se ha presentado un problema tratando de interpretar la información de un país consultada desde la base de datos. " +
+					"Por favor, contacte al administrador del sistema."),
+
+	TECHNICAL_ERROR_SQL_MAPPING_COUNTRY("Error técnico mapeando el ResultSet a CountryEntity",
+			"Se ha presentado un problema técnico al mapear un registro del ResultSet a la entidad CountryEntity. " +
+					"Verifique que los nombres de las columnas en la consulta SQL coincidan con los esperados por el método de mapeo."),
+
+	USER_ERROR_SQL_EXECUTING_FIND_ALL_COUNTRY("Error al consultar los países",
+			"Se ha presentado un problema tratando de consultar la información de todos los países. " +
+					"Por favor intente de nuevo y si el problema persiste, contacte al administrador del sistema."),
+
+	TECHNICAL_ERROR_SQL_EXECUTING_FIND_ALL_COUNTRY("Error técnico al consultar todos los países",
+			"Se ha presentado un problema técnico al tratar de ejecutar la consulta SQL para obtener la " +
+					"información de todos los países en la base de datos."),
+
+	USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_ALL_COUNTRY("Error inesperado al consultar los países",
+			"Se ha presentado un problema inesperado tratando de consultar la información de todos los países. " +
+					"Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_FIND_ALL_COUNTRY("Error técnico inesperado al consultar todos los países",
+			"Se ha presentado un problema técnico inesperado al tratar de consultar la información de todos los " +
+					"países en la base de datos. Por favor revise la traza de la excepción."),
+
+	USER_ERROR_SQL_EXECUTING_FIND_BY_FILTER_COUNTRY("Error al filtrar los países",
+			"Se ha presentado un problema tratando de consultar los países que cumplen con los criterios de " +
+					"búsqueda especificados. Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_EXECUTING_FIND_BY_FILTER_COUNTRY("Error técnico al filtrar los países",
+			"Se ha presentado un problema técnico al tratar de ejecutar la consulta SQL para filtrar la " +
+					"información de los países en la base de datos."),
+
+	USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_FILTER_COUNTRY("Error inesperado al filtrar los países",
+			"Se ha presentado un problema inesperado tratando de filtrar la información de los países. " +
+					"Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_FILTER_COUNTRY("Error técnico inesperado al filtrar los países",
+			"Se ha presentado un problema técnico inesperado al tratar de filtrar la información de los países. " +
+					"Por favor revise la traza de la excepción."),
+
+	USER_ERROR_SQL_EXECUTING_FIND_BY_ID_COUNTRY("Error al consultar el país por ID",
+			"Se ha presentado un problema tratando de consultar la información del país deseado. " +
+					"Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_EXECUTING_FIND_BY_ID_COUNTRY("Error técnico al consultar el país por ID",
+			"Se ha presentado un problema técnico al tratar de ejecutar la consulta SQL para la información del país deseado."),
+
+	USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_ID_COUNTRY("Error inesperado consultando el país por ID",
+			"Se ha presentado un problema inesperado tratando de consultar la información del país deseado. " +
+					"Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_ID_COUNTRY("Error técnico inesperado consultando el país por ID",
+			"Se ha presentado un problema técnico inesperado al tratar de consultar la información del país deseado. " +
+					"Por favor revise la traza de la excepción."),
+
+
+
+	//StateSqlServerDAO
+
+	USER_ERROR_SQL_MAPPING_STATE("Error interpretando la información del departamento",
+			"Se ha presentado un problema tratando de interpretar la información de un departamento desde la base de datos. " +
+					"Por favor, contacte al administrador del sistema."),
+
+	TECHNICAL_ERROR_SQL_MAPPING_STATE("Error técnico mapeando el ResultSet a StateEntity",
+			"Se ha presentado un problema técnico al mapear un registro a la entidad StateEntity. " +
+					"Verifique que los alias de las columnas en la consulta SQL ('idDepartamento', 'nombreDepartamento', 'idPais', 'nombrePais') coincidan con los esperados por el método de mapeo."),
+
+	USER_ERROR_SQL_EXECUTING_FIND_ALL_STATE("Error al consultar los departamentos",
+			"Se ha presentado un problema tratando de consultar la información de todos los departamentos. " +
+					"Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_EXECUTING_FIND_ALL_STATE("Error técnico al consultar todos los departamentos",
+			"Se ha presentado un problema técnico al ejecutar la consulta SQL para obtener la información de todos los departamentos."),
+
+	USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_ALL_STATE("Error inesperado al consultar los departamentos",
+			"Se ha presentado un problema inesperado tratando de consultar la información de todos los departamentos. " +
+					"Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_FIND_ALL_STATE("Error técnico inesperado al consultar todos los departamentos",
+			"Se ha presentado un problema técnico inesperado al consultar todos los departamentos. " +
+					"Por favor revise la traza de la excepción."),
+
+	USER_ERROR_SQL_EXECUTING_FIND_BY_FILTER_STATE("Error al filtrar los departamentos",
+			"Se ha presentado un problema tratando de consultar los departamentos que cumplen con los criterios de búsqueda. " +
+					"Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_EXECUTING_FIND_BY_FILTER_STATE("Error técnico al filtrar los departamentos",
+			"Se ha presentado un problema técnico al ejecutar la consulta SQL para filtrar la información de los departamentos."),
+
+	USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_FILTER_STATE("Error inesperado al filtrar los departamentos",
+			"Se ha presentado un problema inesperado al filtrar los departamentos. " +
+					"Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_FILTER_STATE("Error técnico inesperado al filtrar los departamentos",
+			"Se ha presentado un problema técnico inesperado al filtrar los departamentos. " +
+					"Por favor revise la traza de la excepción."),
+
+	USER_ERROR_SQL_EXECUTING_FIND_BY_ID_STATE("Error al consultar el departamento por ID",
+			"Se ha presentado un problema al consultar la información del departamento deseado." +
+					" Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_EXECUTING_FIND_BY_ID_STATE("Error técnico al consultar el departamento por ID",
+			"Se ha presentado un problema técnico al ejecutar la consulta SQL para la información del departamento deseado."),
+
+	USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_ID_STATE("Error inesperado consultando el departamento por ID",
+			"Se ha presentado un problema inesperado al consultar la información del departamento deseado. " +
+					"Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_ID_STATE("Error técnico inesperado consultando el departamento por ID",
+			"Se ha presentado un problema técnico inesperado al consultar la información del departamento deseado. " +
+					"Por favor revise la traza de la excepción."),
+
+
+
+
+	// CitySqlServerDAO
+	USER_ERROR_SQL_MAPPING_CITY("Error interpretando la información de la ciudad",
+			"Se ha presentado un problema tratando de interpretar la información de una ciudad desde la base de datos. " +
+					"Por favor, contacte al administrador del sistema."),
+
+	TECHNICAL_ERROR_SQL_MAPPING_CITY("Error técnico mapeando el ResultSet a CityEntity",
+			"Se ha presentado un problema técnico al mapear un registro a la entidad CityEntity. " +
+					"Verifique que los alias de las columnas ('idCiudad', 'nombreCiudad', 'idDepartamento', etc.) coincidan con los esperados por el método de mapeo."),
+
+	USER_ERROR_SQL_EXECUTING_FIND_ALL_CITY("Error al consultar las ciudades",
+			"Se ha presentado un problema tratando de consultar la información de todas las ciudades. " +
+					"Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_EXECUTING_FIND_ALL_CITY("Error técnico al consultar todas las ciudades",
+			"Se ha presentado un problema técnico al ejecutar la consulta SQL para obtener la información de todas las ciudades."),
+
+	USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_ALL_CITY("Error inesperado al consultar las ciudades",
+			"Se ha presentado un problema inesperado tratando de consultar la información de todas las ciudades. " +
+					"Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_FIND_ALL_CITY("Error técnico inesperado al consultar todas las ciudades",
+			"Se ha presentado un problema técnico inesperado al consultar todas las ciudades." +
+					" Por favor revise la traza de la excepción."),
+
+	USER_ERROR_SQL_EXECUTING_FIND_BY_FILTER_CITY("Error al filtrar las ciudades",
+			"Se ha presentado un problema tratando de consultar las ciudades que cumplen con los criterios de búsqueda." +
+					" Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_EXECUTING_FIND_BY_FILTER_CITY("Error técnico al filtrar las ciudades",
+			"Se ha presentado un problema técnico al ejecutar la consulta SQL para filtrar la información de las ciudades."),
+
+	USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_FILTER_CITY("Error inesperado al filtrar las ciudades",
+			"Se ha presentado un problema inesperado al filtrar las ciudades. Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_FILTER_CITY("Error técnico inesperado al filtrar las ciudades",
+			"Se ha presentado un problema técnico inesperado al filtrar las ciudades. " +
+					"Por favor revise la traza de la excepción."),
+
+	USER_ERROR_SQL_EXECUTING_FIND_BY_ID_CITY("Error al consultar la ciudad por ID",
+			"Se ha presentado un problema al consultar la información de la ciudad deseada. " +
+					"Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_EXECUTING_FIND_BY_ID_CITY("Error técnico al consultar la ciudad por ID",
+			"Se ha presentado un problema técnico al ejecutar la consulta SQL para la información de la ciudad deseada."),
+
+	USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_ID_CITY("Error inesperado consultando la ciudad por ID",
+			"Se ha presentado un problema inesperado al consultar la información de la ciudad deseada. " +
+					"Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_ID_CITY("Error técnico inesperado consultando la ciudad por ID",
+			"Se ha presentado un problema técnico inesperado al consultar la información de la ciudad deseada. " +
+					"Por favor revise la traza de la excepción."),
+
+
+
+
+	//IdTypeSqlServerDAO
+
+	// TIPO DE IDENTIFICACION (IDTYPE)
+	USER_ERROR_SQL_MAPPING_IDTYPE("Error interpretando la información del tipo de identificación",
+			"Se ha presentado un problema tratando de interpretar la información de un tipo de identificación desde la base de datos. " +
+					"Por favor, contacte al administrador del sistema."),
+
+	TECHNICAL_ERROR_SQL_MAPPING_IDTYPE("Error técnico mapeando el ResultSet a IdTypeEntity",
+			"Se ha presentado un problema técnico al mapear un registro del ResultSet a la entidad IdTypeEntity. " +
+					"Verifique que los nombres de las columnas en la consulta SQL coincidan con los esperados por el método de mapeo."),
+
+	USER_ERROR_SQL_EXECUTING_FIND_ALL_IDTYPE("Error al consultar los tipos de identificación",
+			"Se ha presentado un problema tratando de consultar la información de todos los tipos de identificación. " +
+					"Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_EXECUTING_FIND_ALL_IDTYPE("Error técnico al consultar todos los tipos de identificación",
+			"Se ha presentado un problema técnico al ejecutar la consulta SQL para obtener la información de todos los tipos de identificación."),
+
+	USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_ALL_IDTYPE("Error inesperado al consultar los tipos de identificación",
+			"Se ha presentado un problema inesperado al consultar la información de todos los tipos de identificación. " +
+					"Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_FIND_ALL_IDTYPE("Error técnico inesperado al consultar los tipos de identificación",
+			"Se ha presentado un problema técnico inesperado al consultar todos los tipos de identificación. " +
+					"Por favor revise la traza de la excepción."),
+
+	USER_ERROR_SQL_EXECUTING_FIND_BY_FILTER_IDTYPE("Error al filtrar los tipos de identificación",
+			"Se ha presentado un problema al consultar los tipos de identificación que cumplen con los criterios de búsqueda. " +
+					"Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_EXECUTING_FIND_BY_FILTER_IDTYPE("Error técnico al filtrar los tipos de identificación",
+			"Se ha presentado un problema técnico al ejecutar la consulta SQL para filtrar la información de los tipos de identificación."),
+
+	USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_FILTER_IDTYPE("Error inesperado al filtrar los tipos de identificación",
+			"Se ha presentado un problema inesperado al filtrar la información de los tipos de identificación. " +
+					"Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_FILTER_IDTYPE("Error técnico inesperado al filtrar los tipos de identificación",
+			"Se ha presentado un problema técnico inesperado al filtrar los tipos de identificación. " +
+					"Por favor revise la traza de la excepción."),
+
+	USER_ERROR_SQL_EXECUTING_FIND_BY_ID_IDTYPE("Error al consultar el tipo de identificación por ID",
+			"Se ha presentado un problema al consultar la información del tipo de identificación deseado. " +
+					"Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_EXECUTING_FIND_BY_ID_IDTYPE("Error técnico al consultar el tipo de identificación por ID",
+			"Se ha presentado un problema técnico al ejecutar la consulta SQL para la información del tipo de identificación deseado."),
+
+	USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_ID_IDTYPE("Error inesperado consultando el tipo de identificación por ID",
+			"Se ha presentado un problema inesperado al consultar la información del tipo de identificación deseado." +
+					" Por favor intente de nuevo y si el problema persiste, contacte al administrador."),
+
+	TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_ID_IDTYPE("Error técnico inesperado consultando el tipo de identificación por ID",
+			"Se ha presentado un problema técnico inesperado al consultar la información del tipo de identificación deseado. " +
+					"Por favor revise la traza de la excepción.");
 
 
 	private String title;
