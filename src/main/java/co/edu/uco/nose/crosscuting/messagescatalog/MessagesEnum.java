@@ -123,13 +123,22 @@ public enum MessagesEnum {
 
 	//Consultar por Id
 
-	USER_ERROR_SQL_FIND_BY_ID_USER("Error al consultar la información del usuario deseado",
-			"Se ha presentado un problema tratando de consultar la información del usuario deseado. "
+	USER_ERROR_SQL_PREPARING_FIND_BY_ID_USER("Error al preparar la sentencia para consultar el usuario por ID",
+			"Se ha presentado un problema tratando de preparar la sentencia SQL para consultar la información del usuario deseado. "
 					+ "Por favor intente de nuevo y si el problema persiste, contacte al administrador del sistema."),
 
-	TECHNICAL_ERROR_SQL_FIND_BY_ID_USER("Error técnico al consultar la información del usuario deseado",
-			"Se ha presentado un problema al tratar de ejecutar el proceso de consulta del usuario deseado en la base de datos. "
+	TECHNICAL_ERROR_SQL_PREPARING_FIND_BY_ID_USER("Error técnico al preparar la sentencia para consultar el usuario por ID",
+			"Se ha presentado un problema técnico al tratar de preparar la sentencia SQL para consultar la información del usuario deseado en la base de datos. "
 					+ "Por favor valide que la base de datos esté funcionando correctamente. "
+					+ "Si el problema persiste, contacte al administrador del sistema."),
+
+	USER_ERROR_SQL_EXECUTING_FIND_BY_ID_USER("Error al ejecutar la consulta del usuario por ID",
+			"Se ha presentado un problema tratando de ejecutar la consulta SQL para obtener la información del usuario deseado. "
+					+ "Por favor intente nuevamente y si el problema persiste, contacte al administrador del sistema."),
+
+	TECHNICAL_ERROR_SQL_EXECUTING_FIND_BY_ID_USER("Error técnico al ejecutar la consulta del usuario por ID",
+			"Se ha presentado un problema técnico al tratar de ejecutar la consulta SQL para obtener la información del usuario deseado. "
+					+ "Por favor valide que la base de datos esté funcionando correctamente y revise los registros del sistema. "
 					+ "Si el problema persiste, contacte al administrador del sistema."),
 
 	USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_ID_USER("Error inesperado al consultar la información del usuario deseado",

@@ -113,58 +113,71 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 		sql.append("ON         d.pais = p.id ");
 	    sql.append("WHERE      u.id = ?;");
 
-	    try (var preparedStatement = this.getConnection().prepareStatement(sql.toString())) {
 
-	        preparedStatement.setObject(1, id);
+		try {
 
-	        try (var resultSet = preparedStatement.executeQuery()) {
+			try (var preparedStatement = this.getConnection().prepareStatement(sql.toString())) {
 
-	            if (resultSet.next()) {
+				preparedStatement.setObject(1, id);
 
-	                var idType = new IdTypeEntity();
-	                idType.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idTipoIdentificacion")));
-	                idType.setNombre(resultSet.getString("nombreTipoIdentificacion"));
+				try (var resultSet = preparedStatement.executeQuery()) {
 
-	                var country = new CountryEntity();
-	                country.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idPaisDepartamentoCiudadResidencia")));
-	                country.setName(resultSet.getString("nombrePaisDepartamentoCiudadResidencia"));
+					if (resultSet.next()) {
 
-	                var state = new StateEntity();
-	                state.setCountry(country);
-	                state.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idDepartamentoCiudadResidencia")));
-	                state.setName(resultSet.getString("nombreDepartamentoCiudadResidencia"));
+						var idType = new IdTypeEntity();
+						idType.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idTipoIdentificacion")));
+						idType.setNombre(resultSet.getString("nombreTipoIdentificacion"));
 
-	                var city = new CityEntity();
-	                city.setState(state);
-	                city.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idCiudadResidencia")));
-	                city.setName(resultSet.getString("nombreCiudadResidencia"));
+						var country = new CountryEntity();
+						country.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idPaisDepartamentoCiudadResidencia")));
+						country.setName(resultSet.getString("nombrePaisDepartamentoCiudadResidencia"));
 
-	                user.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("id")));
-	                user.setIdType(idType);
-	                user.setIdNumber(resultSet.getString("numeroIdentificacion"));
-	                user.setFirstName(resultSet.getString("primerNombre"));
-	                user.setSecondName(resultSet.getString("segundoNombre"));
-	                user.setFirstSurname(resultSet.getString("primerApellido"));
-	                user.setSecondSurname(resultSet.getString("segundoApellido"));
-	                user.setHomeCity(city);
-	                user.setEmail(resultSet.getString("correoElectronico"));
-	                user.setMobileNumber(resultSet.getString("numeroTelefonoMovil"));
-	                user.setConfirmedEmail(resultSet.getBoolean("correoElectronicoConfirmado"));
-	                user.setMobileNumberConfirmed(resultSet.getBoolean("numeroTelefonoMovilConfirmado"));
-	            }
-	        } //Como aseguro que puedo mostrar claramente cuando un problema se presento ejecutando la sentencia sql de consulta o preparando la sentencia de consulta?
+						var state = new StateEntity();
+						state.setCountry(country);
+						state.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idDepartamentoCiudadResidencia")));
+						state.setName(resultSet.getString("nombreDepartamentoCiudadResidencia"));
 
-	    } catch (final SQLException exception) {
-			var userMessage = MessagesEnum.USER_ERROR_SQL_FIND_BY_ID_USER.getContent();
-			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_FIND_BY_ID_USER.getContent();
-			throw NoseException.create(exception, userMessage, technicalMessage);
+						var city = new CityEntity();
+						city.setState(state);
+						city.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("idCiudadResidencia")));
+						city.setName(resultSet.getString("nombreCiudadResidencia"));
+
+						user.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("id")));
+						user.setIdType(idType);
+						user.setIdNumber(resultSet.getString("numeroIdentificacion"));
+						user.setFirstName(resultSet.getString("primerNombre"));
+						user.setSecondName(resultSet.getString("segundoNombre"));
+						user.setFirstSurname(resultSet.getString("primerApellido"));
+						user.setSecondSurname(resultSet.getString("segundoApellido"));
+						user.setHomeCity(city);
+						user.setEmail(resultSet.getString("correoElectronico"));
+						user.setMobileNumber(resultSet.getString("numeroTelefonoMovil"));
+						user.setConfirmedEmail(resultSet.getBoolean("correoElectronicoConfirmado"));
+						user.setMobileNumberConfirmed(resultSet.getBoolean("numeroTelefonoMovilConfirmado"));
+					}
+
+				} catch (final SQLException exception) {
+					// Error al ejecutar la consulta
+					var userMessage = MessagesEnum.USER_ERROR_SQL_EXECUTING_FIND_BY_ID_USER.getContent();
+					var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_EXECUTING_FIND_BY_ID_USER.getContent();
+					throw NoseException.create(exception, userMessage, technicalMessage);
+				}
+
+			} catch (final SQLException exception) {
+				// Error al preparar la sentencia
+				var userMessage = MessagesEnum.USER_ERROR_SQL_PREPARING_FIND_BY_ID_USER.getContent();
+				var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_PREPARING_FIND_BY_ID_USER.getContent();
+				throw NoseException.create(exception, userMessage, technicalMessage);
+			}
 
 		} catch (final Exception exception) {
+
 			var userMessage = MessagesEnum.USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_ID_USER.getContent();
 			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_ID_USER.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		}
-	    return user;
+
+		return user;
 	}
 
 	@Override
