@@ -2,7 +2,6 @@ package co.edu.uco.nose.business.domain;
 
 import java.util.UUID;
 
-import co.edu.uco.nose.crosscuting.helper.BooleanHelper;
 import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.crosscuting.helper.TextHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
@@ -52,7 +51,6 @@ public final class UserDomain extends Domain {
 		setHomeCity(CityDomain.createDefault());
 		setEmail(TextHelper.getDefault());
 		setMobileNumber(TextHelper.getDefault());
-		setEmailConfirmed(BooleanHelper.getDefault());
 		setEmailConfirmed(false);
 		setEmailConfirmedIsDefaultValue(true);
 		setMobileNumberConfirmed(false);
