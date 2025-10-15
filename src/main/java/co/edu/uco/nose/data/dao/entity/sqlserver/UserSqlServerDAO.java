@@ -251,7 +251,7 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 			sql.append("AND u.correoElectronicoConfirmado = ? ");
 			parameters.add(filterEntity.isEmailConfirmed());
 		}
-		if (!filterEntity.isMobileNumberIsDefualtValue()) {
+		if (!filterEntity.isMobileNumberConfirmedIsDefualtValue()) {
 			sql.append("AND u.numeroTelefonoMovilConfirmado = ? ");
 			parameters.add(filterEntity.isMobileNumberConfirmed());
 		}

@@ -97,6 +97,11 @@ public enum MessagesEnum {
 			"Se presentó un error técnico no controlado al intentar establecer la conexión con la base de datos. "
 					+ "Por favor revise los registros del sistema y si el problema persiste, contacte al administrador de la aplicación."),
 
+
+
+
+	//DAOFatory
+
 	USER_ERROR_SQL_CANNOT_INIT_TRANSACTION(
 			"No fue posible iniciar la transacción con la base de datos",
 			"Se presentó un error al intentar iniciar una transacción en la base de datos PostgreSQL. " +
@@ -117,11 +122,6 @@ public enum MessagesEnum {
 			"Error técnico inesperado al intentar iniciar la transacción",
 			"Se presentó un error técnico no controlado al intentar iniciar una transacción en la base de datos. " +
 					"Por favor revise los registros del sistema y si el problema persiste, contacte al administrador de la aplicación."),
-
-
-
-
-	//DAOFatory
 
 	USER_ERROR_SQL_DATASOURCE_NOT_AVAILABLE(
 			"La fuente de información no está disponible en el sistema",

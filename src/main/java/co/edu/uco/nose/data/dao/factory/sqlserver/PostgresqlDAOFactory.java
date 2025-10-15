@@ -17,7 +17,7 @@ import co.edu.uco.nose.data.dao.entity.sqlserver.StateSqlServerDAO;
 import co.edu.uco.nose.data.dao.entity.sqlserver.UserSqlServerDAO;
 import co.edu.uco.nose.data.dao.factory.DAOFactory;
 
-public final class SqlServerDAOFactory extends DAOFactory {
+public final class PostgresqlDAOFactory extends DAOFactory {
 	
 	@Override
 	protected void openConnection() {

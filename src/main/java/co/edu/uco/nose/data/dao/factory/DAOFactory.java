@@ -11,7 +11,7 @@ import co.edu.uco.nose.data.dao.entity.CountryDAO;
 import co.edu.uco.nose.data.dao.entity.IdTypeDAO;
 import co.edu.uco.nose.data.dao.entity.StateDAO;
 import co.edu.uco.nose.data.dao.entity.UserDAO;
-import co.edu.uco.nose.data.dao.factory.sqlserver.SqlServerDAOFactory;
+import co.edu.uco.nose.data.dao.factory.sqlserver.PostgresqlDAOFactory;
 
 public abstract class DAOFactory {
 
@@ -21,7 +21,7 @@ public abstract class DAOFactory {
 	public static DAOFactory getFactory() {
 
 		if (FactoryEnum.POSTGRESQL.equals(factory)) {
-			return new SqlServerDAOFactory();
+			return new PostgresqlDAOFactory();
 		} else {
 
 			var userMessage = MessagesEnum.USER_ERROR_SQL_DATASOURCE_NOT_AVAILABLE.getContent();

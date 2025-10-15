@@ -21,7 +21,7 @@ public final class UserDomain extends Domain {
 	private boolean emailConfirmed;
 	private boolean MobileNumberConfirmed;
 	private boolean emailConfirmedIsDefaultValue;
-	private boolean mobileNumberIsDefualtValue;
+	private boolean mobileNumberConfirmedIsDefualtValue;
 
 	public UserDomain() {
 		super(UUIDHelper.getUUIDHelper().getDefault());
@@ -37,7 +37,7 @@ public final class UserDomain extends Domain {
 		setEmailConfirmed(false);
 		setEmailConfirmedIsDefaultValue(true);
 		setMobileNumberConfirmed(false);
-		setMobileNumberIsDefualtValue(true);
+		setMobileNumberConfirmedIsDefualtValue(true);
 	}
 
 	public UserDomain(final UUID id) {
@@ -54,7 +54,7 @@ public final class UserDomain extends Domain {
 		setEmailConfirmed(false);
 		setEmailConfirmedIsDefaultValue(true);
 		setMobileNumberConfirmed(false);
-		setMobileNumberIsDefualtValue(true);
+		setMobileNumberConfirmedIsDefualtValue(true);
 	}
 
 	public UserDomain(final UUID id, final IdTypeDomain identificationType, final String identificationNumber, final String firstName,
@@ -73,7 +73,7 @@ public final class UserDomain extends Domain {
 		setEmailConfirmed(confirmedEmail);
 		setEmailConfirmedIsDefaultValue(false);
 		setMobileNumberConfirmed(confirmedMobilePhoneNumber);
-		setMobileNumberIsDefualtValue(false);
+		setMobileNumberConfirmedIsDefualtValue(false);
 	}
 
 	public IdTypeDomain getIdType() {
@@ -163,7 +163,7 @@ public final class UserDomain extends Domain {
 
 	public void setMobileNumberConfirmed(final boolean mobileNumberConfirmed) {
 		MobileNumberConfirmed = mobileNumberConfirmed;
-		setMobileNumberIsDefualtValue(false);
+		setMobileNumberConfirmedIsDefualtValue(false);
 	}
 
 	public boolean isEmailConfirmedIsDefaultValue() {
@@ -174,12 +174,12 @@ public final class UserDomain extends Domain {
 		this.emailConfirmedIsDefaultValue = emailConfirmedIsDefaultValue;
 	}
 
-	public boolean isMobileNumberIsDefualtValue() {
-		return mobileNumberIsDefualtValue;
+	public boolean isMobileNumberConfirmedIsDefualtValue() {
+		return mobileNumberConfirmedIsDefualtValue;
 	}
 
-	public void setMobileNumberIsDefualtValue(final boolean mobileNumberIsDefualtValue) {
-		this.mobileNumberIsDefualtValue = mobileNumberIsDefualtValue;
+	public void setMobileNumberConfirmedIsDefualtValue(final boolean mobileNumberConfirmedIsDefualtValue) {
+		this.mobileNumberConfirmedIsDefualtValue = mobileNumberConfirmedIsDefualtValue;
 	}
 }
 
