@@ -5,21 +5,21 @@ import java.util.UUID;
 import co.edu.uco.nose.crosscuting.helper.TextHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 
-public final class IdType extends Domain {
+public final class IdTypeDomain extends Domain {
 
 	private String nombre;
 	
-	public IdType() {
+	public IdTypeDomain() {
 		super(UUIDHelper.getUUIDHelper().getDefault());
 		setNombre(TextHelper.getDefault());
 	}
 	
-	public IdType(final UUID id) {
+	public IdTypeDomain(final UUID id) {
 		super(id);
 		setNombre(TextHelper.getDefault());
 	}
 	
-	public IdType(final UUID id, final String nombre) {
+	public IdTypeDomain(final UUID id, final String nombre) {
 		super(id);
 		setNombre(nombre);
 	}
@@ -32,7 +32,7 @@ public final class IdType extends Domain {
 		this.nombre = TextHelper.getDefault(nombre);
 	}
 	
-	public static IdType createDefault() {
-		return new IdType();
+	public static IdTypeDomain createDefault() {
+		return new IdTypeDomain();
 	}
 }

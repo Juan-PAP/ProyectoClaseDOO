@@ -45,8 +45,8 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 			preparedStatement.setObject(8, entity.getHomeCity().getId());
 			preparedStatement.setString(9, entity.getEmail());
 			preparedStatement.setString(10, entity.getMobileNumber());
-			preparedStatement.setBoolean(11, entity.getConfirmedEmail());
-			preparedStatement.setBoolean(12, entity.getMobileNumberConfirmed());
+			preparedStatement.setBoolean(11, entity.isEmailConfirmed());
+			preparedStatement.setBoolean(12, entity.isMobileNumberConfirmed());
 			
 			preparedStatement.executeUpdate();
 		
@@ -96,17 +96,17 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 			user.setHomeCity(city);
 			user.setEmail(resultSet.getString("correoElectronico"));
 			user.setMobileNumber(resultSet.getString("numeroTelefonoMovil"));
-			user.setConfirmedEmail(resultSet.getBoolean("correoElectronicoConfirmado"));
+			user.setEmailConfirmed(resultSet.getBoolean("correoElectronicoConfirmado"));
 			user.setMobileNumberConfirmed(resultSet.getBoolean("numeroTelefonoMovilConfirmado"));
 
 		} catch (final SQLException exception) {
-			// Error específico porque sabemos que ocurrió durante el mapeo
+
 			var userMessage = MessagesEnum.USER_ERROR_SQL_MAPPING_USER.getContent();
 			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_MAPPING_USER.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 
 		} catch (final Exception exception) {
-			// Error inesperado durante el mapeo
+
 			var userMessage = MessagesEnum.USER_ERROR_SQL_UNEXPECTED_MAPPING_USER.getContent();
 			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_UNEXPECTED_MAPPING_USER.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
@@ -150,8 +150,6 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 
 		try (var preparedStatement = this.getConnection().prepareStatement(sql.toString());
 			 var resultSet = preparedStatement.executeQuery()) {
-
-			// Iteramos sobre todos los resultados
 			while (resultSet.next()) {
 				var user = new UserEntity();
 				mapResultSetToUser(resultSet, user);
@@ -249,13 +247,13 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 			sql.append("AND u.numeroTelefonoMovil = ? ");
 			parameters.add(filterEntity.getMobileNumber());
 		}
-		if (filterEntity.getConfirmedEmail() != null) {
+		if (!filterEntity.isEmailConfirmedIsDefaultValue()) {
 			sql.append("AND u.correoElectronicoConfirmado = ? ");
-			parameters.add(filterEntity.getConfirmedEmail());
+			parameters.add(filterEntity.isEmailConfirmed());
 		}
-		if (filterEntity.getMobileNumberConfirmed() != null) {
+		if (!filterEntity.isMobileNumberIsDefualtValue()) {
 			sql.append("AND u.numeroTelefonoMovilConfirmado = ? ");
-			parameters.add(filterEntity.getMobileNumberConfirmed());
+			parameters.add(filterEntity.isMobileNumberConfirmed());
 		}
 
 		try (var preparedStatement = this.getConnection().prepareStatement(sql.toString())) {
@@ -392,8 +390,8 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 			preparedStatement.setObject(7, entity.getHomeCity().getId());
 	        preparedStatement.setString(8, entity.getEmail());
 	        preparedStatement.setString(9, entity.getMobileNumber());
-	        preparedStatement.setBoolean(10, entity.getConfirmedEmail());
-	        preparedStatement.setBoolean(11, entity.getMobileNumberConfirmed());
+	        preparedStatement.setBoolean(10, entity.isEmailConfirmed());
+	        preparedStatement.setBoolean(11, entity.isMobileNumberConfirmed());
 	        preparedStatement.setObject(12, entity.getId());
 
 	        preparedStatement.executeUpdate();

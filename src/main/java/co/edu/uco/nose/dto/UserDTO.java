@@ -8,151 +8,179 @@ import co.edu.uco.nose.crosscuting.helper.TextHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 
 public final class UserDTO extends DTO{
-	
-	private IdTypeDTO identificationType;
+
+
+	private IdTypeDTO idType;
 	private String identificationNumber;
 	private String firstName;
 	private String secondName;
 	private String firstSurname;
 	private String secondSurname;
-	private CityDTO cityResidence;
+	private CityDTO homeCity;
 	private String email;
 	private String mobilePhoneNumber;
-	private Boolean confirmedEmail;
-	private Boolean confirmedMobilePhoneNumber;
-	
+	private boolean emailConfirmed;
+	private boolean MobileNumberConfirmed;
+	private boolean emailConfirmedIsDefaultValue;
+	private boolean mobileNumberIsDefualtValue;
+
 	public UserDTO() {
 		super(UUIDHelper.getUUIDHelper().getDefault());
-		setIdentificationType(IdTypeDTO.createDefault());
-		setIdentificationNumber(TextHelper.getDefault());
+		setIdType(IdTypeDTO.createDefault());
+		setIdNumber(TextHelper.getDefault());
 		setFirstName(TextHelper.getDefault());
 		setSecondName(TextHelper.getDefault());
 		setFirstSurname(TextHelper.getDefault());
 		setSecondSurname(TextHelper.getDefault());
-		setCityDTO(CityDTO.createDefault());
+		setHomeCity(CityDTO.createDefault());
 		setEmail(TextHelper.getDefault());
-		setMobilePhoneNumber(TextHelper.getDefault());
-		setConfirmedEmail(BooleanHelper.getDefault());
-		setConfirmedMobilePhoneNumber(BooleanHelper.getDefault());
+		setMobileNumber(TextHelper.getDefault());
+		setEmailConfirmed(false);
+		setEmailConfirmedIsDefaultValue(true);
+		setMobileNumberConfirmed(false);
+		setMobileNumberIsDefualtValue(true);
 	}
-	
+
 	public UserDTO(final UUID id) {
 		super(id);
-		setIdentificationType(IdTypeDTO.createDefault());
-		setIdentificationNumber(TextHelper.getDefault());
+		setIdType(IdTypeDTO.createDefault());
+		setIdNumber(TextHelper.getDefault());
 		setFirstName(TextHelper.getDefault());
 		setSecondName(TextHelper.getDefault());
 		setFirstSurname(TextHelper.getDefault());
 		setSecondSurname(TextHelper.getDefault());
-		setCityDTO(CityDTO.createDefault());
+		setHomeCity(CityDTO.createDefault());
 		setEmail(TextHelper.getDefault());
-		setMobilePhoneNumber(TextHelper.getDefault());
-		setConfirmedEmail(BooleanHelper.getDefault());
+		setMobileNumber(TextHelper.getDefault());
+		setEmailConfirmed(BooleanHelper.getDefault());
+		setEmailConfirmed(false);
+		setEmailConfirmedIsDefaultValue(true);
+		setMobileNumberConfirmed(false);
+		setMobileNumberIsDefualtValue(true);
 	}
-	
-	public UserDTO(final UUID id, final IdTypeDTO identificationType, final String identificationNumber, final String firstName, 
-			final String secondName, final String firstSurname, final String secondSurname, final CityDTO cityResidence, final String email, 
-			final String mobilePhoneNumber, final Boolean confirmedEmail, final Boolean confirmedMobilePhoneNumber) {
+
+	public UserDTO(final UUID id, final IdTypeDTO identificationType, final String identificationNumber, final String firstName,
+					  final String secondName, final String firstSurname, final String secondSurname, final CityDTO cityResidence, final String email,
+					  final String mobilePhoneNumber, final boolean confirmedEmail, final boolean confirmedMobilePhoneNumber) {
 		super(id);
-		setIdentificationType(identificationType);
-		setIdentificationNumber(identificationNumber);
+		setIdType(identificationType);
+		setIdNumber(identificationNumber);
 		setFirstName(firstName);
 		setSecondName(secondName);
 		setFirstSurname(firstSurname);
 		setSecondSurname(secondSurname);
-		setCityDTO(cityResidence);
+		setHomeCity(cityResidence);
 		setEmail(email);
-		setMobilePhoneNumber(mobilePhoneNumber);
-		setConfirmedEmail(confirmedEmail);
-		setConfirmedMobilePhoneNumber(confirmedMobilePhoneNumber);
+		setMobileNumber(mobilePhoneNumber);
+		setEmailConfirmed(confirmedEmail);
+		setEmailConfirmedIsDefaultValue(false);
+		setMobileNumberConfirmed(confirmedMobilePhoneNumber);
+		setMobileNumberIsDefualtValue(false);
 	}
-	
-	public IdTypeDTO getIdentificationType() {
-		return identificationType;
+
+	public IdTypeDTO getIdType() {
+		return idType;
 	}
-	
-	public void setIdentificationType(IdTypeDTO identificationType) {
-		this.identificationType = ObjectHelper.getDefault(identificationType, IdTypeDTO.createDefault());
+
+	public void setIdType(final IdTypeDTO idType) {
+		this.idType = ObjectHelper.getDefault(idType, IdTypeDTO.createDefault());
 	}
-	
-	public String getIdentificationNumber() {
+
+	public String getIdNumber() {
 		return identificationNumber;
 	}
-	
-	public void setIdentificationNumber(String identificationNumber) {
+
+	public void setIdNumber(final String identificationNumber) {
 		this.identificationNumber = TextHelper.getDefaultWithTrim(identificationNumber);
 	}
-	
+
 	public String getFirstName() {
 		return firstName;
 	}
-	
-	public void setFirstName(String firstName) {
+
+	public void setFirstName(final String firstName) {
 		this.firstName = TextHelper.getDefaultWithTrim(firstName);
 	}
-	
+
 	public String getSecondName() {
 		return secondName;
 	}
-	
-	public void setSecondName(String secondName) {
+
+	public void setSecondName(final String secondName) {
 		this.secondName = TextHelper.getDefaultWithTrim(secondName);
 	}
-	
+
 	public String getFirstSurname() {
 		return firstSurname;
 	}
-	
-	public void setFirstSurname(String firstSurname) {
+
+	public void setFirstSurname(final String firstSurname) {
 		this.firstSurname = TextHelper.getDefaultWithTrim(firstSurname);
 	}
-	
+
 	public String getSecondSurname() {
 		return secondSurname;
 	}
-	
-	public void setSecondSurname(String secondSurname) {
+
+	public void setSecondSurname(final String secondSurname) {
 		this.secondSurname = TextHelper.getDefaultWithTrim(secondSurname);
 	}
-	
-	public CityDTO getCityDTO() {
-		return cityResidence;
+
+	public CityDTO getHomeCity() {
+		return homeCity;
 	}
-	
-	public void setCityDTO(CityDTO cityResidence) {
-		this.cityResidence = ObjectHelper.getDefault(cityResidence, CityDTO.createDefault());
+
+	public void setHomeCity(final CityDTO cityResidence) {
+		this.homeCity = ObjectHelper.getDefault(cityResidence, CityDTO.createDefault());
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
-	
-	public void setEmail(String email) {
+
+	public void setEmail(final String email) {
 		this.email = TextHelper.getDefaultWithTrim(email);
 	}
-	
-	public String getMobilePhoneNumber() {
+
+	public String getMobileNumber() {
 		return mobilePhoneNumber;
 	}
-	
-	public void setMobilePhoneNumber(String mobilePhoneNumber) {
+
+	public void setMobileNumber(final String mobilePhoneNumber) {
 		this.mobilePhoneNumber = TextHelper.getDefaultWithTrim(mobilePhoneNumber);
 	}
-	
-	public Boolean getConfirmedEmail() {
-		return confirmedEmail;
-	}
-	
-	public void setConfirmedEmail(Boolean confirmedEmail) {
-		this.confirmedEmail = BooleanHelper.getDefault(confirmedEmail);
-	}
-	
-	public Boolean getConfirmedMobilePhoneNumber() {
-		return confirmedMobilePhoneNumber;
-	}
-	
-	public void setConfirmedMobilePhoneNumber(Boolean confirmedMobilePhoneNumber) {
-		this.confirmedMobilePhoneNumber = BooleanHelper.getDefault(confirmedMobilePhoneNumber);
-	}	
 
+	public boolean isEmailConfirmed() {
+		return emailConfirmed;
+	}
+
+	public void setEmailConfirmed(final boolean emailConfirmed) {
+		this.emailConfirmed = emailConfirmed;
+		setEmailConfirmedIsDefaultValue(false);
+	}
+
+	public boolean isMobileNumberConfirmed() {
+		return MobileNumberConfirmed;
+	}
+
+	public void setMobileNumberConfirmed(final boolean mobileNumberConfirmed) {
+		MobileNumberConfirmed = mobileNumberConfirmed;
+		setMobileNumberIsDefualtValue(false);
+	}
+
+	public boolean isEmailConfirmedIsDefaultValue() {
+		return emailConfirmedIsDefaultValue;
+	}
+
+	public void setEmailConfirmedIsDefaultValue(final boolean emailConfirmedIsDefaultValue) {
+		this.emailConfirmedIsDefaultValue = emailConfirmedIsDefaultValue;
+	}
+
+	public boolean isMobileNumberIsDefualtValue() {
+		return mobileNumberIsDefualtValue;
+	}
+
+	public void setMobileNumberIsDefualtValue(final boolean mobileNumberIsDefualtValue) {
+		this.mobileNumberIsDefualtValue = mobileNumberIsDefualtValue;
+	}
 }
