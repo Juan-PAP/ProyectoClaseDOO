@@ -157,13 +157,13 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 			}
 
 		} catch (final SQLException exception) {
-			var userMessage = MessagesEnum.USER_ERROR_SQL_EXECUTING_FIND_ALL_USER.getContent(); // Crear este mensaje
-			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_EXECUTING_FIND_ALL_USER.getContent(); // Crear este mensaje
+			var userMessage = MessagesEnum.USER_ERROR_SQL_EXECUTING_FIND_ALL_USER.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_EXECUTING_FIND_ALL_USER.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 
 		} catch (final Exception exception) {
-			var userMessage = MessagesEnum.USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_ALL_USER.getContent(); // Crear este mensaje
-			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_FIND_ALL_USER.getContent(); // Crear este mensaje
+			var userMessage = MessagesEnum.USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_ALL_USER.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_FIND_ALL_USER.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		}
 		return users;
@@ -207,11 +207,11 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 		sql.append("ON         d.pais = p.id ");
 		sql.append("WHERE 1=1 ");
 
-		if (filterEntity.getId() != null && !UUIDHelper.getUUIDHelper().getDefault().equals(filterEntity.getId())) { // <-- CORRECCIÓN AQUÍ
+		if (filterEntity.getId() != null && !UUIDHelper.getUUIDHelper().getDefault().equals(filterEntity.getId())) {
 			sql.append("AND u.id = ? ");
 			parameters.add(filterEntity.getId());
 		}
-		if (filterEntity.getIdType() != null && filterEntity.getIdType().getId() != null && !UUIDHelper.getUUIDHelper().getDefault().equals(filterEntity.getIdType().getId())) { // <-- CORRECCIÓN AQUÍ
+		if (filterEntity.getIdType() != null && filterEntity.getIdType().getId() != null && !UUIDHelper.getUUIDHelper().getDefault().equals(filterEntity.getIdType().getId())) {
 			sql.append("AND u.tipoIdentificacion = ? ");
 			parameters.add(filterEntity.getIdType().getId());
 		}
@@ -235,7 +235,7 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 			sql.append("AND u.segundoApellido LIKE ? ");
 			parameters.add("%" + filterEntity.getSecondSurname().trim() + "%");
 		}
-		if (filterEntity.getHomeCity() != null && filterEntity.getHomeCity().getId() != null && !UUIDHelper.getUUIDHelper().getDefault().equals(filterEntity.getHomeCity().getId())) { // <-- CORRECCIÓN AQUÍ
+		if (filterEntity.getHomeCity() != null && filterEntity.getHomeCity().getId() != null && !UUIDHelper.getUUIDHelper().getDefault().equals(filterEntity.getHomeCity().getId())) {
 			sql.append("AND u.ciudadResidencia = ? ");
 			parameters.add(filterEntity.getHomeCity().getId());
 		}
@@ -271,13 +271,13 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 			}
 
 		} catch (final SQLException exception) {
-			var userMessage = MessagesEnum.USER_ERROR_SQL_EXECUTING_FIND_BY_FILTER_USER.getContent(); // Crear este mensaje
-			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_EXECUTING_FIND_BY_FILTER_USER.getContent(); // Crear este mensaje
+			var userMessage = MessagesEnum.USER_ERROR_SQL_EXECUTING_FIND_BY_FILTER_USER.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_EXECUTING_FIND_BY_FILTER_USER.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 
 		} catch (final Exception exception) {
-			var userMessage = MessagesEnum.USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_FILTER_USER.getContent(); // Crear este mensaje
-			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_FILTER_USER.getContent(); // Crear este mensaje
+			var userMessage = MessagesEnum.USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_FILTER_USER.getContent();
+			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_FIND_BY_FILTER_USER.getContent();
 			throw NoseException.create(exception, userMessage, technicalMessage);
 		}
 
