@@ -22,7 +22,7 @@ public class IdTypeSqlServerDAO extends SqlConnection implements IdTypeDAO {
 	private void mapResultSetToIdType(final java.sql.ResultSet resultSet, final IdTypeEntity entity) {
 		try {
 			entity.setId(UUIDHelper.getUUIDHelper().getFromString(resultSet.getString("id")));
-			entity.setNombre(resultSet.getString("nombre"));
+			entity.setName(resultSet.getString("nombre"));
 
 		} catch (final SQLException exception) {
 			var userMessage = MessagesEnum.USER_ERROR_SQL_MAPPING_IDTYPE.getContent();
@@ -74,9 +74,9 @@ public class IdTypeSqlServerDAO extends SqlConnection implements IdTypeDAO {
 			sql.append("AND id = ? ");
 			parameters.add(filterEntity.getId());
 		}
-		if (filterEntity.getNombre() != null && !filterEntity.getNombre().trim().isEmpty()) {
+		if (filterEntity.getName() != null && !filterEntity.getName().trim().isEmpty()) {
 			sql.append("AND nombre LIKE ? ");
-			parameters.add("%" + filterEntity.getNombre().trim() + "%");
+			parameters.add("%" + filterEntity.getName().trim() + "%");
 		}
 
 		try (var preparedStatement = getConnection().prepareStatement(sql.toString())) {

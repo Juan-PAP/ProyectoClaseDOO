@@ -53,13 +53,13 @@ public abstract class DAOFactory {
 
 	public abstract UserDAO getUserDAO();
 
-	protected abstract void openConnection ();
+	public abstract void openConnection();
 
-	public final void initTransaction () {
+	public final void initTransaction() {
 		SqlConnectionHelper.ensureTransactionIsNotStarted(connection);
 
 		try {
-			connection.commit();
+			connection.setAutoCommit(false);
 
 		} catch (final SQLException exception) {
 			var userMessage = MessagesEnum.USER_ERROR_SQL_CANNOT_INIT_TRANSACTION.getContent();
@@ -73,7 +73,7 @@ public abstract class DAOFactory {
 		}
 	}
 
-	public final void commitTransaction () {
+	public final void commitTransaction() {
 		SqlConnectionHelper.ensureTransactionIsStarted(connection);
 
 		try {
@@ -92,7 +92,7 @@ public abstract class DAOFactory {
 
 	}
 
-	public final void rollbackTransaction () {
+	public final void rollbackTransaction() {
 		SqlConnectionHelper.ensureTransactionIsStarted(connection);
 
 		try {
@@ -110,25 +110,40 @@ public abstract class DAOFactory {
 		}
 	}
 
-	public final void closeTransaction () {
-		SqlConnectionHelper.ensureTransactionIsNotStarted(connection);
+//	public final void closeTransaction() {
+//		SqlConnectionHelper.ensureTransactionIsNotStarted(connection);
+//
+//		try {
+//			connection.close();
+//
+//		} catch (final SQLException exception) {
+//			var userMassage = MessagesEnum.USER_ERROR_SQL_CANNOT_CLOSE_CONNECTION.getContent();
+//			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_CANNOT_CLOSE_CONNECTION.getContent();
+//			throw NoseException.create(exception, userMassage, technicalMessage);
+//
+//		} catch (Exception exception) {
+//			var userMassage = MessagesEnum.USER_ERROR_SQL_UNEXPECTED_ERROR_CLOSING_CONNECTION.getContent();
+//			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_CLOSING_CONNECTION.getContent();
+//			throw NoseException.create(exception, userMassage, technicalMessage);
+//		}
+//
+//	}
+
+	public final void closeConnection() {
+		SqlConnectionHelper.ensureConnectionIsOpen(connection);
 
 		try {
 			connection.close();
-
 		} catch (final SQLException exception) {
-			var userMassage = MessagesEnum.USER_ERROR_SQL_CANNOT_CLOSE_CONNECTION.getContent();
-			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_CANNOT_CLOSE_CONNECTION.getContent();
+			var userMassage = "";
+			var technicalMessage = "";
 			throw NoseException.create(exception, userMassage, technicalMessage);
 
-		}catch (Exception exception) {
-			var userMassage = MessagesEnum.USER_ERROR_SQL_UNEXPECTED_ERROR_CLOSING_CONNECTION.getContent();
-			var technicalMessage = MessagesEnum.TECHNICAL_ERROR_SQL_UNEXPECTED_ERROR_CLOSING_CONNECTION.getContent();
+		} catch (final Exception exception) {
+			var userMassage = "";
+			var technicalMessage = "";
 			throw NoseException.create(exception, userMassage, technicalMessage);
 		}
-
 	}
-
-	public abstract void closeConnection ();
 
 }

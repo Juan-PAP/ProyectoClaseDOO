@@ -10,7 +10,8 @@ import java.util.List;
 
 public final class CountryDTOAssaembler implements DTOAssembler<CountryDTO, CountryDomain> {
 
-    private static final DTOAssembler<CountryDTO, CountryDomain> instance = new CountryDTOAssaembler();
+    private static final DTOAssembler<CountryDTO, CountryDomain> instance =
+            new CountryDTOAssaembler();
 
     private CountryDTOAssaembler() {
 
@@ -33,7 +34,7 @@ public final class CountryDTOAssaembler implements DTOAssembler<CountryDTO, Coun
     }
 
     @Override
-    public List<CountryDTO> toDTO(List<CountryDomain> domainList) {
+    public List<CountryDTO> toDTO(final List<CountryDomain> domainList) {
         return List.of();
     }
 }

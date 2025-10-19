@@ -7,6 +7,18 @@ import co.edu.uco.nose.dto.CityDTO;
 import java.util.List;
 
 public final class CityDTOAssembler implements DTOAssembler<CityDTO, CityDomain> {
+
+    private static final DTOAssembler<CityDTO, CityDomain> instance =
+            new CityDTOAssembler();
+
+    private CityDTOAssembler() {
+
+    }
+
+    public static DTOAssembler<CityDTO, CityDomain> getCityDTOAssembler() {
+        return instance;
+    }
+
     @Override
     public CityDTO toDTO(final CityDomain domain) {
         return null;

@@ -24,25 +24,23 @@ public final class UserBusinessImpl implements UserBusiness {
         //1. Validar que la información sea consistente a nivel de Tipo de Dato,
         //longitud, obligatoriedad, formato, rango, reglas propias del objeto
 
-        //2. Validar que no exista previamente otro usuario tipo y numero de identificacion
+        //2. Validar que no exista previamente otro usuario con el mismo tipo y número
+        // de identificación
 
-        //3. Validar que no exista otro usuario con el mismo correo electronico
+        //3. Validar que no exista previamente otro usuario con el mismo correo electronico
 
-        //4. Validar que no exista previamente otro usuario con el mismo numero de telefono
+        //4. Validar que no exista previamente otro usuario con el mismo número de telefono celular
 
-        //5. Generar el nuevo identificador unico para el usuario
+        //5. Generar el nuevo identificador unico para el usuario, asegurando que no exista
 
         var id = UUIDHelper.getUUIDHelper().generateNewUUID();
         var userEntity = UserEntityAssembler.getUserEntityAssembler().toEntity(userDomain);
 
         userEntity.setId(id);
 
+        //6. Registrar la información del nuevo usuario
+
         daoFactory.getUserDAO().create(userEntity);
-
-    }
-
-    @Override
-    public void dropUserInformation(UserDomain userDomain) {
 
     }
 
@@ -62,12 +60,32 @@ public final class UserBusinessImpl implements UserBusiness {
     }
 
     @Override
-    public List<UserDomain> findUsersByFilter(UserDomain userDomain) {
+    public List<UserDomain> findUsersByFilter(UserDomain userFilters) {
         return List.of();
     }
 
     @Override
     public UserDomain findSpecificUser(UUID id) {
         return null;
+    }
+
+    @Override
+    public void confirmMobileNumber(UUID id, int confirmationCode) {
+
+    }
+
+    @Override
+    public void confirmEmail(UUID id) {
+
+    }
+
+    @Override
+    public void sendMobileNumberConfirmation(UUID id) {
+
+    }
+
+    @Override
+    public void sendEmailConfirmation(UUID id) {
+
     }
 }

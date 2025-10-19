@@ -9,20 +9,21 @@ public interface UserBusiness {
 
     void registerNewUserInformation (UserDomain userDomain);
 
-    void dropUserInformation (UserDomain userDomain);
-
     void dropUserInformation (UUID id);
 
     void updateUserInformation (UUID id, UserDomain userDomain);
 
     List<UserDomain> findAllUsers ();
 
-    List <UserDomain> findUsersByFilter (UserDomain userDomain);
+    List <UserDomain> findUsersByFilter (UserDomain userFilters);
 
     UserDomain findSpecificUser(UUID id);
 
     void confirmMobileNumber(UUID id, int confirmationCode);
 
+    void confirmEmail (UUID id);
 
+    void sendMobileNumberConfirmation (UUID id);
 
+    void sendEmailConfirmation (UUID id);
 }

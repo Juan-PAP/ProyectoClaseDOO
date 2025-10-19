@@ -13,15 +13,18 @@ import java.util.UUID;
 public final class UserFacadeImpl implements UserFacade {
 
     @Override
-    public void registerNewUserInformation(final UserDTO userDomain) {
+    public void registerNewUserInformation(final UserDTO userDTO) {
 
         var daoFactory = DAOFactory.getFactory();
         var business = new UserBusinessImpl(daoFactory);
 
         try {
+
+            daoFactory.openConnection();
+
             daoFactory.initTransaction();
 
-            var domain = UserDTOAssembler.getUserDTOAssembler().toDomain(userDomain);
+            var domain = UserDTOAssembler.getUserDTOAssembler().toDomain(userDTO);
             business.registerNewUserInformation(domain);
 
             daoFactory.commitTransaction();
@@ -45,11 +48,6 @@ public final class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public void dropUserInformation(UserDTO userDomain) {
-
-    }
-
-    @Override
     public void dropUserInformation(UUID id) {
 
     }
@@ -65,7 +63,7 @@ public final class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public List<UserDTO> findUsersByFilter(UserDTO userDomain) {
+    public List<UserDTO> findUsersByFilter(UserDTO userDTO) {
         return List.of();
     }
 
@@ -75,7 +73,12 @@ public final class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public void confirmEmail(UUID id, int confirmationCode) {
+    public void confirmMobileNumber(UUID id, int confirmationCode) {
+
+    }
+
+    @Override
+    public void confirmEmail(UUID id) {
 
     }
 

@@ -20,7 +20,7 @@ import co.edu.uco.nose.data.dao.factory.DAOFactory;
 public final class PostgresqlDAOFactory extends DAOFactory {
 	
 	@Override
-	protected void openConnection() {
+	public void openConnection() {
 		
 			String url = "jdbc:postgresql://localhost:5432/apiNose";
 		    String user = "postgres";

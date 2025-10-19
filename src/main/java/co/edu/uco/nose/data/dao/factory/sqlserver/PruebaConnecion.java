@@ -34,10 +34,10 @@ public class PruebaConnecion {
                 UUID tipoId = UUID.randomUUID();
                 UUID usuarioId = UUID.randomUUID();
 
-                String insertPais = "INSERT INTO Pais (id, nombre) VALUES (?, ?)";
-                String insertDepartamento = "INSERT INTO Departamento (id, pais, nombre) VALUES (?, ?, ?)";
-                String insertCiudad = "INSERT INTO Ciudad (id, departamento, nombre) VALUES (?, ?, ?)";
-                String insertTipo = "INSERT INTO TipoIdentificacion (id, nombre) VALUES (?, ?)";
+                String insertPais = "INSERT INTO Pais (id, name) VALUES (?, ?)";
+                String insertDepartamento = "INSERT INTO Departamento (id, pais, name) VALUES (?, ?, ?)";
+                String insertCiudad = "INSERT INTO Ciudad (id, departamento, name) VALUES (?, ?, ?)";
+                String insertTipo = "INSERT INTO TipoIdentificacion (id, name) VALUES (?, ?)";
                 String insertUsuario = "INSERT INTO Usuario (id, tipoIdentificacion, numeroIdentificacion, primerNombre, segundoNombre, "
                         + "primerApellido, segundoApellido, ciudadResidencia, correoElectronico, numeroTelefonoMovil, "
                         + "correoElectronicoConfirmado, numeroTelefonoMovilConfirmado) "
@@ -99,18 +99,18 @@ public class PruebaConnecion {
                 String sql = """
                 SELECT u.id, 
                        ti.id AS idTipoIdentificacion, 
-                       ti.nombre AS nombreTipoIdentificacion, 
+                       ti.name AS nombreTipoIdentificacion, 
                        u.numeroIdentificacion, 
                        u.primerNombre, 
                        u.segundoNombre, 
                        u.primerApellido, 
                        u.segundoApellido, 
                        c.id AS idCiudadResidencia, 
-                       c.nombre AS nombreCiudadResidencia, 
+                       c.name AS nombreCiudadResidencia, 
                        d.id AS idDepartamentoCiudadResidencia, 
-                       d.nombre AS nombreDepartamentoCiudadResidencia, 
+                       d.name AS nombreDepartamentoCiudadResidencia, 
                        p.id AS idPaisDepartamentoCiudadResidencia, 
-                       p.nombre AS nombrePaisDepartamentoCiudadResidencia, 
+                       p.name AS nombrePaisDepartamentoCiudadResidencia, 
                        u.correoElectronico, 
                        u.numeroTelefonoMovil, 
                        u.correoElectronicoConfirmado, 

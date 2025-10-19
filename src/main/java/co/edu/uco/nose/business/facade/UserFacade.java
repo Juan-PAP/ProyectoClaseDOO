@@ -7,23 +7,23 @@ import java.util.UUID;
 
 public interface UserFacade {
 
-    void registerNewUserInformation (UserDTO userDomain);
-
-    void dropUserInformation (UserDTO userDomain);
+    void registerNewUserInformation (UserDTO userDTO);
 
     void dropUserInformation (UUID id);
 
-    void updateUserInformation (UUID id, UserDTO userDomain);
+    void updateUserInformation (UUID id, UserDTO userDTO);
 
     List<UserDTO> findAllUsers ();
 
-    List <UserDTO> findUsersByFilter (UserDTO userDomain);
+    List <UserDTO> findUsersByFilter (UserDTO userDTO  );
 
     UserDTO findSpecificUser (UUID id);
 
-    void confirmEmail(UUID id, int confirmationCode);
+    void confirmMobileNumber(UUID id, int confirmationCode);
 
-    void sendMobileNumberConfirmation(UUID id);
+    void confirmEmail (UUID id);
 
-    void sendEmailConfirmation(UUID id);
+    void sendMobileNumberConfirmation (UUID id);
+
+    void sendEmailConfirmation (UUID id);
 }
