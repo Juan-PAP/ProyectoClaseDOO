@@ -10,17 +10,17 @@ import co.edu.uco.nose.data.dao.entity.CountryDAO;
 import co.edu.uco.nose.data.dao.entity.IdTypeDAO;
 import co.edu.uco.nose.data.dao.entity.StateDAO;
 import co.edu.uco.nose.data.dao.entity.UserDAO;
-import co.edu.uco.nose.data.dao.entity.sqlserver.CitySqlServerDAO;
-import co.edu.uco.nose.data.dao.entity.sqlserver.CountrySqlServerDAO;
-import co.edu.uco.nose.data.dao.entity.sqlserver.IdTypeSqlServerDAO;
-import co.edu.uco.nose.data.dao.entity.sqlserver.StateSqlServerDAO;
-import co.edu.uco.nose.data.dao.entity.sqlserver.UserSqlServerDAO;
+import co.edu.uco.nose.data.dao.entity.postgresql.CityPostgresqlDAO;
+import co.edu.uco.nose.data.dao.entity.postgresql.CountryPostgresqlDAO;
+import co.edu.uco.nose.data.dao.entity.postgresql.IdTypePostgresqlDAO;
+import co.edu.uco.nose.data.dao.entity.postgresql.StatePostgresqlDAO;
+import co.edu.uco.nose.data.dao.entity.postgresql.UserPostgresqlDAO;
 import co.edu.uco.nose.data.dao.factory.DAOFactory;
 
 public final class PostgresqlDAOFactory extends DAOFactory {
 	
 	@Override
-	public void openConnection() {
+	protected void openConnection() {
 		
 			String url = "jdbc:postgresql://localhost:5432/apiNose";
 		    String user = "postgres";
@@ -49,27 +49,27 @@ public final class PostgresqlDAOFactory extends DAOFactory {
 
 	@Override
 	public CityDAO getCityDAO() {
-		return new CitySqlServerDAO(connection);
+		return new CityPostgresqlDAO(connection);
 	}
 
 	@Override
 	public CountryDAO getCountryDAO() {
-		return new CountrySqlServerDAO(connection);
+		return new CountryPostgresqlDAO(connection);
 	}
 
 	@Override
 	public IdTypeDAO getIdTypeDAO() {
-		return new IdTypeSqlServerDAO(connection);
+		return new IdTypePostgresqlDAO(connection);
 	}
 
 	@Override
 	public StateDAO getStateDAO() {
-		return new StateSqlServerDAO(connection);
+		return new StatePostgresqlDAO(connection);
 	}
 
 	@Override
 	public UserDAO getUserDAO() {
-		return new UserSqlServerDAO(connection);
+		return new UserPostgresqlDAO(connection);
 	}
 
 }

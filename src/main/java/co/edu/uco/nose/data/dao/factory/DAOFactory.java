@@ -53,9 +53,12 @@ public abstract class DAOFactory {
 
 	public abstract UserDAO getUserDAO();
 
-	public abstract void openConnection();
+	protected abstract void openConnection();
 
 	public final void initTransaction() {
+
+		openConnection();
+
 		SqlConnectionHelper.ensureTransactionIsNotStarted(connection);
 
 		try {

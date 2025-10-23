@@ -1,4 +1,4 @@
-package co.edu.uco.nose.data.dao.entity.sqlserver;
+package co.edu.uco.nose.data.dao.entity.postgresql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,9 +20,9 @@ import co.edu.uco.nose.entity.IdTypeEntity;
 import co.edu.uco.nose.entity.StateEntity;
 import co.edu.uco.nose.entity.UserEntity;
 
-public class UserSqlServerDAO extends SqlConnection implements UserDAO {
+public class UserPostgresqlDAO extends SqlConnection implements UserDAO {
 
-	public UserSqlServerDAO(Connection connection) {
+	public UserPostgresqlDAO(Connection connection) {
 		super(connection);
 	}
 
@@ -234,11 +234,11 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 		final var conditions = new ArrayList<String>();
 
 		addCondition(conditions, parameterList,
-				UUIDHelper.getUUIDHelper().isDefaultUUID(filterEntityValidated.getId()),
+				!UUIDHelper.getUUIDHelper().isDefaultUUID(filterEntityValidated.getId()),
 				"u.id = ?", filterEntityValidated.getId());
 
 		addCondition(conditions, parameterList,
-				UUIDHelper.getUUIDHelper().isDefaultUUID(filterEntityValidated.getIdType().getId()),
+				!UUIDHelper.getUUIDHelper().isDefaultUUID(filterEntityValidated.getIdType().getId()),
 				" u.tipoIdentificacion = ?", filterEntityValidated.getIdType().getId());
 
 		addCondition(conditions, parameterList, !TextHelper.isEmptyWithTrim(filterEntityValidated.getIdNumber()),
@@ -257,7 +257,7 @@ public class UserSqlServerDAO extends SqlConnection implements UserDAO {
 				"u.segundoApellido = ?", filterEntityValidated.getSecondSurname());
 
 		addCondition(conditions, parameterList,
-				UUIDHelper.getUUIDHelper().isDefaultUUID(filterEntityValidated.getHomeCity().getId()),
+				!UUIDHelper.getUUIDHelper().isDefaultUUID(filterEntityValidated.getHomeCity().getId()),
 				"u.ciudadResidencia = ?", filterEntityValidated.getHomeCity().getId());
 
 		addCondition(conditions, parameterList, !TextHelper.isEmptyWithTrim(filterEntityValidated.getEmail()),

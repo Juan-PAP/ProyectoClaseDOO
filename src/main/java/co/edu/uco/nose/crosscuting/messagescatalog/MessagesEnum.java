@@ -363,13 +363,13 @@ public enum MessagesEnum {
 			"Se ha presentado un problema técnico al mapear un registro del ResultSet a la entidad CountryEntity. " +
 					"Verifique que los nombres de las columnas en la consulta SQL coincidan con los esperados por el método de mapeo."),
 
-	USER_ERROR_SQL_EXECUTING_FIND_ALL_COUNTRY("Error al consultar los países",
-			"Se ha presentado un problema tratando de consultar la información de todos los países. " +
+	USER_ERROR_SQL_UNEXPECTED_EXECUTING_MAPPING_COUNTRY("Error al consultar los países",
+			"Se ha presentado un problema tratando de consultar la información de los países. " +
 					"Por favor intente de nuevo y si el problema persiste, contacte al administrador del sistema."),
 
-	TECHNICAL_ERROR_SQL_EXECUTING_FIND_ALL_COUNTRY("Error técnico al consultar todos los países",
+	TECHNICAL_ERROR_SQL_UNEXPECTED_EXECUTING_MAPPING_COUNTRY("Error técnico al consultar los países",
 			"Se ha presentado un problema técnico al tratar de ejecutar la consulta SQL para obtener la " +
-					"información de todos los países en la base de datos."),
+					"información de los países en la base de datos."),
 
 	USER_ERROR_SQL_UNEXPECTED_ERROR_FIND_ALL_COUNTRY("Error inesperado al consultar los países",
 			"Se ha presentado un problema inesperado tratando de consultar la información de todos los países. " +

@@ -20,8 +20,6 @@ public final class UserFacadeImpl implements UserFacade {
 
         try {
 
-            daoFactory.openConnection();
-
             daoFactory.initTransaction();
 
             var domain = UserDTOAssembler.getUserDTOAssembler().toDomain(userDTO);
@@ -37,9 +35,9 @@ public final class UserFacadeImpl implements UserFacade {
             daoFactory.rollbackTransaction();
 
             var userMessage = "";
-            var technicalMesssage = "";
+            var technicalMessage = "";
 
-            throw NoseException.create(exception, userMessage, technicalMesssage);
+            throw NoseException.create(exception, userMessage, technicalMessage);
 
         } finally {
             daoFactory.closeConnection();

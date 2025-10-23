@@ -1,176 +1,101 @@
+// Archivo: PruebaConnecion.java
+
 package co.edu.uco.nose.data.dao.factory.sqlserver;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.UUID;
+import co.edu.uco.nose.data.dao.factory.DAOFactory;
+import co.edu.uco.nose.entity.CityEntity;
+import co.edu.uco.nose.entity.CountryEntity;
+import co.edu.uco.nose.entity.IdTypeEntity;
+import co.edu.uco.nose.entity.StateEntity;
+import co.edu.uco.nose.entity.UserEntity;
+import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 
 public class PruebaConnecion {
 
-    public static void main(String[] args) {
+    // PRE-REQUISITO: Asegúrate de que los INSERTs para estos UUIDs ya se ejecutaron en tu BD.
+    private static final UUID PAIS_ID = UUID.fromString("1f3d4a8e-2e9f-4b6c-8e4a-4a2b6e8d2c1b");
+    private static final UUID DEPARTAMENTO_ID = UUID.fromString("8f2e1a9c-5b8d-4c3e-9f2a-1b3d5c7e9a2d");
+    private static final UUID CIUDAD_ID = UUID.fromString("3c8d2b7e-9f4a-4b6c-8e2a-1a3b5c7d9e4f");
+    private static final UUID TIPO_ID = UUID.fromString("5e9d2c1b-8f3a-4b7c-9e2a-1b3d5c8e9f4a");
 
-        String url = "jdbc:postgresql://localhost:5432/apiNose";
-        String user = "postgres";
-        String password = "root";
+    public static void main(String[] args) {
+        DAOFactory factory = DAOFactory.getFactory();
 
         try {
-            Class.forName("org.postgresql.Driver");
+            factory.initTransaction();
+            System.out.println("✅ Transacción iniciada correctamente");
 
-            try (Connection connection = DriverManager.getConnection(url, user, password)) {
+            var userDAO = factory.getUserDAO();
+            UUID usuarioId = UUID.randomUUID();
 
-                if (connection != null && !connection.isClosed()) {
-                    System.out.println("✅ Conexión establecida correctamente con PostgreSQL");
-                }
+            CountryEntity country = new CountryEntity();
+            country.setId(PAIS_ID);
 
-                // ------------------------------------------------------
-                // 1️⃣ INSERTAR DATOS DE PRUEBA
-                // ------------------------------------------------------
-                // --------------------- Inserciones usando PreparedStatement ---------------------
-                UUID paisId = UUID.randomUUID();
-                UUID departamentoId = UUID.randomUUID();
-                UUID ciudadId = UUID.randomUUID();
-                UUID tipoId = UUID.randomUUID();
-                UUID usuarioId = UUID.randomUUID();
+            StateEntity state = new StateEntity();
+            state.setId(DEPARTAMENTO_ID);
+            state.setCountry(country);
 
-                String insertPais = "INSERT INTO Pais (id, name) VALUES (?, ?)";
-                String insertDepartamento = "INSERT INTO Departamento (id, pais, name) VALUES (?, ?, ?)";
-                String insertCiudad = "INSERT INTO Ciudad (id, departamento, name) VALUES (?, ?, ?)";
-                String insertTipo = "INSERT INTO TipoIdentificacion (id, name) VALUES (?, ?)";
-                String insertUsuario = "INSERT INTO Usuario (id, tipoIdentificacion, numeroIdentificacion, primerNombre, segundoNombre, "
-                        + "primerApellido, segundoApellido, ciudadResidencia, correoElectronico, numeroTelefonoMovil, "
-                        + "correoElectronicoConfirmado, numeroTelefonoMovilConfirmado) "
-                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            CityEntity city = new CityEntity();
+            city.setId(CIUDAD_ID);
+            city.setState(state);
 
-                try (
-                        PreparedStatement psPais = connection.prepareStatement(insertPais);
-                        PreparedStatement psDepartamento = connection.prepareStatement(insertDepartamento);
-                        PreparedStatement psCiudad = connection.prepareStatement(insertCiudad);
-                        PreparedStatement psTipo = connection.prepareStatement(insertTipo);
-                        PreparedStatement psUsuario = connection.prepareStatement(insertUsuario)
-                ) {
-                    // Pais
-                    psPais.setObject(1, paisId);
-                    psPais.setString(2, "Colombia");
-                    psPais.executeUpdate();
+            IdTypeEntity idType = new IdTypeEntity();
+            idType.setId(TIPO_ID);
 
-                    // Departamento
-                    psDepartamento.setObject(1, departamentoId);
-                    psDepartamento.setObject(2, paisId);
-                    psDepartamento.setString(3, "Antioquia");
-                    psDepartamento.executeUpdate();
+            UserEntity user = new UserEntity();
+            user.setId(usuarioId);
+            user.setIdType(idType);
+            user.setIdNumber("987654321");
+            user.setFirstName("Ana");
+            user.setSecondName(null);
+            user.setFirstSurname("Gomez");
+            user.setSecondSurname("Arias");
+            user.setHomeCity(city);
+            user.setEmail("ana.gomez@example.com");
+            user.setMobileNumber("3109876543");
+            user.setEmailConfirmed(false);
+            user.setMobileNumberConfirmed(false);
 
-                    // Ciudad
-                    psCiudad.setObject(1, ciudadId);
-                    psCiudad.setObject(2, departamentoId);
-                    psCiudad.setString(3, "Medellín");
-                    psCiudad.executeUpdate();
+            // 1. Probamos CREATE
+            userDAO.create(user);
+            System.out.println("✅ (CREATE) Usuario insertado correctamente.");
 
-                    // TipoIdentificacion
-                    psTipo.setObject(1, tipoId);
-                    psTipo.setString(2, "Cédula de ciudadanía");
-                    psTipo.executeUpdate();
-
-                    // Usuario
-                    psUsuario.setObject(1, usuarioId);
-                    psUsuario.setObject(2, tipoId);
-                    psUsuario.setString(3, "123456789");
-                    psUsuario.setString(4, "Juan");
-                    psUsuario.setString(5, "Pablo");
-                    psUsuario.setString(6, "Alzate");
-                    psUsuario.setString(7, "Pulgarín"); // acentos manejados por UTF-8
-                    psUsuario.setObject(8, ciudadId);
-                    psUsuario.setString(9, "juanpablo@example.com");
-                    psUsuario.setString(10, "3001234567");
-                    psUsuario.setBoolean(11, true);   // correoElectronicoConfirmado
-                    psUsuario.setBoolean(12, false);  // numeroTelefonoMovilConfirmado
-                    psUsuario.executeUpdate();
-                }
-
-                System.out.println("✅ Datos insertados correctamente (con PreparedStatement)");
-
-
-                System.out.println("✅ Datos insertados correctamente");
-
-                // ------------------------------------------------------
-                // 2️⃣ CONSULTAR EL USUARIO (query que me mostraste)
-                // ------------------------------------------------------
-                String sql = """
-                SELECT u.id, 
-                       ti.id AS idTipoIdentificacion, 
-                       ti.name AS nombreTipoIdentificacion, 
-                       u.numeroIdentificacion, 
-                       u.primerNombre, 
-                       u.segundoNombre, 
-                       u.primerApellido, 
-                       u.segundoApellido, 
-                       c.id AS idCiudadResidencia, 
-                       c.name AS nombreCiudadResidencia, 
-                       d.id AS idDepartamentoCiudadResidencia, 
-                       d.name AS nombreDepartamentoCiudadResidencia, 
-                       p.id AS idPaisDepartamentoCiudadResidencia, 
-                       p.name AS nombrePaisDepartamentoCiudadResidencia, 
-                       u.correoElectronico, 
-                       u.numeroTelefonoMovil, 
-                       u.correoElectronicoConfirmado, 
-                       u.numeroTelefonoMovilConfirmado
-                FROM Usuario AS u
-                INNER JOIN TipoIdentificacion AS ti ON u.tipoIdentificacion = ti.id
-                INNER JOIN Ciudad AS c ON u.ciudadResidencia = c.id
-                INNER JOIN Departamento AS d ON c.departamento = d.id
-                INNER JOIN Pais AS p ON d.pais = p.id
-                WHERE u.id = ?;
-                """;
-
-                try (PreparedStatement ps = connection.prepareStatement(sql)) {
-                    ps.setObject(1, usuarioId);
-                    ResultSet rs = ps.executeQuery();
-
-                    if (rs.next()) {
-                        System.out.println("\n🔍 Resultado de la consulta:");
-                        System.out.println("Usuario: " + rs.getString("primerNombre") + " " + rs.getString("primerApellido"));
-                        System.out.println("Tipo ID: " + rs.getString("nombreTipoIdentificacion"));
-                        System.out.println("Ciudad: " + rs.getString("nombreCiudadResidencia"));
-                        System.out.println("Departamento: " + rs.getString("nombreDepartamentoCiudadResidencia"));
-                        System.out.println("País: " + rs.getString("nombrePaisDepartamentoCiudadResidencia"));
-                        System.out.println("Correo: " + rs.getString("correoElectronico"));
-                    }
-                }
-
-                // ------------------------------------------------------
-                // 3️⃣ ACTUALIZAR EL USUARIO
-                // ------------------------------------------------------
-                try (PreparedStatement ps = connection.prepareStatement(
-                        "UPDATE Usuario SET correoElectronicoConfirmado = true WHERE id = ?")) {
-                    ps.setObject(1, usuarioId);
-                    int rows = ps.executeUpdate();
-                    System.out.println("✏️ Usuario actualizado: " + rows + " fila(s) afectadas");
-                }
-
-                // ------------------------------------------------------
-                // 4️⃣ ELIMINAR EL USUARIO
-                // ------------------------------------------------------
-                try (PreparedStatement ps = connection.prepareStatement("DELETE FROM Usuario WHERE id = ?")) {
-                    ps.setObject(1, usuarioId);
-                    int rows = ps.executeUpdate();
-                    System.out.println("🗑️ Usuario eliminado: " + rows + " fila(s) afectadas");
-                }
-
+            // 2. Probamos FIND BY ID
+            UserEntity retrievedUser = userDAO.findById(usuarioId);
+            if (!UUIDHelper.getUUIDHelper().isDefaultUUID(retrievedUser.getId())) {
+                System.out.println("\n🔍 (FIND) Usuario encontrado: " + retrievedUser.getFirstName());
+            } else {
+                throw new Exception("Error: El usuario recién creado no fue encontrado.");
             }
 
-        } catch (ClassNotFoundException e) {
-            System.out.println("❌ Driver JDBC de PostgreSQL no encontrado.");
-            e.printStackTrace();
+            // 3. Probamos UPDATE
+            retrievedUser.setMobileNumberConfirmed(true);
+            userDAO.update(retrievedUser);
+            System.out.println("✏️ (UPDATE) Usuario actualizado correctamente.");
 
-        } catch (SQLException e) {
-            System.out.println("❌ Error SQL: " + e.getMessage());
-            e.printStackTrace();
+            // 4. Probamos DELETE
+            userDAO.delete(usuarioId);
+            System.out.println("🗑️ (DELETE) Usuario eliminado correctamente.");
+
+            UserEntity deletedUser = userDAO.findById(usuarioId);
+            if(UUIDHelper.getUUIDHelper().isDefaultUUID(deletedUser.getId())) {
+                System.out.println("✅ Verificación de borrado exitosa.");
+            } else {
+                throw new Exception("Error: El usuario no fue eliminado correctamente.");
+            }
+
+            factory.commitTransaction();
+            System.out.println("\n✅ Transacción confirmada (COMMIT)");
+
+        } catch (final Exception exception) {
+            System.out.println("❌ Ocurrió un error, revirtiendo transacción...");
+            factory.rollbackTransaction();
+            exception.printStackTrace();
+
+        } finally {
+            factory.closeConnection();
+            System.out.println("🔌 Conexión cerrada.");
         }
     }
 }
-
-
-
-
-

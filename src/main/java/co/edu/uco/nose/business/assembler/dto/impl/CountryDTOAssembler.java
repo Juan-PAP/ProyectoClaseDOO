@@ -8,12 +8,12 @@ import co.edu.uco.nose.dto.CountryDTO;
 
 import java.util.List;
 
-public final class CountryDTOAssaembler implements DTOAssembler<CountryDTO, CountryDomain> {
+public final class CountryDTOAssembler implements DTOAssembler<CountryDTO, CountryDomain> {
 
     private static final DTOAssembler<CountryDTO, CountryDomain> instance =
-            new CountryDTOAssaembler();
+            new CountryDTOAssembler();
 
-    private CountryDTOAssaembler() {
+    private CountryDTOAssembler() {
 
     }
 

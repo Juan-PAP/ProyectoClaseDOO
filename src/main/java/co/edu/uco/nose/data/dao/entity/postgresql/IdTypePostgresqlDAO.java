@@ -1,4 +1,4 @@
-package co.edu.uco.nose.data.dao.entity.sqlserver;
+package co.edu.uco.nose.data.dao.entity.postgresql;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -13,9 +13,9 @@ import co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum;
 import co.edu.uco.nose.data.dao.entity.IdTypeDAO;
 import co.edu.uco.nose.entity.IdTypeEntity;
 
-public class IdTypeSqlServerDAO extends SqlConnection implements IdTypeDAO {
+public class IdTypePostgresqlDAO extends SqlConnection implements IdTypeDAO {
 
-	public IdTypeSqlServerDAO(final Connection connection) {
+	public IdTypePostgresqlDAO(final Connection connection) {
 		super(connection);
 	}
 

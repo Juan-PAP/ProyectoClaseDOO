@@ -1,4 +1,4 @@
-package co.edu.uco.nose.data.dao.entity.sqlserver;
+package co.edu.uco.nose.data.dao.entity.postgresql;
 
 import java.sql.Connection;
 

@@ -1,24 +1,22 @@
 package co.edu.uco.nose.business.assembler.dto.impl;
 
-import static co.edu.uco.nose.business.assembler.dto.impl.CountryDTOAssaembler.getCountryDTOAssembler;
+import static co.edu.uco.nose.business.assembler.dto.impl.CountryDTOAssembler.getCountryDTOAssembler;
 
 import co.edu.uco.nose.business.assembler.dto.DTOAssembler;
-import co.edu.uco.nose.business.domain.IdTypeDomain;
 import co.edu.uco.nose.business.domain.StateDomain;
 import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
-import co.edu.uco.nose.dto.IdTypeDTO;
 import co.edu.uco.nose.dto.StateDTO;
 
 import java.util.List;
 
 
-public final class StateDTOAsembler implements DTOAssembler <StateDTO, StateDomain> {
+public final class StateDTOAssembler implements DTOAssembler <StateDTO, StateDomain> {
 
     private static final DTOAssembler <StateDTO, StateDomain> instance =
-            new StateDTOAsembler();
+            new StateDTOAssembler();
 
-    private StateDTOAsembler() {
+    private StateDTOAssembler() {
 
     }
 

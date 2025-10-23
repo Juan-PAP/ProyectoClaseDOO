@@ -1,4 +1,4 @@
-package co.edu.uco.nose.data.dao.entity.sqlserver;
+package co.edu.uco.nose.data.dao.entity.postgresql;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,9 +15,9 @@ import co.edu.uco.nose.entity.CityEntity;
 import co.edu.uco.nose.entity.CountryEntity;
 import co.edu.uco.nose.entity.StateEntity;
 
-public final class CitySqlServerDAO extends SqlConnection implements CityDAO {
+public final class CityPostgresqlDAO extends SqlConnection implements CityDAO {
 
-	public CitySqlServerDAO(final Connection connection) {
+	public CityPostgresqlDAO(final Connection connection) {
 		super(connection);
 	}
 
