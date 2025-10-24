@@ -3,251 +3,160 @@ package co.edu.uco.nose.business.business.impl;
 import co.edu.uco.nose.business.assembler.entity.impl.UserEntityAssembler;
 import co.edu.uco.nose.business.business.UserBusiness;
 import co.edu.uco.nose.business.domain.UserDomain;
+import co.edu.uco.nose.crosscuting.exception.NoseException;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 import co.edu.uco.nose.data.dao.factory.DAOFactory;
+import co.edu.uco.nose.entity.IdTypeEntity;
 import co.edu.uco.nose.entity.UserEntity;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 public final class UserBusinessImpl implements UserBusiness {
 
     private DAOFactory daoFactory;
 
+
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(
+            "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
+    );
+
     public UserBusinessImpl (final DAOFactory daoFactory) {
+        if (daoFactory == null) {
+            throw NoseException.create("El DAOFactory no puede ser nulo.");
+        }
         this.daoFactory = daoFactory;
     }
 
     @Override
     public void registerNewUserInformation(UserDomain userDomain) {
 
-        package co.edu.uco.pizzaporcion.businesslogic.businesslogic.impl.customer.impl;
+        validateDomainRules(userDomain);
 
-import co.edu.uco.pizzaporcion.businesslogic.businesslogic.assembler.customer.entity.CustomerEntityAssembler;
-import co.edu.uco.pizzaporcion.businesslogic.businesslogic.domain.CustomerDomain;
-import co.edu.uco.pizzaporcion.businesslogic.businesslogic.impl.customer.CustomerBusinessLogic;
-import co.edu.uco.pizzaporcion.crosscutting.exceptions.BusinessLogicPizzaPorcionException;
-import co.edu.uco.pizzaporcion.crosscutting.exceptions.PizzaPorcionException;
-import co.edu.uco.pizzaporcion.crosscutting.utils.UtilText;
-import co.edu.uco.pizzaporcion.crosscutting.utils.UtilUUID;
-import co.edu.uco.pizzaporcion.data.dao.factory.DAOFactory;
-import co.edu.uco.pizzaporcion.entity.CustomerEntity;
+        validateIdentificationDoesNotExist(
+                userDomain.getIdType().getId(),
+                userDomain.getIdNumber()
+        );
+        //Validar que no exista por email
+        validateEmailDoesNotExist(userDomain.getEmail());
 
-import java.util.List;
-import java.util.UUID;
+        //Validar que no exista por número de teléfono
+        validateMobileNumberDoesNotExist(userDomain.getMobileNumber());
 
-        public class CustomerBusinessLogicImpl implements CustomerBusinessLogic {
+        // Generar el nuevo identificador único
+        final UUID newUserId = generateNewUniqueUserId();
 
-            private DAOFactory factory;
-
-            public CustomerBusinessLogicImpl(DAOFactory factory) {
-                this.factory = factory;
-            }
-
-            @Override
-            public void registerNewCustomer(CustomerDomain customer) throws PizzaPorcionException {
-                validateIntegrityInformationToRegisterNewCustomer(customer);
-                validateCustomerWithSameIdentificationNumberDoesNotExist(customer.getIdentificationNumber());
-                validateCustomerWithSamePhoneNumberDoesNotExist(customer.getPhoneNumber());
-
-                var id = generateIdNewCustomer();
-
-                var customerDomainToCreate = new CustomerDomain(
-                        id,
-                        customer.getIdentificationNumber(),
-                        customer.getName(),
-                        customer.getLastname(),
-                        customer.getPhoneNumber()
-                );
-                CustomerEntity customerEntity = CustomerEntityAssembler.getInstance().toEntity(customerDomainToCreate);
-                factory.getCustomerDAO().create(customerEntity);
-            }
-
-            private void validateIntegrityInformationToRegisterNewCustomer(CustomerDomain customer) throws PizzaPorcionException {
-                validateIntegrityCustomerIdentificationNumber(customer.getIdentificationNumber());
-                validateIntegrityCustomerName(customer.getName());
-                validateIntegrityCustomerLastName(customer.getLastname());
-                validateIntegrityCustomerPhoneNumber(customer.getPhoneNumber());
-            }
-
-            private void validateIntegrityCustomerName(String name) throws PizzaPorcionException {
-                var cleanName = UtilText.getInstance().removeWhiteSpacesStartEnd(name);
-
-                if (UtilText.getInstance().isEmpty(name)) {
-                    throw BusinessLogicPizzaPorcionException.report("El nombre no puede estar vacío.");
-                }
-
-                if (cleanName.length() < 3) {
-                    throw BusinessLogicPizzaPorcionException.report("El nombre debe tener al menos 3 caracteres.");
-                }
-
-                if (cleanName.length() > 15) {
-                    throw BusinessLogicPizzaPorcionException.report("El nombre no puede tener más de 15 caracteres.");
-                }
-
-                if (!UtilText.getInstance().containsOnlyLettersSpaces(name)) {
-                    throw BusinessLogicPizzaPorcionException.report("El nombre solo puede contener letras y espacios.");
-                }
-            }
-
-            private void validateIntegrityCustomerLastName(String lastName) throws PizzaPorcionException {
-                var cleanLastName = UtilText.getInstance().removeWhiteSpacesStartEnd(lastName);
-
-                if (UtilText.getInstance().isEmpty(lastName)) {
-                    throw BusinessLogicPizzaPorcionException.report("El apellido no puede estar vacío.");
-                }
-
-                if (cleanLastName.length() < 3) {
-                    throw BusinessLogicPizzaPorcionException.report("El apellido debe tener al menos 3 caracteres.");
-                }
-
-                if (cleanLastName.length() > 30) {
-                    throw BusinessLogicPizzaPorcionException.report("El apellido no puede tener más de 30 caracteres.");
-                }
-
-                if (!UtilText.getInstance().containsOnlyLettersSpaces(lastName)) {
-                    throw BusinessLogicPizzaPorcionException.report("El apellido solo puede contener letras y espacios.");
-                }
-            }
-
-            private void validateIntegrityCustomerIdentificationNumber(String identificationNumber) throws PizzaPorcionException {
-                var cleanId = UtilText.getInstance().removeWhiteSpacesStartEnd(identificationNumber);
-
-                if (UtilText.getInstance().isEmpty(identificationNumber)) {
-                    throw BusinessLogicPizzaPorcionException.report("El número de identificación no puede estar vacío.");
-                }
-
-                if (cleanId.length() < 6) {
-                    throw BusinessLogicPizzaPorcionException.report("El número de identificación debe tener al menos 6 caracteres.");
-                }
-
-                if (cleanId.length() > 15) {
-                    throw BusinessLogicPizzaPorcionException.report("El número de identificación no puede tener más de 15 caracteres.");
-                }
-
-                if (!UtilText.getInstance().containsOnlyNumbers(identificationNumber)) {
-                    throw BusinessLogicPizzaPorcionException.report("El número de identificación solo puede contener números.");
-                }
-            }
-
-            private void validateIntegrityCustomerPhoneNumber(String phoneNumber) throws PizzaPorcionException {
-                var cleanPhone = UtilText.getInstance().removeWhiteSpacesStartEnd(phoneNumber);
-
-                if (UtilText.getInstance().isEmpty(phoneNumber)) {
-                    throw BusinessLogicPizzaPorcionException.report("El número de teléfono no puede estar vacío.");
-                }
-
-                if (cleanPhone.length() < 10) {
-                    throw BusinessLogicPizzaPorcionException.report("El número de teléfono debe tener al menos 10 caracteres.");
-                }
-
-                if (cleanPhone.length() > 15) {
-                    throw BusinessLogicPizzaPorcionException.report("El número de teléfono no puede tener más de 15 caracteres.");
-                }
-
-                if (!UtilText.getInstance().containsOnlyNumbers(phoneNumber)) {
-                    throw BusinessLogicPizzaPorcionException.report("El número de teléfono solo puede contener números.");
-                }
-            }
-
-            private void validateCustomerWithSameIdentificationNumberDoesNotExist(String identificationNumber) throws PizzaPorcionException {
-                var filter = new CustomerEntity();
-                filter.setIdentificationNumber(identificationNumber);
-
-                var resultsList = factory.getCustomerDAO().listByFilter(filter);
-
-                if (!resultsList.isEmpty()) {
-                    throw BusinessLogicPizzaPorcionException.report("Ya existe un cliente con el número de identificación: " + identificationNumber);
-                }
-            }
-
-            private void validateCustomerWithSamePhoneNumberDoesNotExist(String phoneNumber) throws PizzaPorcionException {
-                var filter = new CustomerEntity();
-                filter.setPhoneNumber(phoneNumber);
-
-                var resultsList = factory.getCustomerDAO().listByFilter(filter);
-
-                if (!resultsList.isEmpty()) {
-                    throw BusinessLogicPizzaPorcionException.report("Ya existe un cliente con el número de télefono: " + phoneNumber);
-                }
-            }
-
-            private UUID generateIdNewCustomer() throws PizzaPorcionException {
-                UUID newId;
-                boolean existId;
-
-                do {
-                    newId = UtilUUID.generateNewUUID();
-                    var customer = factory.getCustomerDAO().listById(newId);
-                    existId = !UtilUUID.isDefaultValue(customer.getId());
-                } while (existId);
-
-                return newId;
-            }
-
-            @Override
-            public void updateExistingCustomer(UUID id, CustomerDomain customer) throws PizzaPorcionException {
-                validateIntegrityInformationToUpdateCustomer(customer);
-                validateCustomerWithSamePhoneNumberDoesNotExist(customer.getPhoneNumber());
-
-                var customerEntity = CustomerEntityAssembler.getInstance().toEntity(customer);
-                factory.getCustomerDAO().update(id, customerEntity);
-            }
-
-            private void validateIntegrityInformationToUpdateCustomer(CustomerDomain customer) throws PizzaPorcionException {
-                validateIntegrityCustomerName(customer.getName());
-                validateIntegrityCustomerLastName(customer.getLastname());
-                validateIntegrityCustomerPhoneNumber(customer.getPhoneNumber());
-            }
-
-            @Override
-            public CustomerDomain getCustomerById(UUID id) throws PizzaPorcionException {
-                var customerEntity = factory.getCustomerDAO().listById(id);
-                return CustomerEntityAssembler.getInstance().toDomain(customerEntity);
-            }
-
-            @Override
-            public List<CustomerDomain> getCustomerByFilter(CustomerDomain customer) throws PizzaPorcionException {
-                CustomerEntity filter = new CustomerEntity();
-                filter = CustomerEntityAssembler.getInstance().toEntity(customer);
-
-                var resultsList = factory.getCustomerDAO().listByFilter(filter);
-
-                if (resultsList.isEmpty()) {
-                    return null;
-                }
-
-                return CustomerEntityAssembler.getInstance().toDomain(resultsList);
-            }
-
-            @Override
-            public List<CustomerDomain> getCustomers() throws PizzaPorcionException {
-                var customersEntities = factory.getCustomerDAO().listAll();
-                return CustomerEntityAssembler.getInstance().toDomain(customersEntities);
-            }
-        }
-
-        //1. Validar que la información sea consistente a nivel de Tipo de Dato,
-        //longitud, obligatoriedad, formato, rango, reglas propias del objeto
-
-        //2. Validar que no exista previamente otro usuario con el mismo tipo y número
-        // de identificación
-
-        //3. Validar que no exista previamente otro usuario con el mismo correo electronico
-
-        //4. Validar que no exista previamente otro usuario con el mismo número de telefono celular
-
-        //5. Generar el nuevo identificador unico para el usuario, asegurando que no exista
-
-        var id = UUIDHelper.getUUIDHelper().generateNewUUID();
+        //Preparar y registrar
         var userEntity = UserEntityAssembler.getUserEntityAssembler().toEntity(userDomain);
-
-        userEntity.setId(id);
-
-        //6. Registrar la información del nuevo usuario
+        userEntity.setId(newUserId);
+        userEntity.setEmailConfirmed(false);
+        userEntity.setMobileNumberConfirmed(false);
 
         daoFactory.getUserDAO().create(userEntity);
+    }
+    /**
+     * Regla 1: Valida la consistencia interna del objeto UserDomain.
+     */
+    private void validateDomainRules(final UserDomain user) {
+        if (user == null) {
+            throw NoseException.create("La información del usuario es obligatoria.");
+        }
+        if (user.getIdType() == null) {
+            throw NoseException.create("El tipo de identificación es obligatorio.");
+        }
 
+        if (user.getIdNumber() == null || user.getIdNumber().trim().isEmpty() || user.getIdNumber().length() > 25) {
+            throw NoseException.create("El número de identificación no es válido (obligatorio, máx 25 caracteres).");
+        }
+
+        if (user.getFirstName() == null || user.getFirstName().trim().isEmpty() || user.getFirstName().length() > 20) {
+            throw NoseException.create("El primer nombre no es válido (obligatorio, máx 20 caracteres).");
+        }
+
+        if (user.getFirstSurname() == null || user.getFirstSurname().trim().isEmpty() || user.getFirstSurname().length() > 20) {
+            throw NoseException.create("El primer apellido no es válido (obligatorio, máx 20 caracteres).");
+        }
+
+        if (user.getSecondName() == null || user.getSecondName().length() > 20) {
+            throw NoseException.create("El segundo nombre no es válido (obligatorio, máx 20 caracteres).");
+        }
+
+        if (user.getSecondSurname() == null || user.getSecondSurname().length() > 20) {
+            throw NoseException.create("El segundo apellido no es válido (obligatorio, máx 20 caracteres).");
+        }
+
+        if (user.getHomeCity() == null) {
+            throw NoseException.create("La ciudad de residencia es obligatoria.");
+        }
+
+        if (user.getEmail() == null || !EMAIL_PATTERN.matcher(user.getEmail()).matches() || user.getEmail().length() > 250) {
+            throw NoseException.create("El correo electrónico no es válido (obligatorio, formato válido, máx 250 caracteres).");
+        }
+
+        if (user.getMobileNumber() == null || user.getMobileNumber().trim().isEmpty() || user.getMobileNumber().length() > 20) {
+            throw NoseException.create("El número de teléfono móvil no es válido (obligatorio, máx 20 caracteres).");
+        }
+    }
+    /**
+     * Regla 2: Valida que la identificación no exista.
+     */
+    private void validateIdentificationDoesNotExist(final UUID typeId, final String number) {
+
+        IdTypeEntity idTypeFilter = IdTypeEntity.createDefault();
+        idTypeFilter.setId(typeId);
+
+        UserEntity filter = new UserEntity();
+        filter.setIdType(idTypeFilter);
+        filter.setIdNumber(number);
+
+        List<UserEntity> results = daoFactory.getUserDAO().findByFilter(filter);
+
+        if (!results.isEmpty()) {
+            throw NoseException.create("Ya existe un usuario con la misma identificación.");
+        }
+    }
+    /**
+     * Regla 3: Valida que el email no exista.
+     */
+    private void validateEmailDoesNotExist(final String email) {
+        UserEntity filter = new UserEntity();
+        filter.setEmail(email);
+
+        List<UserEntity> results = daoFactory.getUserDAO().findByFilter(filter);
+
+        if (!results.isEmpty()) {
+            throw NoseException.create("Ya existe un usuario con el mismo correo electrónico.");
+        }
+    }
+    /**
+     * Regla 4: Valida que el número de telefono móvil no exista.
+     */
+    private void validateMobileNumberDoesNotExist(final String mobileNumber) {
+        UserEntity filter = new UserEntity();
+        filter.setMobileNumber(mobileNumber);
+
+        List<UserEntity> results = daoFactory.getUserDAO().findByFilter(filter);
+
+        if (!results.isEmpty()) {
+            throw NoseException.create("Ya existe un usuario con el mismo número de teléfono móvil.");
+        }
+    }
+    /**
+     * Regla 5: Genera un UUID y verifica su unicidad.
+     */
+    private UUID generateNewUniqueUserId() {
+        UUID newId;
+        boolean exists;
+
+        do {
+            newId = UUIDHelper.getUUIDHelper().generateNewUUID();
+            UserEntity filter = new UserEntity();
+            filter.setId(newId);
+            exists = !daoFactory.getUserDAO().findByFilter(filter).isEmpty();
+        } while (exists);
+
+        return newId;
     }
 
     @Override

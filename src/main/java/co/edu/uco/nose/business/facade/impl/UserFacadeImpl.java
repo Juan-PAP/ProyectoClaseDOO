@@ -34,8 +34,9 @@ public final class UserFacadeImpl implements UserFacade {
         } catch (final Exception exception) {
             daoFactory.rollbackTransaction();
 
-            var userMessage = "";
-            var technicalMessage = "";
+            var userMessage = "Error al registrar la información del nuevo usuario. Por favor contacte al administrador del sistema.";
+            var technicalMessage = "Se ha presentado un error inesperado al registrar la información del nuevo usuario" +
+                    ". Por favor revise la traza completa del error para mayor detalle: " + exception.getMessage();;
 
             throw NoseException.create(exception, userMessage, technicalMessage);
 

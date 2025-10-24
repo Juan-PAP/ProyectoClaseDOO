@@ -9,23 +9,23 @@ import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 public final class CityDomain extends Domain{
 	
 	private String name;
-	private StateDomain department;
+	private StateDomain state;
 	
 	public CityDomain() {
 		super(UUIDHelper.getUUIDHelper().getDefault());
-		setDepartment(StateDomain.createDefault());
+		setState(StateDomain.createDefault());
 		setName(TextHelper.getDefault());
 	}
 	
 	public CityDomain(final UUID id) {
 		super(id);
-		setDepartment(StateDomain.createDefault());
+		setState(StateDomain.createDefault());
 		setName(TextHelper.getDefault());
 	}
 	
 	public CityDomain(final UUID id, final StateDomain department, final String name) {
 		super(id);
-		setDepartment(department);
+		setState(department);
 		setName(name);
 	}
 
@@ -37,12 +37,12 @@ public final class CityDomain extends Domain{
 		this.name = TextHelper.getDefaultWithTrim(name);
 	}
 
-	public StateDomain getDepartment() {
-		return department;
+	public StateDomain getState() {
+		return state;
 	}
 
-	public void setDepartment(StateDomain department) {
-		this.department = ObjectHelper.getDefault(department, StateDomain.createDefault());
+	public void setState(StateDomain state) {
+		this.state = ObjectHelper.getDefault(state, StateDomain.createDefault());
 	}
 	
 	public static CityDomain createDefault() {

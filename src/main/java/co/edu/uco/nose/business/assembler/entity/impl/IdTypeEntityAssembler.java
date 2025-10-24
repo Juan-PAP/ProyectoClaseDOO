@@ -2,30 +2,33 @@ package co.edu.uco.nose.business.assembler.entity.impl;
 
 import co.edu.uco.nose.business.assembler.entity.EntityAssembler;
 import co.edu.uco.nose.business.domain.IdTypeDomain;
+import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.entity.IdTypeEntity;
 
 import java.util.List;
 
 public final class IdTypeEntityAssembler implements EntityAssembler<IdTypeEntity, IdTypeDomain> {
 
-    private static final EntityAssembler<IdTypeEntity, IdTypeDomain> instance =
-            new IdTypeEntityAssembler();
+    private static final EntityAssembler<IdTypeEntity, IdTypeDomain> instance = new IdTypeEntityAssembler();
 
     private IdTypeEntityAssembler() {
-
+        super();
     }
 
     public static EntityAssembler<IdTypeEntity, IdTypeDomain> getIdTypeEntityAssembler() {
         return instance;
     }
+
     @Override
     public IdTypeEntity toEntity(final IdTypeDomain domain) {
-        return null;
+        var domainTmp = ObjectHelper.getDefault(domain, new IdTypeDomain());
+        return new IdTypeEntity(domainTmp.getId(), domainTmp.getName());
     }
 
     @Override
     public IdTypeDomain toDomain(final IdTypeEntity entity) {
-        return null;
+        var entityTmp = ObjectHelper.getDefault(entity, new IdTypeEntity());
+        return new IdTypeDomain(entityTmp.getId(), entityTmp.getName());
     }
 
     @Override
