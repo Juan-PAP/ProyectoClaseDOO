@@ -21,14 +21,18 @@ public final class CountryFacadeImpl implements CountryFacade {
 
         try {
 
+            daoFactory.initTransaction();
+
             List<CountryDomain> domainList = business.findAllCountries();
 
             return CountryDTOAssembler.getCountryDTOAssembler().toDTO(domainList);
 
         } catch (final NoseException exception) {
+            daoFactory.rollbackTransaction();
             throw exception;
 
         } catch (final Exception exception) {
+            daoFactory.rollbackTransaction();
             var userMessage = "Error al consultar la información de los países.";
             var technicalMessage = "Se ha presentado un error inesperado al consultar los países: " + exception.getMessage();
             throw NoseException.create(exception, userMessage, technicalMessage);
@@ -46,6 +50,8 @@ public final class CountryFacadeImpl implements CountryFacade {
 
         try {
 
+            daoFactory.initTransaction();
+
             var filterDomain = CountryDTOAssembler.getCountryDTOAssembler().toDomain(countryFilters);
 
             List<CountryDomain> domainList = business.findCountriesByFilter(filterDomain);
@@ -53,9 +59,11 @@ public final class CountryFacadeImpl implements CountryFacade {
             return CountryDTOAssembler.getCountryDTOAssembler().toDTO(domainList);
 
         } catch (final NoseException exception) {
+            daoFactory.rollbackTransaction();
             throw exception;
 
         } catch (final Exception exception) {
+            daoFactory.rollbackTransaction();
             var userMessage = "Error al consultar la información de los países con los filtros suministrados.";
             var technicalMessage = "Se ha presentado un error inesperado al consultar los países con los filtros suministrados: " + exception.getMessage();
             throw NoseException.create(exception, userMessage, technicalMessage);
@@ -73,14 +81,18 @@ public final class CountryFacadeImpl implements CountryFacade {
 
         try {
 
+            daoFactory.initTransaction();
+
             CountryDomain domain = business.findSpecificCountry(id);
 
             return CountryDTOAssembler.getCountryDTOAssembler().toDTO(domain);
 
         } catch (final NoseException exception) {
+            daoFactory.rollbackTransaction();
             throw exception;
 
         } catch (final Exception exception) {
+            daoFactory.rollbackTransaction();
             var userMessage = "Error al consultar la información del país solicitado.";
             var technicalMessage = "Se ha presentado un error inesperado al consultar el país solicitado: " + exception.getMessage();
             throw NoseException.create(exception, userMessage, technicalMessage);

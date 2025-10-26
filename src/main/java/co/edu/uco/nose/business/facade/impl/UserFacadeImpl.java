@@ -8,7 +8,6 @@ import co.edu.uco.nose.crosscuting.exception.NoseException;
 import co.edu.uco.nose.data.dao.factory.DAOFactory;
 import co.edu.uco.nose.dto.UserDTO;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -122,14 +121,18 @@ public final class UserFacadeImpl implements UserFacade {
 
         try {
 
+            daoFactory.initTransaction();
+
             List<UserDomain> domainList = business.findAllUsers();
 
             return UserDTOAssembler.getUserDTOAssembler().toDTO(domainList);
 
         } catch (final NoseException exception) {
+            daoFactory.rollbackTransaction();
             throw exception;
 
         } catch (final Exception exception) {
+            daoFactory.rollbackTransaction();
             var userMessage = "Error al consultar la información de los usuarios. Por favor contacte al administrador del sistema.";
             var technicalMessage = "Se ha presentado un error inesperado al consultar la información de los usuarios" +
                     ". Por favor revise la traza completa del error para mayor detalle: " + exception.getMessage();;
@@ -149,6 +152,8 @@ public final class UserFacadeImpl implements UserFacade {
 
         try {
 
+            daoFactory.initTransaction();
+
             var domainFilter = UserDTOAssembler.getUserDTOAssembler().toDomain(userDTO);
 
             List<UserDomain> domainList = business.findUsersByFilter(domainFilter);
@@ -156,9 +161,11 @@ public final class UserFacadeImpl implements UserFacade {
             return UserDTOAssembler.getUserDTOAssembler().toDTO(domainList);
 
         } catch (final NoseException exception) {
+            daoFactory.rollbackTransaction();
             throw exception;
 
         } catch (final Exception exception) {
+            daoFactory.rollbackTransaction();
             var userMessage = "Error al consultar la información de los usuarios por filtro. Por favor contacte al administrador del sistema.";
             var technicalMessage = "Se ha presentado un error inesperado al consultar la información de los usuarios por filtro" +
                     ". Por favor revise la traza completa del error para mayor detalle: " + exception.getMessage();;
@@ -177,14 +184,19 @@ public final class UserFacadeImpl implements UserFacade {
         var business = new UserBusinessImpl(daoFactory);
 
         try {
+
+            daoFactory.initTransaction();
+
             var domain = business.findSpecificUser(id);
 
             return UserDTOAssembler.getUserDTOAssembler().toDTO(domain);
 
         } catch (final NoseException exception) {
+            daoFactory.rollbackTransaction();
             throw exception;
 
         } catch (final Exception exception) {
+            daoFactory.rollbackTransaction();
             var userMessage = "Error al consultar la información del usuario. Por favor contacte al administrador del sistema.";
             var technicalMessage = "Se ha presentado un error inesperado al consultar la información del usuario" +
                     ". Por favor revise la traza completa del error para mayor detalle: " + exception.getMessage();;

@@ -21,15 +21,18 @@ public final class CityFacadeImpl implements CityFacade {
 
         try {
 
+            daoFactory.initTransaction();
+
             List<CityDomain> domainList = business.findAllCities();
 
             return CityDTOAssembler.getCityDTOAssembler().toDTO(domainList);
 
         } catch (NoseException exception) {
+            daoFactory.rollbackTransaction();
             throw exception;
 
         } catch (final Exception exception) {
-            // Corrección:
+            daoFactory.rollbackTransaction();
             var userMessage = "Error al consultar la información de las ciudades.";
             var technicalMessage = "Se ha presentado un error inesperado al consultar las ciudades: "
                     + exception.getMessage();
@@ -48,6 +51,8 @@ public final class CityFacadeImpl implements CityFacade {
 
         try {
 
+            daoFactory.initTransaction();
+
             var filterDomain = CityDTOAssembler.getCityDTOAssembler().toDomain(cityFilters);
 
             List<CityDomain> domainList = business.findCitiesByFilter(filterDomain);
@@ -55,9 +60,11 @@ public final class CityFacadeImpl implements CityFacade {
             return CityDTOAssembler.getCityDTOAssembler().toDTO(domainList);
 
         } catch (NoseException exception) {
+            daoFactory.rollbackTransaction();
             throw exception;
 
         } catch (final Exception exception) {
+            daoFactory.rollbackTransaction();
             var userMessage = "Error al consultar la información de las ciudades con los filtros suministrados.";
             var technicalMessage = "Se ha presentado un error inesperado al consultar las ciudades con los filtros suministrados: "
                     + exception.getMessage();
@@ -77,14 +84,18 @@ public final class CityFacadeImpl implements CityFacade {
 
         try {
 
+            daoFactory.initTransaction();
+
             CityDomain domain = business.findSpecificCity(id);
 
             return CityDTOAssembler.getCityDTOAssembler().toDTO(domain);
 
         } catch (NoseException exception) {
+            daoFactory.rollbackTransaction();
             throw exception;
 
         } catch (final Exception exception) {
+            daoFactory.rollbackTransaction();
             var userMessage = "Error al consultar la información de la ciudad específica.";
             var technicalMessage = "Se ha presentado un error inesperado al consultar de la ciudad específica: " + exception.getMessage();
             throw NoseException.create(exception, userMessage, technicalMessage);

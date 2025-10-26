@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -45,8 +43,6 @@ public class UserController {
             responseStatusCode = HttpStatus.BAD_REQUEST;
             exception.printStackTrace();
 
-
-
         } catch (final Exception exception) {
             var userMessage = "Unexpected error";
             responseObjectData = Response.createFailedResponse();
@@ -58,8 +54,31 @@ public class UserController {
     }
 
     @PostMapping
-    public String registerNewUserInformation(@RequestBody UserDTO user){
-        return "POST: New user registered!";
+    public ResponseEntity<Response<UserDTO>> registerNewUserInformation(@RequestBody UserDTO user) {
+
+        Response<UserDTO> responseObjectData = Response.createSuccededResponse();
+        HttpStatusCode responseStatusCode = HttpStatus.CREATED;
+
+        try {
+            var facade = new UserFacadeImpl();
+
+            facade.registerNewUserInformation(user);
+            responseObjectData.addMessage("New user registered successfully");
+
+        } catch (final NoseException exception) {
+            responseObjectData = Response.createFailedResponse();
+            responseObjectData.addMessage(exception.getUserMessage());
+            responseStatusCode = HttpStatus.BAD_REQUEST;
+            exception.printStackTrace();
+
+        } catch (final Exception exception) {
+            var userMessage = "Unexpected error";
+            responseObjectData = Response.createFailedResponse();
+            responseObjectData.addMessage(userMessage);
+            responseStatusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+            exception.printStackTrace();
+        }
+        return new ResponseEntity<>(responseObjectData, responseStatusCode);
     }
 
     @PutMapping("/{id}")

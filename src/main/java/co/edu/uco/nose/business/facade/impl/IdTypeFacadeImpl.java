@@ -21,14 +21,18 @@ public final class IdTypeFacadeImpl implements IdTypeFacade {
 
         try {
 
+            daoFactory.initTransaction();
+
             List<IdTypeDomain> domainList = business.findAllIdTypes();
 
             return IdTypeDTOAssembler.getIdTypeDTOAssembler().toDTO(domainList);
 
         } catch (final NoseException exception) {
+            daoFactory.rollbackTransaction();
             throw exception;
 
         } catch (final Exception exception) {
+            daoFactory.rollbackTransaction();
             var userMessage = "Error al consultar la información de los tipos de identificación.";
             var technicalMessage = "Se ha presentado un error inesperado al consultar los tipos de identificación: " + exception.getMessage();
             throw NoseException.create(exception, userMessage, technicalMessage);
@@ -46,6 +50,8 @@ public final class IdTypeFacadeImpl implements IdTypeFacade {
 
         try {
 
+            daoFactory.initTransaction();
+
             var filterDomain = IdTypeDTOAssembler.getIdTypeDTOAssembler().toDomain(idTypeFilters);
 
             List<IdTypeDomain> domainList = business.findIdTypesByFilter(filterDomain);
@@ -53,9 +59,11 @@ public final class IdTypeFacadeImpl implements IdTypeFacade {
             return IdTypeDTOAssembler.getIdTypeDTOAssembler().toDTO(domainList);
 
         } catch (final NoseException exception) {
+            daoFactory.rollbackTransaction();
             throw exception;
 
         } catch (final Exception exception) {
+            daoFactory.rollbackTransaction();
             var userMessage = "Error al consultar la información de los tipos de identificación con los filtros suministrados.";
             var technicalMessage = "Se ha presentado un error inesperado al consultar los tipos de identificación con los filtros suministrados: " + exception.getMessage();
             throw NoseException.create(exception, userMessage, technicalMessage);
@@ -73,14 +81,18 @@ public final class IdTypeFacadeImpl implements IdTypeFacade {
 
         try {
 
+            daoFactory.initTransaction();
+
             IdTypeDomain domain = business.findSpecificIdType(id);
 
             return IdTypeDTOAssembler.getIdTypeDTOAssembler().toDTO(domain);
 
         } catch (final NoseException exception) {
+            daoFactory.rollbackTransaction();
             throw exception;
 
         } catch (final Exception exception) {
+            daoFactory.rollbackTransaction();
             var userMessage = "Error al consultar la información del tipo de identificación específico.";
             var technicalMessage = "Se ha presentado un error inesperado al consultar el tipo de identificación específico: " + exception.getMessage();
             throw NoseException.create(exception, userMessage, technicalMessage);
