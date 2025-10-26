@@ -5,6 +5,7 @@ import co.edu.uco.nose.business.domain.IdTypeDomain;
 import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.entity.IdTypeEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class IdTypeEntityAssembler implements EntityAssembler<IdTypeEntity, IdTypeDomain> {
@@ -32,7 +33,14 @@ public final class IdTypeEntityAssembler implements EntityAssembler<IdTypeEntity
     }
 
     @Override
-    public List<IdTypeEntity> toDTO(List<IdTypeDomain> domainList) {
-        return List.of();
+    public List<IdTypeEntity> toEntity(List<IdTypeDomain> domainList) {
+        var domainListTmp = ObjectHelper.getDefault(domainList, new ArrayList<IdTypeDomain>());
+        var entityList = new ArrayList<IdTypeEntity>();
+
+        for (var domain : domainListTmp) {
+            entityList.add(toEntity(domain));
+        }
+
+        return entityList;
     }
 }

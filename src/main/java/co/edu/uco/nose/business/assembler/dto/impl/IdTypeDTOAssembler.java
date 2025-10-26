@@ -6,6 +6,7 @@ import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 import co.edu.uco.nose.dto.IdTypeDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class IdTypeDTOAssembler implements DTOAssembler <IdTypeDTO, IdTypeDomain> {
@@ -20,6 +21,7 @@ public final class IdTypeDTOAssembler implements DTOAssembler <IdTypeDTO, IdType
     public static DTOAssembler <IdTypeDTO, IdTypeDomain> getIdTypeDTOAssembler() {
         return instance;
     }
+
     @Override
     public IdTypeDTO toDTO(final IdTypeDomain domain) {
         var domainTmp = ObjectHelper.getDefault(domain, new IdTypeDomain(UUIDHelper.getUUIDHelper().getDefault()));
@@ -34,6 +36,14 @@ public final class IdTypeDTOAssembler implements DTOAssembler <IdTypeDTO, IdType
 
     @Override
     public List<IdTypeDTO> toDTO(List<IdTypeDomain> domainList) {
-        return List.of();
+
+        var domainListTmp = ObjectHelper.getDefault(domainList, new ArrayList<IdTypeDomain>());
+        var dtoList = new ArrayList<IdTypeDTO>();
+
+        for (var domain : domainListTmp) {
+            dtoList.add(toDTO(domain));
+        }
+
+        return dtoList;
     }
 }

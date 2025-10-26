@@ -6,6 +6,7 @@ import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 import co.edu.uco.nose.entity.CountryEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class CountryEntityAssembler implements EntityAssembler<CountryEntity, CountryDomain> {
@@ -33,7 +34,14 @@ public final class CountryEntityAssembler implements EntityAssembler<CountryEnti
     }
 
     @Override
-    public List<CountryEntity> toDTO(List<CountryDomain> domainList) {
-        return List.of();
+    public List<CountryEntity> toEntity(List<CountryDomain> domainList) {
+        var domainListTmp = ObjectHelper.getDefault(domainList, new ArrayList<CountryDomain>());
+        var entityList = new ArrayList<CountryEntity>();
+
+        for (var domain : domainListTmp) {
+            entityList.add(toEntity(domain));
+        }
+
+        return entityList;
     }
 }

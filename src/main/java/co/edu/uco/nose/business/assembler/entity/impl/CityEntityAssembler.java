@@ -4,6 +4,8 @@ import co.edu.uco.nose.business.assembler.entity.EntityAssembler;
 import co.edu.uco.nose.business.domain.CityDomain;
 import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.entity.CityEntity;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,7 +36,15 @@ public final class CityEntityAssembler implements EntityAssembler<CityEntity, Ci
     }
 
     @Override
-    public List<CityEntity> toDTO(List<CityDomain> domainList) {
-        return List.of();
+    public List<CityEntity> toEntity(List<CityDomain> domainList) {
+
+        var domainListTmp = ObjectHelper.getDefault(domainList, new ArrayList<CityDomain>());
+        var entityList = new ArrayList<CityEntity>();
+
+        for (var domain : domainListTmp) {
+            entityList.add(toEntity(domain));
+        }
+
+        return entityList;
     }
 }

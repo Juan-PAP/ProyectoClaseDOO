@@ -8,5 +8,5 @@ public interface EntityAssembler <E, D> {
 
     D toDomain(E entity);
 
-    List<E> toDTO(List<D> domainList);
+    List<E> toEntity(List<D> domainList);
 }
