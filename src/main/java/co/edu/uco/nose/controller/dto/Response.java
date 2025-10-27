@@ -1,18 +1,18 @@
 package co.edu.uco.nose.controller.dto;
 
-import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
-import co.edu.uco.nose.crosscuting.helper.TextHelper;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Response <T>{
+import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
+import co.edu.uco.nose.crosscuting.helper.TextHelper;
+
+public class Response<T> {
 
     private List<String> messages;
     private List<T> data;
     private boolean responseSucceded;
 
-    public Response (List<String> messages, List<T> data ,final boolean responseSucceded) {
+    public Response(final List<String> messages, final List<T> data, final boolean responseSucceded) {
         setMessages(messages);
         setData(data);
         setResponseSucceded(responseSucceded);
@@ -22,24 +22,17 @@ public final class Response <T>{
         return new Response<>(new ArrayList<String>(), new ArrayList<>(), true);
     }
 
-    public static <T> Response<T> createFailedResponse() {
-        return new Response<>(new ArrayList<String>(), new ArrayList<>(), false);
-    }
-
-    public static <T> Response<T> createSuccededResponse(List<T> data) {
-        return new Response<>(new ArrayList<String>(), data, true);
-    }
-
-    public static <T> Response<T> createFailedResponse(List<T> data) {
+    public static <T> Response<T> createFailedResponse(final List<T> data) {
         return new Response<>(new ArrayList<String>(), data, false);
     }
 
-    public Response (final boolean responseSucceded) {
-        setResponseSucceded(responseSucceded);
-        setMessages(new ArrayList<String>());
-        setData(new ArrayList<T>());
+    public static <T> Response<T> createSuccededResponse(final List<T> data) {
+        return new Response<>(new ArrayList<String>(), data, true);
     }
 
+    public static <T> Response<T> createFailedResponse() {
+        return new Response<>(new ArrayList<String>(), new ArrayList<>(), false);
+    }
 
     public List<String> getMessages() {
         return messages;
@@ -50,8 +43,7 @@ public final class Response <T>{
     }
 
     public void addMessage(final String message) {
-
-        if (!TextHelper.isEmptyWithTrim(message)){
+        if (!TextHelper.isEmptyWithTrim(message)) {
             getMessages().add(message);
         }
     }
@@ -60,7 +52,7 @@ public final class Response <T>{
         return data;
     }
 
-    public void setData(final List<T> data) {
+    public void setData(List<T> data) {
         this.data = ObjectHelper.getDefault(data, new ArrayList<T>());
     }
 
@@ -71,4 +63,5 @@ public final class Response <T>{
     public void setResponseSucceded(final boolean responseSucceded) {
         this.responseSucceded = responseSucceded;
     }
+
 }

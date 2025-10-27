@@ -1,6 +1,5 @@
 package co.edu.uco.nose.controller;
 
-import co.edu.uco.nose.business.facade.UserFacade;
 import co.edu.uco.nose.business.facade.impl.UserFacadeImpl;
 import co.edu.uco.nose.controller.dto.Response;
 import co.edu.uco.nose.crosscuting.exception.NoseException;
@@ -82,12 +81,60 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public String updateUserInformation(@PathVariable UUID id, @RequestBody UserDTO user) {
-        return "PUT: User information updated!";
+    public ResponseEntity<Response<UserDTO>> updateUserInformation(@PathVariable UUID id, @RequestBody UserDTO user) {
+
+        Response<UserDTO> responseObjectData = Response.createSuccededResponse();
+        HttpStatusCode responseStatusCode = HttpStatus.OK;
+
+        try {
+            var facade = new UserFacadeImpl();
+
+            facade.updateUserInformation(id, user);
+            responseObjectData.addMessage("User information updated successfully");
+
+        } catch (final NoseException exception) {
+            responseObjectData = Response.createFailedResponse();
+            responseObjectData.addMessage(exception.getUserMessage());
+            responseStatusCode = HttpStatus.BAD_REQUEST;
+            exception.printStackTrace();
+
+        } catch (final Exception exception) {
+            var userMessage = "Unexpected error";
+            responseObjectData = Response.createFailedResponse();
+            responseObjectData.addMessage(userMessage);
+            responseStatusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+            exception.printStackTrace();
+        }
+
+        return new ResponseEntity<>(responseObjectData, responseStatusCode);
     }
 
     @DeleteMapping("/{id}")
-    public String dropUserInformation(@PathVariable UUID id) {
-        return "DELETE: User information deleted!";
+    public ResponseEntity<Response<UserDTO>> dropUserInformation(@PathVariable UUID id) {
+
+        Response<UserDTO> responseObjectData = Response.createSuccededResponse();
+        HttpStatusCode responseStatusCode = HttpStatus.OK;
+
+        try {
+            var facade = new UserFacadeImpl();
+
+            facade.dropUserInformation(id);
+            responseObjectData.addMessage("User information deleted successfully");
+
+        } catch (final NoseException exception) {
+            responseObjectData = Response.createFailedResponse();
+            responseObjectData.addMessage(exception.getUserMessage());
+            responseStatusCode = HttpStatus.BAD_REQUEST;
+            exception.printStackTrace();
+
+        } catch (final Exception exception) {
+            var userMessage = "Unexpected error";
+            responseObjectData = Response.createFailedResponse();
+            responseObjectData.addMessage(userMessage);
+            responseStatusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+            exception.printStackTrace();
+        }
+
+        return new ResponseEntity<>(responseObjectData, responseStatusCode);
     }
 }
