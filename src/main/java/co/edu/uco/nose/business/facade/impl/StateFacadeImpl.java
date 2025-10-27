@@ -5,6 +5,7 @@ import co.edu.uco.nose.business.business.impl.StateBusinessImpl;
 import co.edu.uco.nose.business.domain.StateDomain;
 import co.edu.uco.nose.business.facade.StateFacade;
 import co.edu.uco.nose.crosscuting.exception.NoseException;
+import co.edu.uco.nose.crosscuting.messagescatalog.facade.MessagesEnumStateFacade;
 import co.edu.uco.nose.data.dao.factory.DAOFactory;
 import co.edu.uco.nose.dto.StateDTO;
 
@@ -33,8 +34,10 @@ public final class StateFacadeImpl implements StateFacade {
         }
         catch (final Exception exception) {
             daoFactory.rollbackTransaction();
-            var userMessage = "Error al consultar la información de los estados.";
-            var technicalMessage = "Se ha presentado un error inesperado al consultar los estados: " + exception.getMessage();
+
+            var userMessage = MessagesEnumStateFacade.FIND_ALL_STATES_UNEXPECTED_ERROR.getTitle();
+            var technicalMessage = MessagesEnumStateFacade.FIND_ALL_STATES_UNEXPECTED_ERROR.getContent()
+                    + exception.getMessage();
             throw NoseException.create(exception, userMessage, technicalMessage);
 
         } finally {
@@ -64,8 +67,10 @@ public final class StateFacadeImpl implements StateFacade {
         }
         catch (final Exception exception) {
             daoFactory.rollbackTransaction();
-            var userMessage = "Error al consultar la información de los estados con los filtros suministrados.";
-            var technicalMessage = "Se ha presentado un error inesperado al consultar los estados con los filtros suministrados: " + exception.getMessage();
+
+            var userMessage = MessagesEnumStateFacade.FIND_STATES_BY_FILTER_UNEXPECTED_ERROR.getTitle();
+            var technicalMessage = MessagesEnumStateFacade.FIND_STATES_BY_FILTER_UNEXPECTED_ERROR.getContent()
+                    + exception.getMessage();
             throw NoseException.create(exception, userMessage, technicalMessage);
 
         } finally {
@@ -93,8 +98,10 @@ public final class StateFacadeImpl implements StateFacade {
         }
         catch (final Exception exception) {
             daoFactory.rollbackTransaction();
-            var userMessage = "Error al consultar la información del estado específico.";
-            var technicalMessage = "Se ha presentado un error inesperado al consultar el estado específico: " + exception.getMessage();
+
+            var userMessage = MessagesEnumStateFacade.FIND_SPECIFIC_STATE_UNEXPECTED_ERROR.getTitle();
+            var technicalMessage = MessagesEnumStateFacade.FIND_SPECIFIC_STATE_UNEXPECTED_ERROR.getContent()
+                    + exception.getMessage();
             throw NoseException.create(exception, userMessage, technicalMessage);
 
         } finally {

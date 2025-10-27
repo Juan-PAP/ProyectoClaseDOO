@@ -5,6 +5,7 @@ import co.edu.uco.nose.business.business.impl.CountryBusinessImpl;
 import co.edu.uco.nose.business.domain.CountryDomain;
 import co.edu.uco.nose.business.facade.CountryFacade;
 import co.edu.uco.nose.crosscuting.exception.NoseException;
+import co.edu.uco.nose.crosscuting.messagescatalog.facade.MessagesEnumCountryFacade;
 import co.edu.uco.nose.data.dao.factory.DAOFactory;
 import co.edu.uco.nose.dto.CountryDTO;
 
@@ -33,8 +34,10 @@ public final class CountryFacadeImpl implements CountryFacade {
 
         } catch (final Exception exception) {
             daoFactory.rollbackTransaction();
-            var userMessage = "Error al consultar la información de los países.";
-            var technicalMessage = "Se ha presentado un error inesperado al consultar los países: " + exception.getMessage();
+
+            var userMessage = MessagesEnumCountryFacade.FIND_ALL_COUNTRIES_UNEXPECTED_ERROR.getTitle();
+            var technicalMessage = MessagesEnumCountryFacade.FIND_ALL_COUNTRIES_UNEXPECTED_ERROR.getContent()
+                    + exception.getMessage();
             throw NoseException.create(exception, userMessage, technicalMessage);
 
         } finally {
@@ -64,8 +67,10 @@ public final class CountryFacadeImpl implements CountryFacade {
 
         } catch (final Exception exception) {
             daoFactory.rollbackTransaction();
-            var userMessage = "Error al consultar la información de los países con los filtros suministrados.";
-            var technicalMessage = "Se ha presentado un error inesperado al consultar los países con los filtros suministrados: " + exception.getMessage();
+
+            var userMessage = MessagesEnumCountryFacade.FIND_COUNTRIES_BY_FILTER_UNEXPECTED_ERROR.getTitle();
+            var technicalMessage = MessagesEnumCountryFacade.FIND_COUNTRIES_BY_FILTER_UNEXPECTED_ERROR.getContent()
+                    + exception.getMessage();
             throw NoseException.create(exception, userMessage, technicalMessage);
 
         } finally {
@@ -93,8 +98,10 @@ public final class CountryFacadeImpl implements CountryFacade {
 
         } catch (final Exception exception) {
             daoFactory.rollbackTransaction();
-            var userMessage = "Error al consultar la información del país solicitado.";
-            var technicalMessage = "Se ha presentado un error inesperado al consultar el país solicitado: " + exception.getMessage();
+
+            var userMessage = MessagesEnumCountryFacade.FIND_SPECIFIC_COUNTRY_UNEXPECTED_ERROR.getTitle();
+            var technicalMessage = MessagesEnumCountryFacade.FIND_SPECIFIC_COUNTRY_UNEXPECTED_ERROR.getContent()
+                    + exception.getMessage();
             throw NoseException.create(exception, userMessage, technicalMessage);
 
         } finally {

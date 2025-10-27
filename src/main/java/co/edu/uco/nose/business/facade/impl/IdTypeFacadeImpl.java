@@ -5,6 +5,7 @@ import co.edu.uco.nose.business.business.impl.IdTypeBusinessImpl;
 import co.edu.uco.nose.business.domain.IdTypeDomain;
 import co.edu.uco.nose.business.facade.IdTypeFacade;
 import co.edu.uco.nose.crosscuting.exception.NoseException;
+import co.edu.uco.nose.crosscuting.messagescatalog.facade.MessagesEnumIdTypeFacade;
 import co.edu.uco.nose.data.dao.factory.DAOFactory;
 import co.edu.uco.nose.dto.IdTypeDTO;
 
@@ -33,8 +34,10 @@ public final class IdTypeFacadeImpl implements IdTypeFacade {
 
         } catch (final Exception exception) {
             daoFactory.rollbackTransaction();
-            var userMessage = "Error al consultar la información de los tipos de identificación.";
-            var technicalMessage = "Se ha presentado un error inesperado al consultar los tipos de identificación: " + exception.getMessage();
+
+            var userMessage = MessagesEnumIdTypeFacade.FIND_ALL_IDTYPES_UNEXPECTED_ERROR.getTitle();
+            var technicalMessage = MessagesEnumIdTypeFacade.FIND_ALL_IDTYPES_UNEXPECTED_ERROR.getContent()
+                    + exception.getMessage();
             throw NoseException.create(exception, userMessage, technicalMessage);
 
         } finally {
@@ -64,8 +67,10 @@ public final class IdTypeFacadeImpl implements IdTypeFacade {
 
         } catch (final Exception exception) {
             daoFactory.rollbackTransaction();
-            var userMessage = "Error al consultar la información de los tipos de identificación con los filtros suministrados.";
-            var technicalMessage = "Se ha presentado un error inesperado al consultar los tipos de identificación con los filtros suministrados: " + exception.getMessage();
+
+            var userMessage = MessagesEnumIdTypeFacade.FIND_IDTYPES_BY_FILTER_UNEXPECTED_ERROR.getTitle();
+            var technicalMessage = MessagesEnumIdTypeFacade.FIND_IDTYPES_BY_FILTER_UNEXPECTED_ERROR.getContent()
+                    + exception.getMessage();
             throw NoseException.create(exception, userMessage, technicalMessage);
 
         } finally {
@@ -93,8 +98,10 @@ public final class IdTypeFacadeImpl implements IdTypeFacade {
 
         } catch (final Exception exception) {
             daoFactory.rollbackTransaction();
-            var userMessage = "Error al consultar la información del tipo de identificación específico.";
-            var technicalMessage = "Se ha presentado un error inesperado al consultar el tipo de identificación específico: " + exception.getMessage();
+
+            var userMessage = MessagesEnumIdTypeFacade.FIND_SPECIFIC_IDTYPE_UNEXPECTED_ERROR.getTitle();
+            var technicalMessage = MessagesEnumIdTypeFacade.FIND_SPECIFIC_IDTYPE_UNEXPECTED_ERROR.getContent()
+                    + exception.getMessage();
             throw NoseException.create(exception, userMessage, technicalMessage);
 
         } finally {

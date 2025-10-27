@@ -5,6 +5,7 @@ import co.edu.uco.nose.business.business.impl.UserBusinessImpl;
 import co.edu.uco.nose.business.domain.UserDomain;
 import co.edu.uco.nose.business.facade.UserFacade;
 import co.edu.uco.nose.crosscuting.exception.NoseException;
+import co.edu.uco.nose.crosscuting.messagescatalog.facade.MessagesEnumUserFacade;
 import co.edu.uco.nose.data.dao.factory.DAOFactory;
 import co.edu.uco.nose.dto.UserDTO;
 
@@ -35,16 +36,15 @@ public final class UserFacadeImpl implements UserFacade {
         } catch (final Exception exception) {
             daoFactory.rollbackTransaction();
 
-            var userMessage = "Error al registrar la información del nuevo usuario. Por favor contacte al administrador del sistema.";
-            var technicalMessage = "Se ha presentado un error inesperado al registrar la información del nuevo usuario" +
-                    ". Por favor revise la traza completa del error para mayor detalle: " + exception.getMessage();;
+            var userMessage = MessagesEnumUserFacade.REGISTER_USER_UNEXPECTED_ERROR.getTitle();
+            var technicalMessage = MessagesEnumUserFacade.REGISTER_USER_UNEXPECTED_ERROR.getContent()
+                    + exception.getMessage();
 
             throw NoseException.create(exception, userMessage, technicalMessage);
 
         } finally {
             daoFactory.closeConnection();
         }
-
     }
 
     @Override
@@ -68,16 +68,15 @@ public final class UserFacadeImpl implements UserFacade {
         } catch (final Exception exception) {
             daoFactory.rollbackTransaction();
 
-            var userMessage = "Error al eliminar la información del usuario. Por favor contacte al administrador del sistema.";
-            var technicalMessage = "Se ha presentado un error inesperado al eliminar la información del usuario" +
-                    ". Por favor revise la traza completa del error para mayor detalle: " + exception.getMessage();;
+            var userMessage = MessagesEnumUserFacade.DROP_USER_UNEXPECTED_ERROR.getTitle();
+            var technicalMessage = MessagesEnumUserFacade.DROP_USER_UNEXPECTED_ERROR.getContent()
+                    + exception.getMessage();
 
             throw NoseException.create(exception, userMessage, technicalMessage);
 
         } finally {
             daoFactory.closeConnection();
         }
-
     }
 
     @Override
@@ -102,9 +101,9 @@ public final class UserFacadeImpl implements UserFacade {
         } catch (final Exception exception) {
             daoFactory.rollbackTransaction();
 
-            var userMessage = "Error al actualizar la información del usuario. Por favor contacte al administrador del sistema.";
-            var technicalMessage = "Se ha presentado un error inesperado al actualizar la información del usuario" +
-                    ". Por favor revise la traza completa del error para mayor detalle: " + exception.getMessage();;
+            var userMessage = MessagesEnumUserFacade.UPDATE_USER_UNEXPECTED_ERROR.getTitle();
+            var technicalMessage = MessagesEnumUserFacade.UPDATE_USER_UNEXPECTED_ERROR.getContent()
+                    + exception.getMessage();
 
             throw NoseException.create(exception, userMessage, technicalMessage);
 
@@ -133,9 +132,10 @@ public final class UserFacadeImpl implements UserFacade {
 
         } catch (final Exception exception) {
             daoFactory.rollbackTransaction();
-            var userMessage = "Error al consultar la información de los usuarios. Por favor contacte al administrador del sistema.";
-            var technicalMessage = "Se ha presentado un error inesperado al consultar la información de los usuarios" +
-                    ". Por favor revise la traza completa del error para mayor detalle: " + exception.getMessage();;
+
+            var userMessage = MessagesEnumUserFacade.FIND_ALL_USERS_UNEXPECTED_ERROR.getTitle();
+            var technicalMessage = MessagesEnumUserFacade.FIND_ALL_USERS_UNEXPECTED_ERROR.getContent()
+                    + exception.getMessage();
 
             throw NoseException.create(exception, userMessage, technicalMessage);
 
@@ -166,9 +166,10 @@ public final class UserFacadeImpl implements UserFacade {
 
         } catch (final Exception exception) {
             daoFactory.rollbackTransaction();
-            var userMessage = "Error al consultar la información de los usuarios por filtro. Por favor contacte al administrador del sistema.";
-            var technicalMessage = "Se ha presentado un error inesperado al consultar la información de los usuarios por filtro" +
-                    ". Por favor revise la traza completa del error para mayor detalle: " + exception.getMessage();;
+
+            var userMessage = MessagesEnumUserFacade.FIND_USERS_BY_FILTER_UNEXPECTED_ERROR.getTitle();
+            var technicalMessage = MessagesEnumUserFacade.FIND_USERS_BY_FILTER_UNEXPECTED_ERROR.getContent()
+                    + exception.getMessage();
 
             throw NoseException.create(exception, userMessage, technicalMessage);
 
@@ -197,16 +198,16 @@ public final class UserFacadeImpl implements UserFacade {
 
         } catch (final Exception exception) {
             daoFactory.rollbackTransaction();
-            var userMessage = "Error al consultar la información del usuario. Por favor contacte al administrador del sistema.";
-            var technicalMessage = "Se ha presentado un error inesperado al consultar la información del usuario" +
-                    ". Por favor revise la traza completa del error para mayor detalle: " + exception.getMessage();;
+
+            var userMessage = MessagesEnumUserFacade.FIND_SPECIFIC_USER_UNEXPECTED_ERROR.getTitle();
+            var technicalMessage = MessagesEnumUserFacade.FIND_SPECIFIC_USER_UNEXPECTED_ERROR.getContent()
+                    + exception.getMessage();
 
             throw NoseException.create(exception, userMessage, technicalMessage);
 
         } finally {
             daoFactory.closeConnection();
         }
-
     }
 
     @Override
