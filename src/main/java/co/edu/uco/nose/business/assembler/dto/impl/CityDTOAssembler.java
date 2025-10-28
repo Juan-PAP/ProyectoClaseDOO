@@ -5,7 +5,6 @@ import co.edu.uco.nose.business.domain.CityDomain;
 import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 import co.edu.uco.nose.dto.CityDTO;
-import co.edu.uco.nose.dto.UserDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,7 @@ public final class CityDTOAssembler implements DTOAssembler<CityDTO, CityDomain>
     @Override
     public CityDomain toDomain(final CityDTO dto) {
             var dtoTmp = ObjectHelper.getDefault(dto, new CityDTO());
-            var stateDomainTmp = StateDTOAssembler.getStateDTOAssembler().toDomain(dtoTmp.getDepartment());
+            var stateDomainTmp = StateDTOAssembler.getStateDTOAssembler().toDomain(dtoTmp.getState());
             return new CityDomain(dtoTmp.getId(), stateDomainTmp,dtoTmp.getName());
     }
 

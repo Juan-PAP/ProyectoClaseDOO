@@ -31,7 +31,7 @@ public final class IdTypeDTOAssembler implements DTOAssembler <IdTypeDTO, IdType
     @Override
     public IdTypeDomain toDomain(final IdTypeDTO dto) {
         var dtoTmp = ObjectHelper.getDefault(dto, new IdTypeDTO());
-        return new IdTypeDomain(dtoTmp.getId(), dtoTmp.getNombre());
+        return new IdTypeDomain(dtoTmp.getId(), dtoTmp.getName());
     }
 
     @Override

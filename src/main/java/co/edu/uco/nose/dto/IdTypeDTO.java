@@ -7,29 +7,29 @@ import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 
 public final class IdTypeDTO extends DTO{
 	
-	private String nombre;
+	private String name;
 	
 	public IdTypeDTO() {
 		super(UUIDHelper.getUUIDHelper().getDefault());
-		setNombre(TextHelper.getDefault());
+		setName(TextHelper.getDefault());
 	}
 	
 	public IdTypeDTO(final UUID id) {
 		super(id);
-		setNombre(TextHelper.getDefault());
+		setName(TextHelper.getDefault());
 	}
 	
 	public IdTypeDTO(final UUID id, final String nombre) {
 		super(id);
-		setNombre(nombre);
+		setName(nombre);
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getName() {
+		return name;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = TextHelper.getDefault(nombre);
+	public void setName(String name) {
+		this.name = TextHelper.getDefault(name);
 	}
 	
 	public static IdTypeDTO createDefault() {

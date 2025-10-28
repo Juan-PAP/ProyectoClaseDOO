@@ -54,8 +54,6 @@ public final class UserBusinessImpl implements UserBusiness {
         //Preparar y registrar
         var userEntity = UserEntityAssembler.getUserEntityAssembler().toEntity(userDomain);
         userEntity.setId(newUserId);
-        userEntity.setEmailConfirmed(false);
-        userEntity.setMobileNumberConfirmed(false);
 
         daoFactory.getUserDAO().create(userEntity);
     }
