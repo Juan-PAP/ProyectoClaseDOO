@@ -12,7 +12,7 @@ import static co.edu.uco.nose.business.assembler.dto.impl.CityDTOAssembler.getCi
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDTOAssembler implements DTOAssembler<UserDTO, UserDomain> {
+public final class UserDTOAssembler implements DTOAssembler<UserDTO, UserDomain> {
 
     private static final DTOAssembler<UserDTO, UserDomain> instance =
             new UserDTOAssembler();

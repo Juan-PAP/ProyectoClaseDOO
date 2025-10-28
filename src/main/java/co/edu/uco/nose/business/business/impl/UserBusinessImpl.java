@@ -312,7 +312,9 @@ public final class UserBusinessImpl implements UserBusiness {
     public List<UserDomain> findUsersByFilter(UserDomain userFilters) {
 
         try {
+
             UserEntity filterEntity = UserEntityAssembler.getUserEntityAssembler().toEntity(userFilters);
+
             List<UserEntity> entityList = daoFactory.getUserDAO().findByFilter(filterEntity);
 
             List<UserDomain> domainList = new ArrayList<>();
