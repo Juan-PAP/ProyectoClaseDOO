@@ -80,7 +80,7 @@ public final class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public void updateUserInformation(UUID id, UserDTO userDomain) {
+    public void updateUserInformation(UUID id, UserDTO userDTO) {
 
         var daoFactory = DAOFactory.getFactory();
         var business = new UserBusinessImpl(daoFactory);
@@ -89,7 +89,7 @@ public final class UserFacadeImpl implements UserFacade {
 
             daoFactory.initTransaction();
 
-            var domain = UserDTOAssembler.getUserDTOAssembler().toDomain(userDomain);
+            var domain = UserDTOAssembler.getUserDTOAssembler().toDomain(userDTO);
             business.updateUserInformation(id, domain);
 
             daoFactory.commitTransaction();
