@@ -27,6 +27,11 @@ import java.util.UUID;
 @RequestMapping("/api/v1/users")
 public class UserController {
 
+    @GetMapping("/dummy")
+    public UserDTO getUserDTODummy() {
+        return new UserDTO();
+    }
+
     @GetMapping
     public ResponseEntity<Response<UserDTO>> findAllUsers() {
 
