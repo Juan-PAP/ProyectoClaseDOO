@@ -10,7 +10,7 @@ public final class UserDomain extends Domain {
 
 
 	private IdTypeDomain idType;
-	private String identificationNumber;
+	private String idNumber;
 	private String firstName;
 	private String secondName;
 	private String firstSurname;
@@ -85,11 +85,11 @@ public final class UserDomain extends Domain {
 	}
 
 	public String getIdNumber() {
-		return identificationNumber;
+		return idNumber;
 	}
 
 	public void setIdNumber(final String identificationNumber) {
-		this.identificationNumber = TextHelper.getDefaultWithTrim(identificationNumber);
+		this.idNumber = TextHelper.getDefaultWithTrim(identificationNumber);
 	}
 
 	public String getFirstName() {
