@@ -2,9 +2,11 @@ package co.edu.uco.nose.business.assembler.entity.impl;
 
 import co.edu.uco.nose.business.assembler.entity.EntityAssembler;
 import co.edu.uco.nose.business.domain.CountryDomain;
+import co.edu.uco.nose.business.domain.UserDomain;
 import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 import co.edu.uco.nose.entity.CountryEntity;
+import co.edu.uco.nose.entity.UserEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,5 +45,17 @@ public final class CountryEntityAssembler implements EntityAssembler<CountryEnti
         }
 
         return entityList;
+    }
+
+    @Override
+    public List<CountryDomain> toDomain(List<CountryEntity> entityList) {
+        var entityListTmp = ObjectHelper.getDefault(entityList, new ArrayList<CountryEntity>());
+        var domainList = new ArrayList<CountryDomain>();
+
+        for (var entity : entityListTmp) {
+            domainList.add(toDomain(entity));
+        }
+
+        return domainList;
     }
 }

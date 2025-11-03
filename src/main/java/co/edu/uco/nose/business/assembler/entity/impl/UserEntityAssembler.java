@@ -5,6 +5,7 @@ import co.edu.uco.nose.business.domain.UserDomain;
 import co.edu.uco.nose.entity.UserEntity;
 import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static co.edu.uco.nose.business.assembler.entity.impl.IdTypeEntityAssembler.getIdTypeEntityAssembler;
@@ -75,6 +76,26 @@ public final class UserEntityAssembler implements EntityAssembler<UserEntity, Us
 
     @Override
     public List<UserEntity> toEntity(List<UserDomain> domainList) {
-        return List.of();
+
+        var domainListTmp = ObjectHelper.getDefault(domainList, new ArrayList<UserDomain>());
+        var entityList = new ArrayList<UserEntity>();
+
+        for (var domain : domainListTmp) {
+            entityList.add(toEntity(domain));
+        }
+        return entityList;
+
+    }
+
+    @Override
+    public List<UserDomain> toDomain(List<UserEntity> entityList) {
+        var entityListTmp = ObjectHelper.getDefault(entityList, new ArrayList<UserEntity>());
+        var domainList = new ArrayList<UserDomain>();
+
+        for (var entity : entityListTmp) {
+            domainList.add(toDomain(entity));
+        }
+
+        return domainList;
     }
 }

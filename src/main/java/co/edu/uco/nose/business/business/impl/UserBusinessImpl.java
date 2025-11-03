@@ -1,5 +1,6 @@
 package co.edu.uco.nose.business.business.impl;
 
+import co.edu.uco.nose.business.assembler.dto.impl.UserDTOAssembler;
 import co.edu.uco.nose.business.assembler.entity.impl.UserEntityAssembler;
 import co.edu.uco.nose.business.business.UserBusiness;
 import co.edu.uco.nose.business.business.rule.validator.city.ValidateCityExistsById;
@@ -10,11 +11,11 @@ import co.edu.uco.nose.business.business.rule.validator.user.ValidateDataUserMob
 import co.edu.uco.nose.business.business.rule.validator.user.ValidateUserDoesNotExistWithSameIdNumberAndIdType;
 import co.edu.uco.nose.business.domain.UserDomain;
 import co.edu.uco.nose.crosscuting.exception.NoseException;
+import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 import co.edu.uco.nose.data.dao.factory.DAOFactory;
 import co.edu.uco.nose.entity.UserEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -90,32 +91,24 @@ public final class UserBusinessImpl implements UserBusiness {
 
     @Override
     public List<UserDomain> findAllUsers() {
-        return null;
+
+        List<UserEntity> entityList = daoFactory.getUserDAO().findAll();
+
+        return UserEntityAssembler.getUserEntityAssembler().toDomain(entityList);
+
     }
 
     @Override
     public List<UserDomain> findUsersByFilter(UserDomain userFilters) {
 
-        try {
+        var validatedFilterDomain = ObjectHelper.getDefault(userFilters, new UserDomain());
 
-            UserEntity filterEntity = UserEntityAssembler.getUserEntityAssembler().toEntity(userFilters);
+        UserEntity userEntityFilter = UserEntityAssembler.getUserEntityAssembler()
+                .toEntity(validatedFilterDomain);
 
-            List<UserEntity> entityList = daoFactory.getUserDAO().findByFilter(filterEntity);
+        List<UserEntity> entityListResult = daoFactory.getUserDAO().findByFilter(userEntityFilter);
 
-            List<UserDomain> domainList = new ArrayList<>();
-
-            for (UserEntity entity : entityList) {
-                domainList.add(UserEntityAssembler.getUserEntityAssembler().toDomain(entity));
-            }
-            return domainList;
-
-        } catch (final NoseException exception) {
-            throw exception;
-
-        } catch (final Exception exception) {
-            throw NoseException.create(exception, "Error inesperado al consultar los usuarios por filtro.",
-                    "Capa de Negocio");
-        }
+        return UserEntityAssembler.getUserEntityAssembler().toDomain(entityListResult);
     }
 
     @Override

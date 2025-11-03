@@ -4,8 +4,10 @@ import static co.edu.uco.nose.business.assembler.entity.impl.CountryEntityAssemb
 
 import co.edu.uco.nose.business.assembler.entity.EntityAssembler;
 import co.edu.uco.nose.business.domain.StateDomain;
+import co.edu.uco.nose.business.domain.UserDomain;
 import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.entity.StateEntity;
+import co.edu.uco.nose.entity.UserEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,4 +50,15 @@ public final class StateEntityAssembler implements EntityAssembler<StateEntity, 
         return entityList;
     }
 
+    @Override
+    public List<StateDomain> toDomain(List<StateEntity> entityList) {
+        var entityListTmp = ObjectHelper.getDefault(entityList, new ArrayList<StateEntity>());
+        var domainList = new ArrayList<StateDomain>();
+
+        for (var entity : entityListTmp) {
+            domainList.add(toDomain(entity));
+        }
+
+        return domainList;
+    }
 }

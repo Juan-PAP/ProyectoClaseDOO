@@ -2,8 +2,10 @@ package co.edu.uco.nose.business.assembler.entity.impl;
 
 import co.edu.uco.nose.business.assembler.entity.EntityAssembler;
 import co.edu.uco.nose.business.domain.IdTypeDomain;
+import co.edu.uco.nose.business.domain.StateDomain;
 import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.entity.IdTypeEntity;
+import co.edu.uco.nose.entity.StateEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,5 +44,17 @@ public final class IdTypeEntityAssembler implements EntityAssembler<IdTypeEntity
         }
 
         return entityList;
+    }
+
+    @Override
+    public List<IdTypeDomain> toDomain(List<IdTypeEntity> entityList) {
+        var entityListTmp = ObjectHelper.getDefault(entityList, new ArrayList<IdTypeEntity>());
+        var domainList = new ArrayList<IdTypeDomain>();
+
+        for (var entity : entityListTmp) {
+            domainList.add(toDomain(entity));
+        }
+
+        return domainList;
     }
 }
