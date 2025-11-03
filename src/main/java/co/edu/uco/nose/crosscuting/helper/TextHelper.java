@@ -1,6 +1,8 @@
 package co.edu.uco.nose.crosscuting.helper;
 
-public final class TextHelper {
+import java.util.regex.Pattern;
+
+public final class  TextHelper {
 
     private static final String EMPTY = "";
 
@@ -35,6 +37,13 @@ public final class TextHelper {
 
     public static boolean lenthIsValidWithTrim(final String value, final int min, final int max) {
         return lengthIsValid(getDefaultWithTrim(value), min, max, true);
+    }
+
+    public static boolean matchesRegex(final String text, final String regex) {
+        if (isEmpty(text) || isEmpty(regex)) {
+            return false;
+        }
+        return Pattern.matches(regex, text);
     }
 
 }

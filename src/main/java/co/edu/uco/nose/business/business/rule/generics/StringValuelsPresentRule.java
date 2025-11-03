@@ -40,7 +40,5 @@ public final class StringValuelsPresentRule implements Rule {
             var TechnicalMessage = "La regla StringValuelsPresentRule falló porque el dato [".concat(dataName).concat("] requerido para llevar a cabo la operación esta vació");
             throw NoseException.create(UserMessage, TechnicalMessage);
         };
-
-
     }
 }

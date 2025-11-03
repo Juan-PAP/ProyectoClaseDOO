@@ -1,6 +1,7 @@
 package co.edu.uco.nose.business.business.rule.validator.user;
 
-import co.edu.uco.nose.business.business.rule.Rule;
+import co.edu.uco.nose.business.business.rule.generics.IdValueIsNotDefaultValueRule;
+import co.edu.uco.nose.business.business.rule.generics.StringFormatValuesIsValidRule;
 import co.edu.uco.nose.business.business.rule.generics.StringLengthValuesIsValidRule;
 import co.edu.uco.nose.business.business.rule.generics.StringValuelsPresentRule;
 import co.edu.uco.nose.business.business.rule.validator.Validator;
@@ -8,6 +9,10 @@ import co.edu.uco.nose.business.domain.UserDomain;
 import co.edu.uco.nose.crosscuting.helper.TextHelper;
 
 public class ValidateDataUserConsistencyForRegisterNewInformation implements Validator {
+
+    private static final String EMAIL_REGEX = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
+
+    private static final String MOBILE_PHONE_REGEX = "^\\+?[0-9]{7,15}$";
 
     private static final Validator instance = new ValidateDataUserConsistencyForRegisterNewInformation();
 
@@ -22,17 +27,15 @@ public class ValidateDataUserConsistencyForRegisterNewInformation implements Val
     @Override
     public void validate(final Object... data) {
 
-        //Validaciones del objeto data
         var userDomainData = (UserDomain) data [0];
 
-        //Valid empty data
         validatEmptyData(userDomainData);
 
-        //Valid data length
         validatDataLength(userDomainData);
 
-        //Valid data format
-        //Valid data valid range
+        validateDataFormat(userDomainData);
+
+        validateDomainObjects(userDomainData);
     }
 
     private void validatEmptyData (final UserDomain data) {
@@ -40,25 +43,36 @@ public class ValidateDataUserConsistencyForRegisterNewInformation implements Val
         StringValuelsPresentRule.executeRule(data.getIdNumber(), "número de identificación", true);
         StringValuelsPresentRule.executeRule(data.getFirstName(), "primer nombre", true);
         StringValuelsPresentRule.executeRule(data.getFirstSurname(), "primer apellido", true);
-
-        //Continue with other sttributes validation
+        StringValuelsPresentRule.executeRule(data.getEmail(), "email", true);
+        StringValuelsPresentRule.executeRule(data.getMobileNumber(), "teléfono movil", true);
     }
 
     private void validatDataLength (final UserDomain data) {
 
-        StringLengthValuesIsValidRule.executeRule(data.getIdNumber(), "número de identificación", 1, 50, true);
-        StringLengthValuesIsValidRule.executeRule(data.getFirstName(), "primer nombre", 1, 100, true);
+        StringLengthValuesIsValidRule.executeRule(data.getIdNumber(), "número de identificación", 1, 25, true);
+        StringLengthValuesIsValidRule.executeRule(data.getFirstName(), "primer nombre", 1, 20, true);
 
-        if (TextHelper.isEmptyWithTrim(data.getSecondName())){
-            StringLengthValuesIsValidRule.executeRule(data.getSecondName(), "segundo nombre", 1, 100, false);
+        if (!TextHelper.isEmptyWithTrim(data.getSecondName())){
+            StringLengthValuesIsValidRule.executeRule(data.getSecondName(), "segundo nombre", 1, 20, true);
         }
 
-        StringLengthValuesIsValidRule.executeRule(data.getFirstSurname(), "primer apellido", 1, 100, true);
+        StringLengthValuesIsValidRule.executeRule(data.getFirstSurname(), "primer apellido", 1, 20, true);
 
-        if (TextHelper.isEmptyWithTrim(data.getSecondSurname())) {
-            StringLengthValuesIsValidRule.executeRule(data.getSecondSurname(), "segundo apellido", 1, 100, false);
+        if (!TextHelper.isEmptyWithTrim(data.getSecondSurname())) {
+            StringLengthValuesIsValidRule.executeRule(data.getSecondSurname(), "segundo apellido", 1, 20, true);
         }
 
-        //Continue with other sttributes validation
+        StringLengthValuesIsValidRule.executeRule(data.getEmail(), "email", 1, 250, true);
+        StringLengthValuesIsValidRule.executeRule(data.getMobileNumber(), "teléfono movil", 1, 20, true);
+    }
+
+    private void validateDataFormat(final UserDomain data) {
+        StringFormatValuesIsValidRule.executeRule(data.getEmail(), "email", EMAIL_REGEX, true);
+        StringFormatValuesIsValidRule.executeRule(data.getMobileNumber(), "teléfono movil", MOBILE_PHONE_REGEX, true);
+    }
+
+    private void validateDomainObjects(final UserDomain data) {
+        IdValueIsNotDefaultValueRule.executeRule(data.getIdType().getId(), "Tipo de Identificación");
+        IdValueIsNotDefaultValueRule.executeRule(data.getHomeCity().getId(), "Ciudad de Residencia");
     }
 }

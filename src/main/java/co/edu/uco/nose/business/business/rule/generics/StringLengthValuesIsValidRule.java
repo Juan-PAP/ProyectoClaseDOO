@@ -37,21 +37,12 @@ public class StringLengthValuesIsValidRule implements Rule {
         int maxLength = (Integer) data[3];
         boolean mustApplyTrim = (Boolean) data[4];
 
-        if (TextHelper.lengthIsValid(StringData,minLength, maxLength, mustApplyTrim)) {
-            var UserMessage = "El dato [" .concat(dataName).concat("] no tiene una longitud entre " .concat(String.valueOf(minLength)).concat(" y ").concat(String.valueOf(maxLength)).concat(" caracteres."));
-            var TechnicalMessage = "La regla StringValuelsPresentRule falló porque el dato [".concat(dataName).concat("] para llevar a cabo la operacion, no tiene una longitud entre entre " .concat(String.valueOf(minLength)).concat(" y ").concat(String.valueOf(maxLength)).concat(" caracteres."));
+        if (!TextHelper.lengthIsValid(StringData,minLength, maxLength, mustApplyTrim)) {
+            var UserMessage = "El dato [" .concat(dataName).concat("] no tiene una longitud entre " .concat(String.valueOf(minLength)).concat(" y ").concat(String.valueOf(maxLength)).concat(" ..."));
+            var TechnicalMessage = "La regla StringValuelsPresentRule falló porque el dato [".concat(dataName)
+                    .concat(("] para llevar a cabo la operacion, " + "no tiene una longitud entre entre ")
+                    .concat(String.valueOf(minLength)).concat(" y ").concat(String.valueOf(maxLength)).concat(" caracteres."));
             throw NoseException.create(UserMessage, TechnicalMessage);
         };
-
-        if ((mustApplyTrim)
-                ? TextHelper.isEmptyWithTrim(StringData) : TextHelper.isEmpty(StringData)) {
-            var UserMessage = "El dato [" .concat(dataName).concat("] es requerido para llevar a cabo la operación.");
-            var TechnicalMessage = "La regla StringValuelsPresentRule falló porque el dato [".concat(dataName).concat("] requerido para llevar a cabo la operación esta vació");
-            throw NoseException.create(UserMessage, TechnicalMessage);
-        };
-
-
-
-
     }
 }

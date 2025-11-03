@@ -17,7 +17,7 @@ public final class UserDomain extends Domain {
 	private String secondSurname;
 	private CityDomain homeCity;
 	private String email;
-	private String mobilePhoneNumber;
+	private String mobileNumber;
 	private boolean emailConfirmed;
 	private boolean MobileNumberConfirmed;
 	private boolean emailConfirmedIsDefaultValue;
@@ -141,11 +141,11 @@ public final class UserDomain extends Domain {
 	}
 
 	public String getMobileNumber() {
-		return mobilePhoneNumber;
+		return mobileNumber;
 	}
 
 	public void setMobileNumber(final String mobilePhoneNumber) {
-		this.mobilePhoneNumber = TextHelper.getDefaultWithTrim(mobilePhoneNumber);
+		this.mobileNumber = TextHelper.getDefaultWithTrim(mobilePhoneNumber);
 	}
 
 	public boolean isEmailConfirmed() {

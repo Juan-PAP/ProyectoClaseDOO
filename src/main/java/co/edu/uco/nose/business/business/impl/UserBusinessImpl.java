@@ -2,13 +2,16 @@ package co.edu.uco.nose.business.business.impl;
 
 import co.edu.uco.nose.business.assembler.entity.impl.UserEntityAssembler;
 import co.edu.uco.nose.business.business.UserBusiness;
+import co.edu.uco.nose.business.business.rule.validator.city.ValidateCityExistsById;
 import co.edu.uco.nose.business.business.rule.validator.idtype.ValidateIdTypeExistsById;
 import co.edu.uco.nose.business.business.rule.validator.user.ValidateDataUserConsistencyForRegisterNewInformation;
+import co.edu.uco.nose.business.business.rule.validator.user.ValidateDataUserEmailDoesNotExist;
+import co.edu.uco.nose.business.business.rule.validator.user.ValidateDataUserMobileDoesNotExist;
+import co.edu.uco.nose.business.business.rule.validator.user.ValidateUserDoesNotExistWithSameIdNumberAndIdType;
 import co.edu.uco.nose.business.domain.UserDomain;
 import co.edu.uco.nose.crosscuting.exception.NoseException;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 import co.edu.uco.nose.data.dao.factory.DAOFactory;
-import co.edu.uco.nose.entity.IdTypeEntity;
 import co.edu.uco.nose.entity.UserEntity;
 
 import java.util.ArrayList;
@@ -20,9 +23,6 @@ public final class UserBusinessImpl implements UserBusiness {
     private DAOFactory daoFactory;
 
     public UserBusinessImpl (final DAOFactory daoFactory) {
-        if (daoFactory == null) {
-            throw NoseException.create("El DAOFactory no puede ser nulo.");
-        }
         this.daoFactory = daoFactory;
     }
 
@@ -35,10 +35,25 @@ public final class UserBusinessImpl implements UserBusiness {
         // longitud, obligatoriedad, formato, rango, reglas propias del objeto
         ValidateDataUserConsistencyForRegisterNewInformation.executeValidation(userDomain);
 
-        // 2. Validar que no exista previamente otro usuario con el mismo tipo y número
-        // de identificación
+        // 2. Validar que el Tipo de Identificación exista
         ValidateIdTypeExistsById.executeValidation(userDomain.getIdType().getId(),  daoFactory);
 
+        // 3. Validad que exista la ciudad de recidencia
+        ValidateCityExistsById.executeValidation(userDomain.getHomeCity().getId(), daoFactory);
+
+        // 4. Validar que no exista previamente otro usuario con el mismo tipo y número
+        // de identificación
+        ValidateUserDoesNotExistWithSameIdNumberAndIdType.executeValidation(
+                userDomain.getIdNumber(),userDomain.getIdType().getId(), daoFactory);
+
+        //
+        // 5. Validar que no exista previamente otro usuario con el mismo correo
+        // electrónico
+        ValidateDataUserEmailDoesNotExist.executeValidation(userDomain.getEmail(), daoFactory);
+
+        // 6. Validar que no exista previamente otro usuario con el mismo número de
+        // teléfono celular
+        ValidateDataUserMobileDoesNotExist.executeValidation(userDomain.getMobileNumber(), daoFactory);
 
         //7. Ensamblar objeto como Entity
         var userEntity = UserEntityAssembler.getUserEntityAssembler().toEntity(userDomain);
@@ -75,25 +90,7 @@ public final class UserBusinessImpl implements UserBusiness {
 
     @Override
     public List<UserDomain> findAllUsers() {
-
-        try {
-            List<UserEntity> entityList = daoFactory.getUserDAO().findAll();
-
-            List<UserDomain> domainList = new ArrayList<>();
-
-            for (UserEntity entity : entityList) {
-                domainList.add(UserEntityAssembler.getUserEntityAssembler().toDomain(entity));
-            }
-
-            return domainList;
-
-        } catch (final NoseException exception) {
-            throw exception;
-
-        } catch (final Exception exception) {
-            throw NoseException.create(exception, "Error inesperado al consultar todos los usuarios.",
-                    "Capa de Negocio");
-        }
+        return null;
     }
 
     @Override
