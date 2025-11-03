@@ -3,10 +3,12 @@ package co.edu.uco.nose.business.business.rule.user;
 import co.edu.uco.nose.business.business.rule.Rule;
 import co.edu.uco.nose.crosscuting.exception.NoseException;
 import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
+import co.edu.uco.nose.crosscuting.helper.TextHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 import co.edu.uco.nose.data.dao.factory.DAOFactory;
 import co.edu.uco.nose.entity.IdTypeEntity;
 import co.edu.uco.nose.entity.UserEntity;
+import co.edu.uco.nose.crosscuting.messagescatalog.business.rule.user.MessagesEnumUserRule;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,14 +29,14 @@ public class UserDoesNotExistWithSameIdNumberAndIdTypeRule implements Rule {
     public void execute(Object... data) {
 
         if (ObjectHelper.isNull(data)) {
-            var userMessage = "Se ha presentado un problema inesperado tratando de llevar a cabo la operación deseada.";
-            var technicalMessage = "No se recibieron los parámetros requeridos para ejecutar la regla UserDoesNotExistWithSameIdNumberAndIdTypeRule.";
+            var userMessage = MessagesEnumUserRule.USER_DOES_NOT_EXIST_WITH_SAME_ID_NUMBER_AND_ID_TYPE_RULE_DATA_IS_NULL.getTitle();
+            var technicalMessage = MessagesEnumUserRule.USER_DOES_NOT_EXIST_WITH_SAME_ID_NUMBER_AND_ID_TYPE_RULE_DATA_IS_NULL.getContent();
             throw NoseException.create(userMessage, technicalMessage);
         }
 
         if (data.length < 3) {
-            var userMessage = "Se ha presentado un problema inesperado tratando de llevar a cabo la operación deseada.";
-            var technicalMessage = "Se requerían 3 parámetros y llegó una cantidad menor para ejecutar la regla UserDoesNotExistWithSameIdNumberAndIdTypeRule.";
+            var userMessage = MessagesEnumUserRule.USER_DOES_NOT_EXIST_WITH_SAME_ID_NUMBER_AND_ID_TYPE_RULE_DATA_LENGTH_INVALID.getTitle();
+            var technicalMessage = MessagesEnumUserRule.USER_DOES_NOT_EXIST_WITH_SAME_ID_NUMBER_AND_ID_TYPE_RULE_DATA_LENGTH_INVALID.getContent();
             throw NoseException.create(userMessage, technicalMessage);
         }
 
@@ -56,9 +58,11 @@ public class UserDoesNotExistWithSameIdNumberAndIdTypeRule implements Rule {
                 .orElse(new UserEntity());
 
         if (!UUIDHelper.getUUIDHelper().isDefaultUUID(user.getId())) {
-            var userMessage = "Ya existe un usuario registrado con el mismo tipo y número de identificación.";
-            var technicalMessage = "La regla UserDoesNotExistWithSameIdNumberAndIdTypeRule falló porque ya existe un usuario con IdNumber: "
-                    .concat(idNumber).concat(" e IdType: ").concat(idTypeUuid.toString());
+            var userMessage = MessagesEnumUserRule.USER_DOES_NOT_EXIST_WITH_SAME_ID_NUMBER_AND_ID_TYPE_RULE_USER_ALREADY_EXISTS.getTitle();
+            var technicalMessage = TextHelper.format(
+                    MessagesEnumUserRule.USER_DOES_NOT_EXIST_WITH_SAME_ID_NUMBER_AND_ID_TYPE_RULE_USER_ALREADY_EXISTS.getContent(),
+                    idNumber, idTypeUuid.toString()
+            );
             throw NoseException.create(userMessage, technicalMessage);
         }
     }

@@ -3,9 +3,11 @@ package co.edu.uco.nose.business.business.rule.user;
 import co.edu.uco.nose.business.business.rule.Rule;
 import co.edu.uco.nose.crosscuting.exception.NoseException;
 import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
+import co.edu.uco.nose.crosscuting.helper.TextHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 import co.edu.uco.nose.data.dao.factory.DAOFactory;
 import co.edu.uco.nose.entity.UserEntity;
+import co.edu.uco.nose.crosscuting.messagescatalog.business.rule.user.MessagesEnumUserRule;
 
 import java.util.List;
 
@@ -25,14 +27,14 @@ public class UserMobileDoesNotExistRule implements Rule {
     public void execute(Object... data) {
 
         if (ObjectHelper.isNull(data)) {
-            var userMessage = "Se ha presentado un problema inesperado tratando de llevar a cabo la operación deseada.";
-            var technicalMessage = "No se recibieron los parámetros requeridos para ejecutar la regla UserMobileDoesNotExistRule.";
+            var userMessage = MessagesEnumUserRule.USER_MOBILE_DOES_NOT_EXIST_RULE_DATA_IS_NULL.getTitle();
+            var technicalMessage = MessagesEnumUserRule.USER_MOBILE_DOES_NOT_EXIST_RULE_DATA_IS_NULL.getContent();
             throw NoseException.create(userMessage, technicalMessage);
         }
 
         if (data.length < 2) {
-            var userMessage = "Se ha presentado un problema inesperado tratando de llevar a cabo la operación deseada.";
-            var technicalMessage = "Se requerían 2 parámetros y llegó una cantidad menor para ejecutar la regla UserMobileDoesNotExistRule.";
+            var userMessage = MessagesEnumUserRule.USER_MOBILE_DOES_NOT_EXIST_RULE_DATA_LENGTH_INVALID.getTitle();
+            var technicalMessage = MessagesEnumUserRule.USER_MOBILE_DOES_NOT_EXIST_RULE_DATA_LENGTH_INVALID.getContent();
             throw NoseException.create(userMessage, technicalMessage);
         }
 
@@ -50,9 +52,11 @@ public class UserMobileDoesNotExistRule implements Rule {
                 .orElse(new UserEntity());
 
         if (!UUIDHelper.getUUIDHelper().isDefaultUUID(user.getId())) {
-            var userMessage = "Ya existe un usuario registrado con el número de teléfono ingresado.";
-            var technicalMessage = "La regla UserMobileDoesNotExistRule falló porque ya existe un usuario con el teléfono: "
-                    .concat(mobile);
+            var userMessage = MessagesEnumUserRule.USER_MOBILE_DOES_NOT_EXIST_RULE_USER_ALREADY_EXISTS.getTitle();
+            var technicalMessage = TextHelper.format(
+                    MessagesEnumUserRule.USER_MOBILE_DOES_NOT_EXIST_RULE_USER_ALREADY_EXISTS.getContent(),
+                    mobile
+            );
             throw NoseException.create(userMessage, technicalMessage);
         }
     }

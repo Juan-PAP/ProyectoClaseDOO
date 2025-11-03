@@ -1,5 +1,6 @@
 package co.edu.uco.nose.crosscuting.helper;
 
+import java.text.MessageFormat;
 import java.util.regex.Pattern;
 
 public final class  TextHelper {
@@ -44,6 +45,13 @@ public final class  TextHelper {
             return false;
         }
         return Pattern.matches(regex, text);
+    }
+
+    public static String format(final String message, final String... params) {
+        if (isEmpty(message)) {
+            return getDefault();
+        }
+        return MessageFormat.format(message, (Object[]) params);
     }
 
 }

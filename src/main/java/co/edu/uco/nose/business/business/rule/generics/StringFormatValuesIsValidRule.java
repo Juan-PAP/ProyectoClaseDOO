@@ -4,13 +4,13 @@ import co.edu.uco.nose.business.business.rule.Rule;
 import co.edu.uco.nose.crosscuting.exception.NoseException;
 import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.crosscuting.helper.TextHelper;
+import co.edu.uco.nose.crosscuting.messagescatalog.business.rule.generics.MessagesEnumGenericRule;
 
 public class StringFormatValuesIsValidRule implements Rule {
 
     private static final Rule instance = new StringFormatValuesIsValidRule();
 
     private StringFormatValuesIsValidRule() {
-        super();
     }
 
     public static void executeRule(final Object... data) {
@@ -21,14 +21,14 @@ public class StringFormatValuesIsValidRule implements Rule {
     public void execute(Object... data) {
 
         if (ObjectHelper.isNull(data)) {
-            var userMessage = "Se ha presentado un problema inesperado tratando de llevar a cabo la operación deseada.";
-            var technicalMessage = "No se recibieron los parámetros requeridos para ejecutar la regla StringFormatValuesIsValidRule.";
+            var userMessage = MessagesEnumGenericRule.STRING_FORMAT_VALUES_IS_VALID_RULE_DATA_IS_NULL.getTitle();
+            var technicalMessage = MessagesEnumGenericRule.STRING_FORMAT_VALUES_IS_VALID_RULE_DATA_IS_NULL.getContent();
             throw NoseException.create(userMessage, technicalMessage);
         }
 
         if (data.length < 4) {
-            var userMessage = "Se ha presentado un problema inesperado tratando de llevar a cabo la operación deseada.";
-            var technicalMessage = "Se requerían cuatro parámetros y llegó una cantidad menor para ejecutar la regla StringFormatValuesIsValidRule.";
+            var userMessage = MessagesEnumGenericRule.STRING_FORMAT_VALUES_IS_VALID_RULE_DATA_LENGTH_INVALID.getTitle();
+            var technicalMessage = MessagesEnumGenericRule.STRING_FORMAT_VALUES_IS_VALID_RULE_DATA_LENGTH_INVALID.getContent();
             throw NoseException.create(userMessage, technicalMessage);
         }
 
@@ -44,8 +44,14 @@ public class StringFormatValuesIsValidRule implements Rule {
         if (!TextHelper.isEmpty(dataToValidate)) {
 
             if (!TextHelper.matchesRegex(dataToValidate, regex)) {
-                var userMessage = "El dato [" .concat(dataName).concat("] no cumple con el formato esperado.");
-                var technicalMessage = "La regla StringFormatValuesIsValidRule falló porque el dato [".concat(dataName).concat("] no cumple con el formato (Regex): ").concat(regex);
+                var userMessage = TextHelper.format(
+                        MessagesEnumGenericRule.STRING_FORMAT_VALUES_IS_VALID_RULE_FORMAT_IS_INVALID.getTitle(),
+                        dataName
+                );
+                var technicalMessage = TextHelper.format(
+                        MessagesEnumGenericRule.STRING_FORMAT_VALUES_IS_VALID_RULE_FORMAT_IS_INVALID.getContent(),
+                        dataName, regex
+                );
                 throw NoseException.create(userMessage, technicalMessage);
             }
         }

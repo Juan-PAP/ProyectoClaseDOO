@@ -4,6 +4,7 @@ import co.edu.uco.nose.business.business.rule.Rule;
 import co.edu.uco.nose.crosscuting.exception.NoseException;
 import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.crosscuting.helper.TextHelper;
+import co.edu.uco.nose.crosscuting.messagescatalog.business.rule.generics.MessagesEnumGenericRule;
 
 public final class StringValuelsPresentRule implements Rule {
 
@@ -20,14 +21,14 @@ public final class StringValuelsPresentRule implements Rule {
     @Override
     public void execute(final Object... data) {
         if (ObjectHelper.isNull(data)){
-            var UserMessage = "Se ha presentado un problema inesperado tratando de llevar a cabo la operación deseada.";
-            var TechnicalMessage = "No se recibieron los parámetros requeridos para ejecutar la regla StringValuelsPresentRule.";
-            throw NoseException.create(UserMessage, TechnicalMessage);
+            var userMessage = MessagesEnumGenericRule.STRING_VALUELS_PRESENT_RULE_DATA_IS_NULL.getTitle();
+            var technicalMessage = MessagesEnumGenericRule.STRING_VALUELS_PRESENT_RULE_DATA_IS_NULL.getContent();
+            throw NoseException.create(userMessage, technicalMessage);
         }
         if (data.length < 3){
-            var UserMessage = "Se ha presentado un problema inesperado tratando de llevar a cabo la operación deseada.";
-            var TechnicalMessage = "Se requerian tres paramentros y llegó una cantidad menor a esta requeridos para ejecutar la regla StringValuelsPresentRule.";
-            throw NoseException.create(UserMessage, TechnicalMessage);
+            var userMessage = MessagesEnumGenericRule.STRING_VALUELS_PRESENT_RULE_DATA_LENGTH_INVALID.getTitle();
+            var technicalMessage = MessagesEnumGenericRule.STRING_VALUELS_PRESENT_RULE_DATA_LENGTH_INVALID.getContent();
+            throw NoseException.create(userMessage, technicalMessage);
         }
 
         var StringData = (String) data[0];
@@ -36,9 +37,15 @@ public final class StringValuelsPresentRule implements Rule {
 
         if ((mustApplyTrim)
                 ? TextHelper.isEmptyWithTrim(StringData) : TextHelper.isEmpty(StringData)) {
-            var UserMessage = "El dato [" .concat(dataName).concat("] es requerido para llevar a cabo la operación.");
-            var TechnicalMessage = "La regla StringValuelsPresentRule falló porque el dato [".concat(dataName).concat("] requerido para llevar a cabo la operación esta vació");
-            throw NoseException.create(UserMessage, TechnicalMessage);
+            var userMessage = TextHelper.format(
+                    MessagesEnumGenericRule.STRING_VALUELS_PRESENT_RULE_DATA_IS_EMPTY.getTitle(),
+                    dataName
+            );
+            var technicalMessage = TextHelper.format(
+                    MessagesEnumGenericRule.STRING_VALUELS_PRESENT_RULE_DATA_IS_EMPTY.getContent(),
+                    dataName
+            );
+            throw NoseException.create(userMessage, technicalMessage);
         };
     }
 }

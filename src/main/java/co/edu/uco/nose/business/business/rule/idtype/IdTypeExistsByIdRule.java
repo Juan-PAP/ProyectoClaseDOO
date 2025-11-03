@@ -3,8 +3,10 @@ package co.edu.uco.nose.business.business.rule.idtype;
 import co.edu.uco.nose.business.business.rule.Rule;
 import co.edu.uco.nose.crosscuting.exception.NoseException;
 import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
+import co.edu.uco.nose.crosscuting.helper.TextHelper;
 import co.edu.uco.nose.crosscuting.helper.UUIDHelper;
 import co.edu.uco.nose.data.dao.factory.DAOFactory;
+import co.edu.uco.nose.crosscuting.messagescatalog.business.rule.idtype.MessagesEnumIdTypeRule;
 
 import java.util.UUID;
 
@@ -24,14 +26,14 @@ public final class IdTypeExistsByIdRule implements Rule {
     public void execute(Object... data) {
 
         if (ObjectHelper.isNull(data)){
-            var UserMessage = "Se ha presentado un problema inesperado tratando de llevar a cabo la operación deseada.";
-            var TechnicalMessage = "No se recibieron los parámetros requeridos para ejecutar la regla IdTypeExistsByIdRule.";
-            throw NoseException.create(UserMessage, TechnicalMessage);
+            var userMessage = MessagesEnumIdTypeRule.ID_TYPE_EXISTS_BY_ID_RULE_DATA_IS_NULL.getTitle();
+            var technicalMessage = MessagesEnumIdTypeRule.ID_TYPE_EXISTS_BY_ID_RULE_DATA_IS_NULL.getContent();
+            throw NoseException.create(userMessage, technicalMessage);
         }
         if (data.length < 2){
-            var UserMessage = "Se ha presentado un problema inesperado tratando de llevar a cabo la operación deseada.";
-            var TechnicalMessage = "Se requerian 2 paramentros y llegó una cantidad menor a esta requeridos para ejecutar la regla IdTypeExistsByIdRule.";
-            throw NoseException.create(UserMessage, TechnicalMessage);
+            var userMessage = MessagesEnumIdTypeRule.ID_TYPE_EXISTS_BY_ID_RULE_DATA_LENGTH_INVALID.getTitle();
+            var technicalMessage = MessagesEnumIdTypeRule.ID_TYPE_EXISTS_BY_ID_RULE_DATA_LENGTH_INVALID.getContent();
+            throw NoseException.create(userMessage, technicalMessage);
         }
 
         var id = (UUID) data[0];
@@ -40,9 +42,12 @@ public final class IdTypeExistsByIdRule implements Rule {
         var idType = daoFactory.getIdTypeDAO().findById(id);
 
         if (ObjectHelper.isNull(idType) || UUIDHelper.getUUIDHelper().isDefaultUUID(idType.getId())) {
-            var userMessage = "El tipo de identificación deseado no existe...";
-            var technicalMessage = "El tipo de identificación con id ["
-                    .concat(id.toString()).concat("] no existe ...");
+
+            var userMessage = MessagesEnumIdTypeRule.ID_TYPE_EXISTS_BY_ID_RULE_ID_TYPE_NOT_FOUND.getTitle();
+            var technicalMessage = TextHelper.format(
+                    MessagesEnumIdTypeRule.ID_TYPE_EXISTS_BY_ID_RULE_ID_TYPE_NOT_FOUND.getContent(),
+                    id.toString()
+            );
             throw NoseException.create(userMessage,technicalMessage);
         }
 

@@ -11,8 +11,7 @@ import co.edu.uco.nose.crosscuting.helper.TextHelper;
 public class ValidateDataUserConsistencyForRegisterNewInformation implements Validator {
 
     private static final String EMAIL_REGEX = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
-
-    private static final String MOBILE_PHONE_REGEX = "^\\+?[0-9]{7,15}$";
+    private static final String MOBILE_PHONE_REGEX = "^[0-9]{1,20}$";
 
     private static final Validator instance = new ValidateDataUserConsistencyForRegisterNewInformation();
 
