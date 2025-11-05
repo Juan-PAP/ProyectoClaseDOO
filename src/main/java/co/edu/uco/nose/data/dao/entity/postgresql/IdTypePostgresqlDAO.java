@@ -13,7 +13,7 @@ import co.edu.uco.nose.crosscuting.messagescatalog.MessagesEnum;
 import co.edu.uco.nose.data.dao.entity.IdTypeDAO;
 import co.edu.uco.nose.entity.IdTypeEntity;
 
-public class IdTypePostgresqlDAO extends SqlConnection implements IdTypeDAO {
+public final class IdTypePostgresqlDAO extends SqlConnection implements IdTypeDAO {
 
 	public IdTypePostgresqlDAO(final Connection connection) {
 		super(connection);

@@ -6,7 +6,7 @@ import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.crosscuting.helper.TextHelper;
 import co.edu.uco.nose.crosscuting.messagescatalog.business.rule.generics.MessagesEnumGenericRule;
 
-public class StringLengthValuesIsValidRule implements Rule {
+public final class StringLengthValuesIsValidRule implements Rule {
 
     private static final Rule instance = new StringLengthValuesIsValidRule();
 

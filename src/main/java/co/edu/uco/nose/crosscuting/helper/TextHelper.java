@@ -53,5 +53,4 @@ public final class  TextHelper {
         }
         return MessageFormat.format(message, (Object[]) params);
     }
-
 }

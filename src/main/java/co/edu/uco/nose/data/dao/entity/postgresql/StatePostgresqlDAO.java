@@ -14,7 +14,7 @@ import co.edu.uco.nose.data.dao.entity.StateDAO;
 import co.edu.uco.nose.entity.CountryEntity;
 import co.edu.uco.nose.entity.StateEntity;
 
-public class StatePostgresqlDAO extends SqlConnection implements StateDAO {
+public final class StatePostgresqlDAO extends SqlConnection implements StateDAO {
 
 	public StatePostgresqlDAO(final Connection connection) {
 		super(connection);

@@ -6,11 +6,11 @@ import co.edu.uco.nose.crosscuting.helper.ObjectHelper;
 import co.edu.uco.nose.crosscuting.helper.TextHelper;
 import co.edu.uco.nose.crosscuting.messagescatalog.business.rule.generics.MessagesEnumGenericRule;
 
-public final class StringValuelsPresentRule implements Rule {
+public final class StringValueIsPresentRule implements Rule {
 
-    private static final Rule instance = new StringValuelsPresentRule();
+    private static final Rule instance = new StringValueIsPresentRule();
 
-    private StringValuelsPresentRule() {
+    private StringValueIsPresentRule() {
 
     }
 

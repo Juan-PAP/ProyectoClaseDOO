@@ -3,7 +3,7 @@ package co.edu.uco.nose.business.business.rule.validator.user;
 import co.edu.uco.nose.business.business.rule.generics.IdValueIsNotDefaultValueRule;
 import co.edu.uco.nose.business.business.rule.generics.StringFormatValuesIsValidRule;
 import co.edu.uco.nose.business.business.rule.generics.StringLengthValuesIsValidRule;
-import co.edu.uco.nose.business.business.rule.generics.StringValuelsPresentRule;
+import co.edu.uco.nose.business.business.rule.generics.StringValueIsPresentRule;
 import co.edu.uco.nose.business.business.rule.validator.Validator;
 import co.edu.uco.nose.business.domain.UserDomain;
 import co.edu.uco.nose.crosscuting.helper.TextHelper;
@@ -39,11 +39,11 @@ public class ValidateDataUserConsistencyForRegisterNewInformation implements Val
 
     private void validatEmptyData (final UserDomain data) {
 
-        StringValuelsPresentRule.executeRule(data.getIdNumber(), "número de identificación", true);
-        StringValuelsPresentRule.executeRule(data.getFirstName(), "primer nombre", true);
-        StringValuelsPresentRule.executeRule(data.getFirstSurname(), "primer apellido", true);
-        StringValuelsPresentRule.executeRule(data.getEmail(), "email", true);
-        StringValuelsPresentRule.executeRule(data.getMobileNumber(), "teléfono movil", true);
+        StringValueIsPresentRule.executeRule(data.getIdNumber(), "número de identificación", true);
+        StringValueIsPresentRule.executeRule(data.getFirstName(), "primer nombre", true);
+        StringValueIsPresentRule.executeRule(data.getFirstSurname(), "primer apellido", true);
+        StringValueIsPresentRule.executeRule(data.getEmail(), "email", true);
+        StringValueIsPresentRule.executeRule(data.getMobileNumber(), "teléfono movil", true);
     }
 
     private void validatDataLength (final UserDomain data) {

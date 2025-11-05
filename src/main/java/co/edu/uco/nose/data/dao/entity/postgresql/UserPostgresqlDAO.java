@@ -20,7 +20,7 @@ import co.edu.uco.nose.entity.IdTypeEntity;
 import co.edu.uco.nose.entity.StateEntity;
 import co.edu.uco.nose.entity.UserEntity;
 
-public class UserPostgresqlDAO extends SqlConnection implements UserDAO {
+public final class UserPostgresqlDAO extends SqlConnection implements UserDAO {
 
 	public UserPostgresqlDAO(Connection connection) {
 		super(connection);

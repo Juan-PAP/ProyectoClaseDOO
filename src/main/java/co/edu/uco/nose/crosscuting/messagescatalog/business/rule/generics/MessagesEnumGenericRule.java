@@ -57,20 +57,20 @@ public enum MessagesEnumGenericRule {
                     "La regla StringLengthValuesIsValidRule falló porque el dato [{0}] no tiene una longitud entre {1} y {2} caracteres."
     ),
 
-    // --- MENSAJES PARA StringValuelsPresentRule ---
+    // --- MENSAJES PARA StringValueIsPresentRule ---
     STRING_VALUELS_PRESENT_RULE_DATA_IS_NULL(
             "Se ha presentado un problema inesperado tratando de llevar a cabo la operación deseada.",
-                    "No se recibieron los parámetros requeridos para ejecutar la regla StringValuelsPresentRule."
+                    "No se recibieron los parámetros requeridos para ejecutar la regla StringValueIsPresentRule."
     ),
     STRING_VALUELS_PRESENT_RULE_DATA_LENGTH_INVALID(
             "Se ha presentado un problema inesperado tratando de llevar a cabo la operación deseada.",
                     // Corregimos el typo "paramentros"
-                    "Se requerían tres parámetros y llegó una cantidad menor para ejecutar la regla StringValuelsPresentRule."
+                    "Se requerían tres parámetros y llegó una cantidad menor para ejecutar la regla StringValueIsPresentRule."
     ),
     STRING_VALUELS_PRESENT_RULE_DATA_IS_EMPTY(
             "El dato [{0}] es requerido para llevar a cabo la operación.",
                     // Corregimos el typo "vació"
-                    "La regla StringValuelsPresentRule falló porque el dato [{0}] requerido para llevar a cabo la operación esta vacío."
+                    "La regla StringValueIsPresentRule falló porque el dato [{0}] requerido para llevar a cabo la operación esta vacío."
     ),
 
 

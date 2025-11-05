@@ -9,7 +9,7 @@ import co.edu.uco.nose.crosscuting.messagescatalog.business.rule.generics.Messag
 
 import java.util.UUID;
 
-public class UUIDValueIsPresentRule implements Rule {
+public final class UUIDValueIsPresentRule implements Rule {
 
     private static final Rule instance = new UUIDValueIsPresentRule();
 
